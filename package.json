@@ -1,0 +1,20 @@
+{
+  "name": "conflictpredictionapp",
+  "version": "1.0.0",
+  "description": "App for predicting global conflicts",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Aaron A. Julian",
+  "license": "ISC",
+  "dependencies": {
+    "@sap/hana-client": "^2.4.202",
+    "express": "^4.17.1",
+    "handlebars": "^4.7.6",
+    "hbs": "^4.1.1",
+    "leaflet": "^1.6.0",
+    "path": "^0.12.7",
+    "require": "^2.4.20"
+  }
+}
