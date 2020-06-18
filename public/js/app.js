@@ -1,3 +1,4 @@
+
 //Setting the map in Detroit and displaying it
 
 var map = L.map('mapid').setView([33.3152, 44.3661], 4);
@@ -9,3 +10,8 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     id: 'mapbox/satellite-v9',//'mapbox/streets-v11',
     accessToken: 'pk.eyJ1IjoiYWFyanVsaWFuIiwiYSI6ImNrNGExamhpMjBiZHMzbW83YnMzNWZvYzQifQ.O1krsNsWSnr1W6VgC465zA'
 }).addTo(map);
+
+//FROM mapInfo.js
+info.addTo(map);
+
+
