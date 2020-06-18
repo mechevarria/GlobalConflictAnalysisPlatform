@@ -1,0 +1,22 @@
+body {
+    color: #333333;
+    background-color: #fafafa;
+    font-family: arial;
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 0 16px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-content {
+    flex-grow: 1;
+}
+
+#mapid { 
+    height: 680px;
+    border: 1px solid #888888;
+    padding: 8px;
+    margin-top: 40px;
+}
