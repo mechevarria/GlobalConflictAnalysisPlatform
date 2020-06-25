@@ -11,8 +11,11 @@ info.onAdd = function (map) {
 //Updates the info shown in the top-right
 info.update = function (props) {
 
-    this._div.innerHTML = '<h4>Tract Info</h4>' +  ('Hover over a tract');
+    this._div.innerHTML = '<h4>FSI Info</h4>' +  (props ?
+        '<b> Country : ' + props.COUNTRY + '</b><br />' + '<b>GBRF RESULT : '+ props.SCORE +'</b><br />'+ '<b>CONFIDENCE : '+ props.CONFIDENCE.toFixed(3).toString() +'</b><br />'
+        : 'Hover over a country');
 };
+
 
 
 

@@ -49,11 +49,13 @@ app.get('', (req, res) => {
   
 //CHANGE FOR INFO ON COUNTRY FSI PRED SCORES
 
-app.get('/tractInfo', (req,res) => {
+app.get('/fsiMapStart', (req,res) => {
 
   
-    var month = req.query.month;
-    var crimetype = req.query.crime;
+    var year = req.query.year;
+    var region = req.query.region;
+
+    console.log(year, region)
   
     //HANA DB Connection and call
     connection.connect(connectionParams, (err) => {
@@ -63,8 +65,13 @@ app.get('/tractInfo', (req,res) => {
       }
     
       //SQL Query
-      const sql = 'SELECT CRIME_TYPE, CATEGORY, REPORT_DATE, POINT.ST_ASGEOJSON() AS \"geometry\" FROM \"AARON_PRAC\".\"DETROIT\" ' +
-                  ' WHERE TRACT = ' + req.query.tract + ' AND MONTH(REPORT_DATE) '+month+ ' AND CRIME_TYPE LIKE \''+crimetype+'\' ';
+      const sql = 'SELECT SHAPE.ST_ASGEOJSON() as SHAPE, "capital", SCORE, CONFIDENCE, "country" FROM   ' +
+        '(SELECT SHAPE, "capital", SCORE, CONFIDENCE, "country", RANK() OVER (PARTITION BY "country" ORDER BY CONFIDENCE desc) as RANKS FROM "AAJULIAN"."FSI_FINAL"  ' +
+          ' WHERE "region" LIKE \''+region+'\' AND "year" = ' + year + ' )  ' +
+          'WHERE RANKS = 1;';
+
+
+
       console.log(sql)
       connection.exec(sql, (err, rows) => {
         // console.log('Here')

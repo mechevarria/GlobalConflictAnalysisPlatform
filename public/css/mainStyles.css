@@ -195,7 +195,7 @@ body {
   font-size: 1rem;
   display: inline-block;
   margin: 1em 0.5em;
-  width: 270px;
+  width: 300px;
   background-color: transparent;
   position: relative;
   cursor: pointer;
@@ -295,13 +295,13 @@ body {
   border-bottom: 4px solid rgba(0, 0, 0, 0.3);
 }
 
-.sel--black-panther {
+.sel--region {
   z-index: 3;
   
 }
 
 /* ----- Select Box Superman ----- */
-.sel--superman {
+.sel--year {
 /*   display: none; */
   z-index: 2;
 }
@@ -372,6 +372,7 @@ label{
   border: 1px solid rgb(146, 148, 248);
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .go-btn:hover {
@@ -432,7 +433,7 @@ label{
 }
 
 .text__second-bg{
-  background-color: #e0d648;
+  background-color: #fffb02;
 }
 
 .text__second{

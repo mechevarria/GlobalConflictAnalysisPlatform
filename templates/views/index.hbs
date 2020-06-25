@@ -39,34 +39,36 @@
             <div><p id="sidebar-menu-label">Analytics Menu</p></div>
             <div id = "sidenav-buttons">
 
-                <div class="sel sel--black-panther">
-                    <select name="select-profession" id="select-profession" onfocus='this.size=3;'>
+                <div class="sel sel--region">
+                    <select name="select-region" id="select-region" onfocus='this.size=3;'>
                         <option value="" disabled>Region</option>
-                        <option value="Caribbean">Caribbean</option>
-                        <option value="Caucasus and Central Asia">Caucasus and Central Asia</option>
-                        <option value="Central America">Central America</option>
-                        <option value="Eastern Africa">Eastern Africa</option>
-                        <option value="Middle Africa">Middle Africa</option>
-                        <option value="Middle East">Middle East</option>
-                        <option value="North Africa">North Africa</option>
-                        <option value="South America">South America</option>
-                        <option value="South-East Asia">South-East Asia</option>
-                        <option value="Southern Africa">Southern Africa</option>
-                        <option value="Southern Asia">Southern Asia</option>
-                        <option value="West Africa">West Africa</option>
+                        <option value="East Asia%">East Asia &amp; Pacific</option>
+                        <option value="Europe%">Europe &amp; Central Asia</option>
+                        <option value="Latin%">Latin America &amp; Caribbean</option>
+                        <option value="Middle East%">Middle East &amp; North Africa</option>
+                        <option value="North%">North America</option>
+                        <option value="South Asia">South Asia</option>
+                        <option value="Sub-Saharan%">Sub-Saharan Africa</option>
                         
                     </select>
                 </div>
 
                 {{!-- <hr class="rule"> --}}
 
-                <div class="sel sel--superman">
-                    <select name="select-superpower" id="select-superpower">
-                        <option value="" disabled>Superpower</option>
-                        <option value="hacker">Power</option>
-                        <option value="gamer">Speed</option>
-                        <option value="developer">Acrobatics</option>
-                        <option value="programmer">Accuracy</option>
+                <div class="sel sel--year">
+                    <select name="select-year" id="select-year">
+                        <option value="" disabled>Year</option>
+                        <option value="2010">2010</option>
+                        <option value="2011">2011</option>
+                        <option value="2012">2012</option>
+                        <option value="2013">2013</option>
+                        <option value="2014">2014</option>
+                        <option value="2015">2015</option>
+                        <option value="2016">2016</option>
+                        <option value="2017">2017</option>
+                        <option value="2018">2018</option>
+                        <option value="2019">2019</option>
+
                     </select>
                 </div>
 
@@ -129,7 +131,7 @@
             </div>
 
             <div class="go-container">
-                <a href="#" class="go-btn" id="go-id">Run Calculations</a>
+                <a class="go-btn" id="go-id" onclick="fsi_polygon_get()">Run Calculations</a>
             </div>
         </div>
 
@@ -182,11 +184,15 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.4/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.17.0/TimelineLite.min.js"></script> 
+    <script src="/js/HANA_fetch/fsi_polygon_add.js"></script>
+    <script src="/js/map_functions/mapInfo.js"></script>
     <script src="/js/text_elements/text_animation.js"></script>
-    <script src="/js/leaflet/polygonAdd.js"></script>
+    <script src="/js/map_functions/country_fsi.js"></script>
+    
     <script src="/js/UI_Components/selectBoxes.js"></script>  {{!-- For the side bar select box components--}}
     <script src="/js/UI_Components/sideBar.js"></script>  {{!-- For the side bar component--}}
-    <script src="/js/leaflet/mapInfo.js"></script>
+    
+    
     <script src="/js/app.js"></script> 
 </body>
 
