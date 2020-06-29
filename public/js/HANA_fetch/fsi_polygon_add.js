@@ -1,14 +1,20 @@
-    //resets highlighting when mouse comes off the shape
-    function resetHighlight(e) {
-        fsiLayer.resetStyle(e.target);
-        info.update();
-    }    
+//resets highlighting when mouse comes off the shape
+function resetHighlight(e) {
+    fsiLayer.resetStyle(e.target);
+    info.update();
+} 
+    
+radioValueFinder = (element_id) => {
+    document.getElementById(element_id).value === 'true' ?
+        document.getElementById(element_id).value = "false" :
+        document.getElementById(element_id).value = "true"
+    
+}
 
 
 fsi_polygon_get = () => {
 
-
-
+    
 
     //MAPPING FUNCTIONS
 
@@ -91,9 +97,12 @@ function zoomToFeature(e) {
     console.log(year);
     console.log(region);
 
+    // acled_point_get();
+
     fetch('/fsiMapStart?year='+encodeURIComponent(year)+'&region='+encodeURIComponent(region)+'').then((response) => {
 
         // console.log(response)
+        acled_point_get();
 
         response.json().then((data) => {
             if(data.error){
@@ -127,6 +136,7 @@ function zoomToFeature(e) {
             })//.addTo(map);
             
             fsiLayerGroup.addLayer(fsiLayer);
+          
 
 
         })

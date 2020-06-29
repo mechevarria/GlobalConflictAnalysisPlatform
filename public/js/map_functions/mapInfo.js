@@ -16,6 +16,15 @@ info.update = function (props) {
         : 'Hover over a country');
 };
 
+    //Updates info to focus on information about specific crimes on hover over the point
+    info.updatePoint = function (props) {
+    
+        this._div.innerHTML = '<h4>Crime Info</h4>' //+  
+            // (props ?
+            // '<b>Category: ' + props.CrimeCat + '</b><br />' + '<b> Crime: '+ props.Crime +'</b><br /><b>Date: '+props.Date+ '</b><br />'
+            // : 'Hover over a crime<br />location');
+    };
+
 
 
 
