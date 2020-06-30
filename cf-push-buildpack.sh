@@ -3,9 +3,9 @@
 app=conflict-analysis
 
 cf push $app \
-    -b https://github.com/cloudfoundry/nodejs-buildpack.git \
+    -b nodejs_buildpack \
     --no-start \
-    -m 512M \
+    -m 64M \
     -k 1048M
 
 cf se $app HDB_HOST $HDB_HOST
