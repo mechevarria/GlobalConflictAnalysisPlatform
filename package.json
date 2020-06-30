@@ -10,10 +10,10 @@
     "node": "~12.18.0",
     "npm": "~6.14.0"
   },
-  "main": "app.js",
   "scripts": {
-    "start": "node src/app.js",
-    "envsub": "envsub --env MAPBOX_TOKEN ./public/js/app.template.js ./public/js/app.js"
+    "prestart": "npm run envsub",
+    "envsub": "envsub --env MAPBOX_TOKEN ./public/js/app.template.js ./public/js/app.js",
+    "start": "node src/app.js"
   },
   "author": "Aaron A. Julian",
   "license": "ISC",
