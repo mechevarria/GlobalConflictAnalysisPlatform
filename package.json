@@ -21,7 +21,7 @@
     "start": "node src/app.js"
   },
   "dependencies": {
-    "@sap/hana-client": "^2.4.202",
+    "@sap/hana-client": "~2.5.86",
     "envsub": "^4.0.7",
     "express": "^4.17.1",
     "handlebars": "^4.7.6",
