@@ -17,12 +17,13 @@ info.update = function (props) {
 };
 
     //Updates info to focus on information about specific crimes on hover over the point
-    info.updatePoint = function (props) {
+info.updatePoint = function (props) {
     
-        this._div.innerHTML = '<h4>Crime Info</h4>' //+  
-            // (props ?
-            // '<b>Category: ' + props.CrimeCat + '</b><br />' + '<b> Crime: '+ props.Crime +'</b><br /><b>Date: '+props.Date+ '</b><br />'
-            // : 'Hover over a crime<br />location');
+    this._div.innerHTML = '<h4>Event Info</h4>' +  
+            (props ?
+            '<b>Event Type: ' + props.EVENT_TYPE + '</b><br />' + '<b> Location: '+ props.LOCATION + '</b><br /><b>Actor 1: '+props.ACTOR1+ '</b><br />' + 
+            '</b><br /><b>Date: '+props.EVENT_DATE+ '</b><br /><b>Source: '+props.SOURCE+ '</b><br />'
+            : 'Hover over an event<br />location');
     };
 
 
