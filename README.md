@@ -2,6 +2,8 @@
 
 Data Visualization frontend that is deployable on both [Heroku](https://www.heroku.com/) and [SAP Cloud Platform](https://cloudplatform.sap.com/index.html)
 
+![screenshot](screenshots/screenshot1.png)
+
 ## Requirements
 * [Mapbox](https://www.mapbox.com/) API key
 * [SAP HANA](https://www.sap.com/products/hana.html) Instance Information
@@ -40,3 +42,4 @@ npm run start
 ### SAP Cloud Platform
 * Login with the `cf-login.sh` script
 * Push the application using the node.js [buildpack](https://docs.cloudfoundry.org/buildpacks/node/index.html) with `cf-push-buildpack.sh`
+* You will be able to view the application route in the SAP Platform Cockpit or you can check the status with `cf app conflict-analysis`
