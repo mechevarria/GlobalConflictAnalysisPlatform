@@ -29,6 +29,14 @@ export CP_PASSWORD=MyPlatformPass
 ```
 
 ### Local
+* Install dependencies and then run
+
+```bash
+npm install
+npm run start
+```
+* Application with be available at [http://localhost:3000](http://localhost:3000)
 
 ### SAP Cloud Platform
 * Login with the `cf-login.sh` script
+* Push the application using the node.js [buildpack](https://docs.cloudfoundry.org/buildpacks/node/index.html) with `cf-push-buildpack.sh`
