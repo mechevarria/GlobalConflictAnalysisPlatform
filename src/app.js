@@ -5,7 +5,7 @@ var express = require('express');
 
 //setting up ports
 
-var PORT = process.env.PORT || 4000;
+var PORT = process.env.PORT || 3000;
 
 //Setting up app
 var app = express();
@@ -28,10 +28,10 @@ var hdb    = require('@sap/hana-client');
 const connection = hdb.createConnection();
 
 const connectionParams = {
-  host     : '54.88.113.194',         //'52.6.174.95', /*Add HANA IP  Here*/
-  port     : 30015,
-  user     : 'AAJULIAN', /*Add HANA User  Here*/
-  password : 'Password0'
+  host     : process.env.HDB_HOST,
+  port     : process.env.HDB_PORT,
+  user     : process.env.HDB_USER,
+  password : process.env.HDB_PASSWORD
 }
 
 //Setup static directory to serve
