@@ -22,6 +22,7 @@ var fsiLayerGroup = new L.LayerGroup();
 fsiLayerGroup.addTo(map);
 
 var acledLayerGroup = new L.LayerGroup();
+var acledHeatLayer = new L.LayerGroup();
 
 
 var  baseMaps = {
@@ -33,8 +34,10 @@ var  baseMaps = {
 
 var overlayMaps = {
 
-    "<span style='color: gray'>FSI</span>":  fsiLayerGroup, 
-    "<span style='color: gray'>ACLED</span>":  acledLayerGroup   
+    "<span style='color: gray'>FSI</span>":  fsiLayerGroup,
+    "<span style='color: gray'>Heat Layer</span>":  acledHeatLayer, 
+    "<span style='color: gray'>ACLED</span>":  acledLayerGroup
+       
 }
 
 //FROM mapInfo.js

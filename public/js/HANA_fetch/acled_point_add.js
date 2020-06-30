@@ -48,6 +48,8 @@ acled_point_get = () => {
                     mouseover: highlightFeature,
                     mouseout: resetHighlight
                 })
+
+                // coords.push(feature.geometry.coordinates);
             }
         
         
@@ -107,7 +109,7 @@ acled_point_get = () => {
             '&violence='+encodeURIComponent(events_obj.violence)+'&region='+encodeURIComponent(events_obj.region)+'&year='+encodeURIComponent(events_obj.year)+' '
             
 
-            console.log(url);
+            // console.log(url);
     
     fetch(url).then((response) => {
 
@@ -116,9 +118,12 @@ acled_point_get = () => {
                 return console.log(data.error)
             }
 
-            console.log(data.data)
+            // console.log(data.data)
 
             var acledData = [];
+            var geos = [];
+            
+
 
             data.data.forEach((data) => {
                 acledData.push({
@@ -133,9 +138,14 @@ acled_point_get = () => {
                     },
                     'geometry':JSON.parse(data.COORDINATES), 
                 })
+
+                geos.push(JSON.parse(data.COORDINATES))
             });
 
-            //console.log(fsiData);
+
+            var coords = geos.map(a => a.coordinates.reverse());
+
+            
 
             acledLayer = L.geoJSON(acledData, {
                 style: style,
@@ -157,6 +167,17 @@ acled_point_get = () => {
             })
             
             acledLayerGroup.addLayer(acledLayer);
+
+            console.log(coords);
+            let options = {
+                'minOpacity': 0.24,
+                'maxZoom' : 11,
+                'radius': 12,
+                'gradient' : {0.4: 'blue', 0.60: 'lime', 1: 'red'}
+            }
+            var heat = L.heatLayer(coords, options);
+
+            acledHeatLayer.addLayer(heat)
         
         
         
