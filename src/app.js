@@ -177,6 +177,65 @@ app.get('/acledEvents', (req,res) => {
     });
   });
 
+});
+
+
+
+//DBSCAN ROUTES
+app.get('/acledDBSCAN', (req,res) => {
+
+  
+  var year = req.query.year;
+  var region = req.query.region;
+
+  console.log(year, region)
+
+  //HANA DB Connection and call
+  connection.connect(connectionParams, (err) => {
+    //catches errors
+    if (err) {
+        return console.error("Connection error", err);
+    }
+  
+    //SQL Query
+    const sql = 
+
+    'SELECT "cluster_id", st_unionAggr("COORDINATES").ST_AlphaShape(0.155).ST_AsGeoJSON() as "cluster" FROM ( '+
+    '  (SELECT ST_ClusterID() OVER (CLUSTER BY "COORDINATES" USING DBSCAN EPS 0.101 MINPTS 6) AS "cluster_id" , COORDINATES FROM "AAJULIAN"."ACLED" ' +
+    '    WHERE COORDINATES.ST_Within((SELECT ST_ConvexHullAggr(SHAPE) FROM  '+
+    '        (SELECT SHAPE, "capital", SCORE, CONFIDENCE, "country", RANK() OVER (PARTITION BY "country" ORDER BY CONFIDENCE desc) FROM "AAJULIAN"."FSI_FINAL"  '+  
+    '          WHERE "region" LIKE \' '+ region+ ' \' AND "year" = '+ year+'))) = 1	AND ' +
+    '        COORDINATES.ST_CoveredBy((SELECT ST_ConvexHullAggr(SHAPE) FROM   ' +
+    '        (SELECT SHAPE, "capital", SCORE, CONFIDENCE, "country", RANK() OVER (PARTITION BY "country" ORDER BY CONFIDENCE desc) FROM "AAJULIAN"."FSI_FINAL"   '+
+    '         WHERE "region" LIKE \' '+ region+ ' \' AND "year" = '+ year+'))) = 1  '+
+    '    AND ("event_type" LIKE \'Battle%\' OR "event_type" LIKE \'Violence%\') '+
+    '    AND "year" = 2003)		' +
+    '    ) '+
+    '    where "cluster_id" <> 0  '+
+     '   group by "cluster_id"'
+
+
+
+    console.log(sql)
+    connection.exec(sql, (err, rows) => {
+      // console.log('Here')
+        connection.disconnect();
+  
+        if (err) {
+            return console.error('SQL execute error:', err);
+        }
+
+        //Sends the data to the client
+  
+        //  console.log("Results:", rows);
+        //  console.log(`Query '${sql}' returned ${rows.length} items`);
+
+        res.send({
+          data : rows
+        })
+    });
+  });
+
 })
 
 
