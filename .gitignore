@@ -1,1 +1,4 @@
 node_modules/
+
+# created by the envsub script
+public/js/app.js

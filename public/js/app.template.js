@@ -3,13 +3,13 @@ var satelliteLayer = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: 18,
     id: 'mapbox/satellite-streets-v9',//'mapbox/streets-v11',
-    accessToken: 'pk.eyJ1IjoiYWFyanVsaWFuIiwiYSI6ImNrNGExamhpMjBiZHMzbW83YnMzNWZvYzQifQ.O1krsNsWSnr1W6VgC465zA'
+    accessToken: '${MAPBOX_TOKEN}'
 })
 
 var openstreetmap = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
 {id: 'mapbox/streets-v11',
 attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-accessToken: 'pk.eyJ1IjoiYWFyanVsaWFuIiwiYSI6ImNrNGExamhpMjBiZHMzbW83YnMzNWZvYzQifQ.O1krsNsWSnr1W6VgC465zA'});
+accessToken: '${MAPBOX_TOKEN}'});
 
 var map = L.map('mapid', {
     center: [33.3152, 44.3661],

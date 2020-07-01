@@ -1,15 +1,28 @@
 {
   "name": "conflictpredictionapp",
-  "version": "1.0.0",
+  "version": "1.3.0",
   "description": "App for predicting global conflicts",
-  "main": "app.js",
+  "license": "ISC",
+  "author": "Aaron A. Julian",
+  "contributors": [
+    "Mike Echevarria <mike.echevarria@gmail.com>"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aajulianNS2/GlobalConflictAnalysisPlatform.git"
+  },
+  "engines": {
+    "node": "^12.16.1",
+    "npm": "~6.14.0"
+  },
   "scripts": {
+    "prestart": "npm run envsub",
+    "envsub": "envsub --env MAPBOX_TOKEN ./public/js/app.template.js ./public/js/app.js",
     "start": "node src/app.js"
   },
-  "author": "Aaron A. Julian",
-  "license": "ISC",
   "dependencies": {
-    "@sap/hana-client": "^2.4.202",
+    "@sap/hana-client": "~2.5.86",
+    "envsub": "^4.0.7",
     "express": "^4.17.1",
     "handlebars": "^4.7.6",
     "hbs": "^4.1.1",
