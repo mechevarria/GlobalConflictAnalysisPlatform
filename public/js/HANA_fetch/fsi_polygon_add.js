@@ -128,12 +128,12 @@ function zoomToFeature(e) {
                 })
             });
 
-            //console.log(fsiData);
+            
 
             fsiLayer = L.geoJSON(fsiData, {
                 style: style,
                 onEachFeature: onEachFeature
-            })//.addTo(map);
+            })
             
             fsiLayerGroup.addLayer(fsiLayer);
           

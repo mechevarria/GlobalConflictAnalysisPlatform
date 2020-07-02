@@ -109,7 +109,7 @@ acled_point_get = () => {
             '&violence='+encodeURIComponent(events_obj.violence)+'&region='+encodeURIComponent(events_obj.region)+'&year='+encodeURIComponent(events_obj.year)+' '
             
 
-            // console.log(url);
+            
     
     fetch(url).then((response) => {
 
@@ -118,7 +118,7 @@ acled_point_get = () => {
                 return console.log(data.error)
             }
 
-            // console.log(data.data)
+           
 
             var acledData = [];
             var geos = [];
@@ -168,7 +168,7 @@ acled_point_get = () => {
             
             acledLayerGroup.addLayer(acledLayer);
 
-            console.log(coords);
+            
             let options = {
                 'minOpacity': 0.24,
                 'maxZoom' : 11,
@@ -177,7 +177,9 @@ acled_point_get = () => {
             }
             var heat = L.heatLayer(coords, options);
 
-            acledHeatLayer.addLayer(heat)
+            acledHeatLayer.addLayer(heat);
+
+            dbscan_polygon_get(events_obj);
         
         
         
