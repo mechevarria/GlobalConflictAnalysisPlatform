@@ -16,18 +16,24 @@
     "npm": "~6.14.0"
   },
   "scripts": {
-    "prestart": "npm run envsub",
+    "prestart": "npm run lint && npm run envsub",
     "envsub": "envsub --env MAPBOX_TOKEN ./public/js/app.template.js ./public/js/app.js",
+    "lint": "npx eslint ./src",
     "start": "node src/app.js"
   },
   "dependencies": {
     "@sap/hana-client": "~2.5.86",
+    "compression": "^1.7.4",
     "envsub": "^4.0.7",
     "express": "^4.17.1",
     "handlebars": "^4.7.6",
     "hbs": "^4.1.1",
     "leaflet": "^1.6.0",
+    "morgan": "^1.10.0",
     "path": "^0.12.7",
     "require": "^2.4.20"
+  },
+  "devDependencies": {
+    "eslint": "^7.3.1"
   }
 }
