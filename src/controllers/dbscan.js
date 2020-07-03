@@ -3,38 +3,31 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', (req,res) => {
+router.get('/', (req, res) => {
+    let connection = req.db.connection;
+    let config = req.db.config;
 
-    //HANA DB Connection and call
-    connection.connect(connectionParams, (err) => {
-      //catches errors
-      if (err) {
-          return console.error("Connection error", err);
-      }
-  
-  
-  
-      var year = req.query.year;
-      var region = req.query.region;
-    
-      var eventsList = [
-        {name : 'Battles', type: req.query.battles},
-        {name:'Explosions%', type: req.query.explosions},
-        {name:'Protests', type: req.query.protests},
-        {name:'Riots', type:req.query.riots},
-        {name: 'Strategic%', type:req.query.strategic},
-        {name: 'Violence%', type: req.query.violence}
-      ].filter((input) => {
+    var year = req.query.year;
+    var region = req.query.region;
+
+    var eventsList = [
+        { name: 'Battles', type: req.query.battles },
+        { name: 'Explosions%', type: req.query.explosions },
+        { name: 'Protests', type: req.query.protests },
+        { name: 'Riots', type: req.query.riots },
+        { name: 'Strategic%', type: req.query.strategic },
+        { name: 'Violence%', type: req.query.violence }
+    ].filter((input) => {
         return input.type === 'true'
-      });
-    
-      var sql = ''
+    });
+
+    var sql = ''
       
       if(eventsList.length >= 1){
   
         let addedSQL = ''
     
-        for(i = 0; i < eventsList.length; i++){
+        for(let i = 0; i < eventsList.length; i++){
     
           if(i == 0){
             addedSQL += ''+ eventsList[i].name + '\' ';
@@ -83,25 +76,32 @@ router.get('/', (req,res) => {
         `
   
       }
-  
-      console.log(sql)
-      connection.exec(sql, (err, rows) => {
-        // console.log('Here')
-          connection.disconnect();
-    
-          if (err) {
-              return console.error('SQL execute error:', err);
-          }
-  
-          //Sends the data to the client
-    
-          //  console.log("Results:", rows);
-          //  console.log(`Query '${sql}' returned ${rows.length} items`);
-  
-          res.send({
-            data : rows
-          })
-      });
+    //HANA DB Connection and call
+    connection.connect(config, (err) => {
+        //catches errors
+        if (err) {
+            return console.error('Connection error', err);
+        }
+
+        console.log(sql)
+        connection.exec(sql, (err, rows) => {
+            // console.log('Here')
+            connection.disconnect();
+
+            if (err) {
+                return console.error('SQL execute error:', err);
+            }
+
+            //Sends the data to the client
+
+            //  console.log("Results:", rows);
+            //  console.log(`Query '${sql}' returned ${rows.length} items`);
+
+            res.send({
+                data: rows
+            })
+        });
     });
-  
-  })
+});
+
+module.exports = router;
