@@ -1,9 +1,6 @@
 'use strict';
 
-const express = require('express');
-const router = express.Router();
-
-router.get('/', (req, res) => {
+module.exports = (req, res) => {
     let connection = req.db.connection;
     let config = req.db.config;
 
@@ -85,6 +82,4 @@ router.get('/', (req, res) => {
             })
         });
     });
-});
-
-module.exports = router;
+};

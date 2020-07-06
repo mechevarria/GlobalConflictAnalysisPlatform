@@ -1,7 +1,6 @@
 'use strict';
 
 //NPM Packages
-const http = require('http');
 const bodyParser = require('body-parser');
 const path = require('path');
 const hbs = require('hbs');
@@ -11,7 +10,6 @@ const express = require('express');
 
 let app = express();
 
-app.set('port', process.env.PORT || 3000);
 app.use(morgan('combined'));
 app.use(bodyParser.json({ extended: true }));
 app.use(compression());
@@ -33,9 +31,21 @@ app.use(express.static(publicDirectoryPath));
 const middleware = require('./middlewares/db');
 app.use(middleware);
 
-require('./routes')(app);
+// configure routes
+const indexCtrl = require('./controllers/index');
+const acledCtrl = require('./controllers/acled');
+const fsiCtrl = require('./controllers/fsi');
+const dbscanCtrl = require('./controllers/dbscan');
 
-http.createServer(app)
-  .listen(app.get('port'), () => {
-    console.info(`http server started on port ${app.get('port')}`);
-  });
+const router = express.Router();
+router.route('').get(indexCtrl);
+router.route('/fsiMapStart').get(fsiCtrl);
+router.route('/acledEvents').get(acledCtrl);
+router.route('/acledDBSCAN').get(dbscanCtrl);
+
+app.use('/', router);
+
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.info(`http server started on port ${port}`);
+});
