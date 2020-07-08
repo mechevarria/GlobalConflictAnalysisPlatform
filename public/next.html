@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Conflict Prediction</title>
+    <link rel="icon" type="image/x-icon" href="ns2-favicon.jpg" />
+    <link rel="stylesheet" href="https://unpkg.com/@coreui/coreui@3.2.2/dist/css/coreui.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/@coreui/icons@1.0.1/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin="" />
+    <link rel="stylesheet" href="css/styles-next.css">
+</head>
+
+<body class="c-app">
+    <div class="c-wrapper">
+        <header class="c-header c-header-light px-3">
+            <a class="c-header-brand" href="#">
+                <img src="img/NS2-logo-blue.svg" width="86" class="d-inline-block align-top" alt="NS2 Logo">
+            </a>
+            <form class="form-inline my-2 my-lg-0 ml-4">
+                <button type="button" class="btn btn-outline-primary my-2 my-sm-0" id="search">
+                    Search
+                </button>
+            </form>
+        </header>
+        <div class="c-body">
+            <main class="c-main">
+                <div class="container-fluid">
+                    <div class="card-deck">
+                        <div class="card">
+                            <div class="card-header">Map</div>
+                            <div class="card-body">
+                                <div id="mapid" class="app-map">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+        <footer class="c-footer">
+            <div class="mfs-auto">
+                Powered By
+                <a target="_blank" href="https://sapns2.com/">SAP NS2</a>
+            </div>
+        </footer>
+
+        <!-- modal template -->
+        <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="searchModalLabel">Search</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Region</label>
+                                <select class="form-control" id="select-region">
+                                    <option value="East Asia%">East Asia &amp; Pacific</option>
+                                    <option value="Europe%">Europe &amp; Central Asia</option>
+                                    <option value="Latin%">Latin America &amp; Caribbean</option>
+                                    <option value="Middle East%">Middle East &amp; North Africa</option>
+                                    <option value="North%">North America</option>
+                                    <option value="South Asia">South Asia</option>
+                                    <option value="Sub-Saharan%" selected>Sub-Saharan Africa</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Year</label>
+                                <select class="form-control" id="select-year">
+                                    <option value="2010">2010</option>
+                                    <option value="2011">2011</option>
+                                    <option value="2012">2012</option>
+                                    <option value="2013">2013</option>
+                                    <option value="2014">2014</option>
+                                    <option value="2015">2015</option>
+                                    <option value="2016">2016</option>
+                                    <option value="2017">2017</option>
+                                    <option value="2018">2018</option>
+                                    <option value="2019" selected>2019</option>
+                                </select>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="battles-check">
+                                <label class="form-check-label">
+                                    Battles
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="explosions-check">
+                                <label class="form-check-label">
+                                    Explosions
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="protests-check">
+                                <label class="form-check-label">
+                                    Protests
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="strategic-check">
+                                <label class="form-check-label">
+                                    Strategic Developments
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="violence-check">
+                                <label class="form-check-label">
+                                    Violence against Civilians
+                                </label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" id="cancel">Close</button>
+                            <button type="button" class="btn btn-primary" id="update">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/@coreui/coreui@3.2.2/dist/js/coreui.bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+        integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+        crossorigin="">
+        </script>
+    <script src="lib/leaflet-heat.js"></script>
+    <script src="js/app-next.js"></script>
+</body>
+
+</html>
