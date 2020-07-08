@@ -7,7 +7,7 @@ window.onload = function(){
     tl
       .to(firstBg, 0.15, {scaleX:1})
       .to(secBg, 0.15, {scaleX:1})
-      .to(word, 0.05, {opacity:1}, "-=0.1")  
+      .to(word, 0.05, {opacity:1}, '-=0.1')  
       .to(firstBg, 0.15, {scaleX:0})
       .to(secBg, 0.15, {scaleX:0});
     

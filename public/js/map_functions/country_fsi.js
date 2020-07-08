@@ -1,13 +1,13 @@
 //The color scheme for all points with this specific crime category
-fsiColor = (d) => { 
+const fsiColor = (d) => { 
 
-    return d === "high" ? '#00b8e6' :
-    d === "medium"  ? '#2eb82e' :
+    return d === 'high' ? '#00b8e6' :
+    d === 'medium'  ? '#2eb82e' :
                '#b32400';
 }
 
 
-function onEachFeature(feature, layer) {
+function onEachFeature(feature, layer) { // eslint-disable-line no-unused-vars
     layer.on({
         mouseover: highlightFeature,
         mouseout: resetHighlight,
@@ -18,7 +18,7 @@ function onEachFeature(feature, layer) {
 
 function resetHighlight(e) {
     fsiLayer.resetStyle(e.target);
-    info.updatePoint();
+    mapInfo.updatePoint();
 }
 
 function zoomToFeature(e) {
@@ -51,10 +51,10 @@ function zoomToFeature(e) {
             layer.bringToFront();
         }
 
-        info.update(layer.feature.properties);
+        mapInfo.update(layer.feature.properties);
     }
 
-    function style(feature) {
+    function style(feature) { // eslint-disable-line no-unused-vars
         return {
             weight: 2,
             opacity: 1,

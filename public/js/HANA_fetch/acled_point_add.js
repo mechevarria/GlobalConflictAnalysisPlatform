@@ -1,15 +1,17 @@
-acled_point_get = () => {
+'use strict';
+
+const acled_point_get = () => { // eslint-disable-line no-unused-vars
 
 
     //The color scheme for all points with this specific crime category
-    acledColor = (d) => { 
+    const acledColor = (d) => { 
 
-        return d == "Battles" ? '#00b8e6' :
-        d == "Explosions"  ? '#2eb82e' :
-        d == "Protests"  ? '#ff9900' :
-        d == "Riots"  ? '#ff3300' :
-        d == "Strategic Developments"   ? '#ff3399' :
-        d == "Violence Against Civilians"   ? '#9900cc' :
+        return d == 'Battles' ? '#00b8e6' :
+        d == 'Explosions'  ? '#2eb82e' :
+        d == 'Protests'  ? '#ff9900' :
+        d == 'Riots'  ? '#ff3300' :
+        d == 'Strategic Developments'   ? '#ff3399' :
+        d == 'Violence Against Civilians'   ? '#9900cc' :
                    '#b32400';
     }    
        
@@ -26,10 +28,10 @@ acled_point_get = () => {
         //resets highlighting when mouse comes off the shape
         function resetHighlight(e) {
             acledLayer.resetStyle(e.target);
-            info.updatePoint();
+            mapInfo.updatePoint();
         }
 
-        function zoomToFeature(e) {
+        function zoomToFeature(e) { // eslint-disable-line no-unused-vars
         
             map.fitBounds(e.target.getBounds());
         
@@ -60,7 +62,7 @@ acled_point_get = () => {
                 layer.setStyle({
                     radius: 8,
                     fillColor: acledColor(layer.feature.properties.EVENT_TYPE),
-                    color: "#000",
+                    color: '#000',
                     weight: 1,
                     opacity: 1,
                     fillOpacity: 0.8
@@ -71,7 +73,7 @@ acled_point_get = () => {
                     layer.bringToFront();
                 }
         
-                info.updatePoint(layer.feature.properties);
+                mapInfo.updatePoint(layer.feature.properties);
             }
         
         
@@ -86,7 +88,7 @@ acled_point_get = () => {
                     // fillColor: perc2color(parseFloat(feature.properties.CPP), 1)
                     radius: 6,
                     fillColor: acledColor(feature.properties.EVENT_TYPE),
-                    color: "white",
+                    color: 'white',
                     weight: 1,
                     opacity: 1,
                     fillOpacity: 0.5
@@ -94,14 +96,14 @@ acled_point_get = () => {
             }
 
             var events_obj = {
-                'battles' : document.getElementById("battles-check").value,
-                'explosions' : document.getElementById("explosions-check").value,
-                'protests' : document.getElementById("protests-check").value,
-                'riots' : document.getElementById("riots-check").value,
-                'strategic': document.getElementById("strategic-check").value,
-                'violence' : document.getElementById("violence-check").value,
-                'region' : document.getElementById("select-region").value,
-                'year' : document.getElementById("select-year").value
+                'battles' : document.getElementById('battles-check').value,
+                'explosions' : document.getElementById('explosions-check').value,
+                'protests' : document.getElementById('protests-check').value,
+                'riots' : document.getElementById('riots-check').value,
+                'strategic': document.getElementById('strategic-check').value,
+                'violence' : document.getElementById('violence-check').value,
+                'region' : document.getElementById('select-region').value,
+                'year' : document.getElementById('select-year').value
             }
 
             var url = '/acledEvents?battles='+encodeURIComponent(events_obj.battles)+'&explosions='+encodeURIComponent(events_obj.explosions)+
@@ -127,7 +129,7 @@ acled_point_get = () => {
 
             data.data.forEach((data) => {
                 acledData.push({
-                    "type": 'Feature',
+                    'type': 'Feature',
                     'properties': {
                         'ACTOR1' : data.actor1,
                         'EVENT_DATE': data.event_date,
@@ -154,7 +156,7 @@ acled_point_get = () => {
                     var geojsonMarkerOptions = {
                         radius: 6,
                         fillColor: acledColor(feature.properties.EVENT_TYPE),
-                        color: "white",
+                        color: 'white',
                         weight: 1,
                         opacity: 1,
                         fillOpacity: 0.5

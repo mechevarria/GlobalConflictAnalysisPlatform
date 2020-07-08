@@ -61,10 +61,10 @@ module.exports = (req, res) => {
           (SELECT ST_ClusterID() OVER (CLUSTER BY "COORDINATES" USING DBSCAN EPS 0.481 MINPTS 6) AS "cluster_id" , COORDINATES FROM "AAJULIAN"."ACLED"
             WHERE COORDINATES.ST_Within((SELECT ST_ConvexHullAggr(SHAPE) FROM 
                 (SELECT SHAPE, "capital", SCORE, CONFIDENCE, "country", RANK() OVER (PARTITION BY "country" ORDER BY CONFIDENCE desc) FROM "AAJULIAN"."FSI_FINAL"   
-                  WHERE "region" LIKE ${region} AND "year" = ${year}))) = 1	AND
+                  WHERE "region" LIKE '${region}' AND "year" = ${year}))) = 1	AND
                 COORDINATES.ST_CoveredBy((SELECT ST_ConvexHullAggr(SHAPE) FROM 
                 (SELECT SHAPE, "capital", SCORE, CONFIDENCE, "country", RANK() OVER (PARTITION BY "country" ORDER BY CONFIDENCE desc) FROM "AAJULIAN"."FSI_FINAL"   
-                  WHERE "region" LIKE ${region} AND "year" = ${year}))) = 1
+                  WHERE "region" LIKE '${region}' AND "year" = ${year}))) = 1
             AND "year" = ${year})		
             )
             where "cluster_id" <> 0

@@ -75,7 +75,7 @@ body {
 
 
 /* FOR THE INFO WIDGET ON MAP */
-.info { 
+.mapInfo { 
     padding: 6px 8px; 
     font: 14px/16px Arial, Helvetica, sans-serif; 
     background: white; 
@@ -84,7 +84,7 @@ body {
     border-radius: 5px; 
 }
 
-.info h4 { margin: 0 0 5px;
+.mapInfo h4 { margin: 0 0 5px;
     color: #777;
 }
 

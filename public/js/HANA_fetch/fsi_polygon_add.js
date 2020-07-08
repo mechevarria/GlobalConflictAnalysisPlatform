@@ -1,29 +1,29 @@
 //resets highlighting when mouse comes off the shape
-function resetHighlight(e) {
+function resetHighlight(e) { // eslint-disable-line no-unused-vars
     fsiLayer.resetStyle(e.target);
-    info.update();
+    mapInfo.update();
 } 
     
-radioValueFinder = (element_id) => {
+const radioValueFinder = (element_id) => { // eslint-disable-line no-unused-vars
     document.getElementById(element_id).value === 'true' ?
-        document.getElementById(element_id).value = "false" :
-        document.getElementById(element_id).value = "true"
+        document.getElementById(element_id).value = 'false' :
+        document.getElementById(element_id).value = 'true'
     
 }
 
 
-fsi_polygon_get = () => {
+const fsi_polygon_get = () => { // eslint-disable-line no-unused-vars
 
     
 
     //MAPPING FUNCTIONS
 
     //The color scheme for all points with this specific crime category
-fsiColor = (d) => { 
+const fsiColor = (d) => { 
 
-    return d === "high" ? '#CA3907' :
-    d === "medium"  ? '#DED406' :
-    d === "low"   ?   '#60CA07':
+    return d === 'high' ? '#CA3907' :
+    d === 'medium'  ? '#DED406' :
+    d === 'low'   ?   '#60CA07':
         '#DAEAF3';
 }
 
@@ -39,7 +39,7 @@ function onEachFeature(feature, layer) {
 
 function resetHighlight(e) {
     fsiLayer.resetStyle(e.target);
-    info.update();
+    mapInfo.update();
 }
 
 function zoomToFeature(e) {
@@ -72,7 +72,7 @@ function zoomToFeature(e) {
             layer.bringToFront();
         }
 
-        info.update(layer.feature.properties);
+        mapInfo.update(layer.feature.properties);
     }
 
     function style(feature) {
@@ -87,11 +87,11 @@ function zoomToFeature(e) {
     }
 
     var fsiLayer;
-    let region = document.getElementById("select-region").value;
-    let year = document.getElementById("select-year").value; 
+    let region = document.getElementById('select-region').value;
+    let year = document.getElementById('select-year').value; 
 
-    if(region == "" || year == "" ){
-        return console.log("Empty Set BLocked")
+    if(region == '' || year == '' ){
+        return console.log('Empty Set BLocked')
     }
 
     console.log(year);
@@ -115,7 +115,7 @@ function zoomToFeature(e) {
 
             data.data.forEach((data) => {
                 fsiData.push({
-                    "type": 'Feature',
+                    'type': 'Feature',
                     'properties': {
                         'CONFIDENCE' : data.CONFIDENCE,
                         'SCORE': data.SCORE,
