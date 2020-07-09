@@ -5,7 +5,7 @@ app=conflict-analysis
 cf push $app \
     -b nodejs_buildpack \
     --no-start \
-    -m 64M \
+    -m 256M \
     -k 1048M
 
 cf se $app HDB_HOST $HDB_HOST
