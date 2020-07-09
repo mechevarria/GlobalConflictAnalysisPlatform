@@ -171,8 +171,8 @@ acled_point_get = () => {
             
             let options = {
                 'minOpacity': 0.24,
-                'maxZoom' : 11,
-                'radius': 12,
+                'maxZoom' : 9,
+                'radius': 10,
                 'gradient' : {0.4: 'blue', 0.60: 'lime', 1: 'red'}
             }
             var heat = L.heatLayer(coords, options);

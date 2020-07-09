@@ -24,6 +24,7 @@ fsiLayerGroup.addTo(map);
 var acledLayerGroup = new L.LayerGroup();
 var acledHeatLayer = new L.LayerGroup();
 var dbscanLayerGroup = new L.LayerGroup();
+var aprioriLayerGroup = new L.LayerGroup();
 
 
 var  baseMaps = {

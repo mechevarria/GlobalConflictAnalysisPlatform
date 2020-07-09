@@ -4,6 +4,7 @@ function resetHighlight(e) {
     info.update();
 } 
     
+//FOR FINDING WHICH EVENTS WERE SELECTED TO BE USED BY ALL ACLED DEPENDENT FUNCTIONS
 radioValueFinder = (element_id) => {
     document.getElementById(element_id).value === 'true' ?
         document.getElementById(element_id).value = "false" :
@@ -44,15 +45,14 @@ function resetHighlight(e) {
 
 function zoomToFeature(e) {
     
-    //var censusTract = e.target.feature.properties.CensusTract; 
+    var capital = e.target.feature.properties.CAPITAL;
+    var shape = e.target.feature.properties.SHAPE; 
 
     map.fitBounds(e.target.getBounds());
 
     fsiLayer.bringToBack();
-
-    // runLine(513700);
    
-    // crimePointAdd(censusTract, crimeJSON);
+    apriori_info_get(capital, shape);
 }
 
 
@@ -109,17 +109,17 @@ function zoomToFeature(e) {
                 return console.log(data.error)
             }
 
-            console.log(data.data)
+           
             
             var fsiData = [];
-
+            console.log(data.data);
             data.data.forEach((data) => {
                 fsiData.push({
                     "type": 'Feature',
                     'properties': {
                         'CONFIDENCE' : data.CONFIDENCE,
                         'SCORE': data.SCORE,
-                        // 'SHAPE': JSON.parse(data.SHAPE),
+                        'SHAPE': JSON.parse(data.SHAPE),
                         'CAPITAL': data.capital,
                         'COUNTRY': data.country,
                         'popupContent': 'Country: '+data.country+'\nCapital: '+data.capital+'\nSCORE: '+data.score
@@ -133,6 +133,7 @@ function zoomToFeature(e) {
             fsiLayer = L.geoJSON(fsiData, {
                 style: style,
                 onEachFeature: onEachFeature
+          
             })
             
             fsiLayerGroup.addLayer(fsiLayer);
