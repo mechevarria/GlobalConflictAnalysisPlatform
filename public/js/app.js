@@ -1,7 +1,4 @@
-'use strict';
-
-//Building the tile and the geojson layers
-var baseMaps = {
+const baseMaps = {
     '<span style="color: gray">Open Street Map</span>': L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18,
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -12,21 +9,20 @@ var baseMaps = {
     })
 };
 
-var map = L.map('mapid', {
+const map = L.map('mapid', {
     center: [33.3152, 44.3661],
     zoom: 3,
     layers: [baseMaps['<span style="color: gray">Esri Street Map</span>']]
 });
 
-
-var fsiLayerGroup = new L.LayerGroup();
+const fsiLayerGroup = new L.LayerGroup();
 fsiLayerGroup.addTo(map);
 
-var acledLayerGroup = new L.LayerGroup();
-var acledHeatLayer = new L.LayerGroup();
-var dbscanLayerGroup = new L.LayerGroup();
+const acledLayerGroup = new L.LayerGroup();
+const acledHeatLayer = new L.LayerGroup();
+const dbscanLayerGroup = new L.LayerGroup();
 
-var overlayMaps = {
+const overlayMaps = {
 
     '<span style="color: gray">FSI</span>': fsiLayerGroup,
     '<span style="color: gray">Heat Layer</span>': acledHeatLayer,
@@ -34,9 +30,23 @@ var overlayMaps = {
     '<span style="color: gray">ACLED</span>': acledLayerGroup
 };
 
-//FROM mapInfo.js
+const controlLayer = new L.control.layers(baseMaps, overlayMaps);
+
 mapInfo.addTo(map);
 
-var controlLayer = new L.control.layers(baseMaps, overlayMaps);
-
 controlLayer.addTo(map);
+
+const searchModal = new coreui.Modal(document.getElementById('searchModal'));
+
+document.getElementById('search').onclick = () => {
+    searchModal.show();
+};
+
+document.getElementById('cancel').onclick = () => {
+    searchModal.hide();
+};
+
+document.getElementById('update').onclick = () => {
+    fsi_polygon_get();
+    searchModal.hide();
+};

@@ -24,8 +24,6 @@
     "@sap/hana-client": "~2.5.86",
     "compression": "^1.7.4",
     "express": "^4.17.1",
-    "handlebars": "^4.7.6",
-    "hbs": "^4.1.1",
     "leaflet": "^1.6.0",
     "morgan": "^1.10.0",
     "path": "^0.12.7",
