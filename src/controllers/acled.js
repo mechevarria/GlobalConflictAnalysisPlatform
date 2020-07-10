@@ -57,7 +57,7 @@ module.exports = (req, res) => {
             )) = 1	
         AND "event_type" LIKE ${addedSQL} 
         AND "year" = ${year}
-        LIMIT 4000;
+        LIMIT 5000;
         `
 
     } else {
@@ -71,7 +71,7 @@ module.exports = (req, res) => {
                 )
             )) = 1	
         AND "year" = ${year}
-        LIMIT 4000;
+        LIMIT 5000;
         `
         //SQL Query
         // sql += 'SELECT COORDINATES.ST_AsGeoJSON() as COORDINATES, "event_date", "actor1", "location", "source", "event_type" FROM "AAJULIAN"."ACLED" ' +

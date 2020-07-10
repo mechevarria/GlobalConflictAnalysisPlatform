@@ -135,7 +135,7 @@ module.exports = (req, res) => {
     
             //SQL Query
             sql += 
-                `SELECT TOP 30 * FROM ACLED_APRIORI_VIEW (PLACEHOLDER."$$yr$$"=>${year}, PLACEHOLDER."$$capital$$" =>  '${capital}' )
+                `SELECT TOP 30 ANTECEDENT, CONSEQUENT, CONFIDENCE FROM ACLED_APRIORI_VIEW (PLACEHOLDER."$$yr$$"=>${year}, PLACEHOLDER."$$capital$$" =>  '${capital}' )
                 WHERE CONSEQUENT LIKE ${addedSQL}
                 ORDER BY LIFT, CONFIDENCE DESC;
                 `
