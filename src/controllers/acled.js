@@ -1,14 +1,12 @@
 'use strict';
 
-const express = require('express');
-const router = express.Router();
-
-router.get('/', (req, res) => {
+module.exports = (req, res) => {
     let connection = req.db.connection;
     let config = req.db.config;
 
     var year = req.query.year;
-    var region = req.query.region;
+    // var region = req.query.region;
+    var capital = req.query.capital;
 
     var eventsList = [
         { name: 'Battles', type: req.query.battles },
@@ -30,33 +28,57 @@ router.get('/', (req, res) => {
         for (let i = 0; i < eventsList.length; i++) {
 
             if (i == 0) {
-                addedSQL += '' + eventsList[i].name + '\' ';
+                addedSQL += ` '${eventsList[i].name}' `;
             } else {
 
-                addedSQL += ' OR "event_type" LIKE \'' + eventsList[i].name + '\' ';
+                addedSQL += ` OR "event_type" LIKE '${eventsList[i].name}' `
             }
 
         }
 
         //SQL Query
-        sql += 'SELECT COORDINATES.ST_AsGeoJSON() as COORDINATES, "event_date", "actor1", "location", "source", "event_type" FROM "AAJULIAN"."ACLED" ' +
-            ' WHERE COORDINATES.ST_Within((SELECT ST_ConvexHullAggr(SHAPE) FROM   ' +
-            '    (SELECT SHAPE, "capital", SCORE, CONFIDENCE, "country", RANK() OVER (PARTITION BY "country" ORDER BY CONFIDENCE desc) FROM "AAJULIAN"."FSI_FINAL"  ' +
-            '      WHERE "region" LIKE \'' + region + '\' AND "year" = ' + year + '))) = 1	  ' +
-            ' AND COORDINATES.ST_CoveredBy((SELECT ST_ConvexHullAggr(SHAPE) FROM   ' +
-            '    (SELECT SHAPE, "capital", SCORE, CONFIDENCE, "country", RANK() OVER (PARTITION BY "country" ORDER BY CONFIDENCE desc) FROM "AAJULIAN"."FSI_FINAL"  ' +
-            '      WHERE "region" LIKE \'' + region + '\' AND "year" = ' + year + '))) = 1	  ' +
-            ' AND ("event_type" LIKE \'' + addedSQL + ')' +
-            ' AND "year" = ' + year + ' ;  '
+        // sql += 'SELECT COORDINATES.ST_AsGeoJSON() as COORDINATES, "event_date", "actor1", "location", "source", "event_type" FROM "AAJULIAN"."ACLED" ' +
+        //     ' WHERE COORDINATES.ST_Within((SELECT ST_ConvexHullAggr(SHAPE) FROM   ' +
+        //     '    (SELECT SHAPE, "capital", SCORE, CONFIDENCE, "country", RANK() OVER (PARTITION BY "country" ORDER BY CONFIDENCE desc) FROM "AAJULIAN"."FSI_FINAL"  ' +
+        //     '      WHERE "region" LIKE \'' + region + '\' AND "year" = ' + year + '))) = 1	  ' +
+        //     ' AND COORDINATES.ST_CoveredBy((SELECT ST_ConvexHullAggr(SHAPE) FROM   ' +
+        //     '    (SELECT SHAPE, "capital", SCORE, CONFIDENCE, "country", RANK() OVER (PARTITION BY "country" ORDER BY CONFIDENCE desc) FROM "AAJULIAN"."FSI_FINAL"  ' +
+        //     '      WHERE "region" LIKE \'' + region + '\' AND "year" = ' + year + '))) = 1	  ' +
+        //     ' AND ("event_type" LIKE \'' + addedSQL + ')' +
+        //     ' AND "year" = ' + year + ' LIMIT 2000 ;  '
+
+        sql += `
+        SELECT COORDINATES.ST_AsGeoJSON() as COORDINATES, "event_date", "actor1", "location", "source", "event_type" FROM "AAJULIAN"."ACLED"
+        WHERE COORDINATES.ST_Within(
+            (SELECT ST_ConvexHullAggr(SHAPE) FROM 
+                (SELECT SHAPE, "capital", "country" FROM "AAJULIAN"."FSI_FINAL"   
+                    WHERE "capital" = '${capital}'
+                )
+            )) = 1	
+        AND "event_type" LIKE ${addedSQL} 
+        AND "year" = ${year}
+        LIMIT 4000;
+        `
 
     } else {
 
+        sql += `
+        SELECT COORDINATES.ST_AsGeoJSON() as COORDINATES, "event_date", "actor1", "location", "source", "event_type" FROM "AAJULIAN"."ACLED"
+        WHERE COORDINATES.ST_Within(
+            (SELECT ST_ConvexHullAggr(SHAPE) FROM 
+                (SELECT SHAPE, "capital", "country" FROM "AAJULIAN"."FSI_FINAL"   
+                    WHERE "capital" = '${capital}'
+                )
+            )) = 1	
+        AND "year" = ${year}
+        LIMIT 4000;
+        `
         //SQL Query
-        sql += 'SELECT COORDINATES.ST_AsGeoJSON() as COORDINATES, "event_date", "actor1", "location", "source", "event_type" FROM "AAJULIAN"."ACLED" ' +
-            ' WHERE COORDINATES.ST_Within((SELECT ST_ConvexHullAggr(SHAPE) FROM   ' +
-            '    (SELECT SHAPE, "capital", SCORE, CONFIDENCE, "country", RANK() OVER (PARTITION BY "country" ORDER BY CONFIDENCE desc) FROM "AAJULIAN"."FSI_FINAL"  ' +
-            '      WHERE "region" LIKE \'' + region + '\' AND "year" = ' + year + '))) = 1	  ' +
-            ' AND "year" = ' + year + ' ;  ';
+        // sql += 'SELECT COORDINATES.ST_AsGeoJSON() as COORDINATES, "event_date", "actor1", "location", "source", "event_type" FROM "AAJULIAN"."ACLED" ' +
+        //     ' WHERE COORDINATES.ST_Within((SELECT ST_ConvexHullAggr(SHAPE) FROM   ' +
+        //     '    (SELECT SHAPE, "capital", SCORE, CONFIDENCE, "country", RANK() OVER (PARTITION BY "country" ORDER BY CONFIDENCE desc) FROM "AAJULIAN"."FSI_FINAL"  ' +
+        //     '      WHERE "region" LIKE \'' + region + '\' AND "year" = ' + year + '))) = 1	  ' +
+        //     ' AND "year" = ' + year + ' LIMIT 2000 ; ';
     }
 
     //HANA DB Connection and call
@@ -85,6 +107,4 @@ router.get('/', (req, res) => {
             })
         });
     });
-});
-
-module.exports = router;
+};

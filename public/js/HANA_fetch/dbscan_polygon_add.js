@@ -1,15 +1,13 @@
-dbscan_polygon_get = (events_obj) => {
-
-    
+const dbscan_polygon_get = (events_obj) => { // eslint-disable-line no-unused-vars
 
     //MAPPING FUNCTIONS
 
     //The color scheme for all points with this specific crime category
-dbscanColor = (d) => { 
+const dbscanColor = (d) => { // eslint-disable-line no-unused-vars
 
-    return d === "high" ? '#CA3907' :
-    d === "medium"  ? '#DED406' :
-    d === "low"   ?   '#60CA07':
+    return d === 'high' ? '#CA3907' :
+    d === 'medium'  ? '#DED406' :
+    d === 'low'   ?   '#60CA07':
         '#DAEAF3';
 }
 
@@ -25,7 +23,7 @@ function onEachFeature(feature, layer) {
 
 function resetHighlight(e) {
     dbscanLayer.resetStyle(e.target);
-    info.updateDBSCAN();
+    mapInfo.updateDBSCAN();
 }
 
 function zoomToFeature(e) {
@@ -58,14 +56,14 @@ function zoomToFeature(e) {
             layer.bringToFront();
         }
 
-        info.updateDBSCAN(layer.feature.properties);
+        mapInfo.updateDBSCAN(layer.feature.properties);
     }
 
-    function style(feature) {
+    function style() {
         return {
             radius: 6,
                     fillColor: 'steelblue',//acledColor(feature.properties.EVENT_TYPE),
-                    color: "white",
+                    color: 'white',
                     weight: 1,
                     opacity: 1,
                     fillOpacity: 0.5
@@ -93,7 +91,7 @@ function zoomToFeature(e) {
 
             data.data.forEach((data) => {
                 dbscanData.push({
-                    "type": 'Feature',
+                    'type': 'Feature',
                     'properties': {
                         // 'CONFIDENCE' : data.CONFIDENCE,
                         // 'SCORE': data.SCORE,
@@ -116,7 +114,7 @@ function zoomToFeature(e) {
                     var geojsonMarkerOptions = {
                         radius: 6,
                         fillColor: 'red',//acledColor(feature.properties.EVENT_TYPE),
-                        color: "white",
+                        color: 'white',
                         weight: 1,
                         opacity: 1,
                         fillOpacity: 0.5
@@ -128,8 +126,6 @@ function zoomToFeature(e) {
             
             dbscanLayerGroup.addLayer(dbscanLayer);
           
-
-
         })
     })   
 

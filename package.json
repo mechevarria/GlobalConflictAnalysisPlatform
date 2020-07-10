@@ -1,6 +1,6 @@
 {
   "name": "conflictpredictionapp",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "App for predicting global conflicts",
   "license": "ISC",
   "author": "Aaron A. Julian",
@@ -16,24 +16,25 @@
     "npm": "~6.14.0"
   },
   "scripts": {
-    "prestart": "npm run lint && npm run envsub",
-    "envsub": "envsub --env MAPBOX_TOKEN ./public/js/app.template.js ./public/js/app.js",
-    "lint": "npx eslint ./src",
+    "prestart": "npm run lint",
+    "lint": "npx eslint ./src ./public/js",
     "start": "node src/app.js"
   },
   "dependencies": {
     "@sap/hana-client": "~2.5.86",
     "compression": "^1.7.4",
-    "envsub": "^4.0.7",
     "express": "^4.17.1",
-    "handlebars": "^4.7.6",
-    "hbs": "^4.1.1",
     "leaflet": "^1.6.0",
     "morgan": "^1.10.0",
     "path": "^0.12.7",
     "require": "^2.4.20"
   },
   "devDependencies": {
+    "@types/express": "^4.17.6",
+    "@types/jquery": "^3.5.0",
+    "@types/leaflet": "^1.5.15",
+    "@types/leaflet-draw": "^1.0.3",
+    "@types/node": "^14.0.14",
     "eslint": "^7.3.1"
   }
 }

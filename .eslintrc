@@ -2,11 +2,28 @@
   "extends": "eslint:recommended",
   "env": {
     "node": true,
-    "es6": true
+    "es6": true,
+    "browser": true
   },
   "rules": {
     "no-console": 0,
     "no-unused-vars": 1,
     "quotes": ["error", "single"]
+  },
+  "globals": {
+    "coreui": true,
+    "L": true,
+    "map": true,
+    "mapInfo": true,
+    "acledColor": true,
+    "TimelineLite": true,
+    "fsi_polygon_get": true,
+    "acledLayerGroup": true,
+    "fsiLayerGroup": true,
+    "fsiLayer": true,
+    "acledHeatLayer": true,
+    "acled_point_get": true,
+    "dbscan_polygon_get": true,
+    "dbscanLayerGroup": true
   }
 }

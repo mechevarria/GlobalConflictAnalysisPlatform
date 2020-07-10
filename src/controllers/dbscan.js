@@ -1,9 +1,6 @@
 'use strict';
 
-const express = require('express');
-const router = express.Router();
-
-router.get('/', (req, res) => {
+module.exports = (req, res) => {
     let connection = req.db.connection;
     let config = req.db.config;
 
@@ -40,8 +37,8 @@ router.get('/', (req, res) => {
   
         sql = `
   
-        SELECT "cluster_id", st_unionAggr("COORDINATES").ST_AlphaShape(0.605).ST_AsGeoJSON() as "cluster" FROM (
-          (SELECT ST_ClusterID() OVER (CLUSTER BY "COORDINATES" USING DBSCAN EPS 0.401 MINPTS 6) AS "cluster_id" , COORDINATES FROM "AAJULIAN"."ACLED"
+        SELECT "cluster_id", st_unionAggr("COORDINATES").ST_AlphaShape(0.205).ST_AsGeoJSON() as "cluster" FROM (
+          (SELECT ST_ClusterID() OVER (CLUSTER BY "COORDINATES" USING DBSCAN EPS 0.101 MINPTS 3) AS "cluster_id" , COORDINATES FROM "AAJULIAN"."ACLED"
             WHERE COORDINATES.ST_Within((SELECT ST_ConvexHullAggr(SHAPE) FROM 
                 (SELECT SHAPE, "capital", SCORE, CONFIDENCE, "country", RANK() OVER (PARTITION BY "country" ORDER BY CONFIDENCE desc) FROM "AAJULIAN"."FSI_FINAL"   
                   WHERE "region" LIKE '${region}' AND "year" = ${year}))) = 1	AND
@@ -64,10 +61,10 @@ router.get('/', (req, res) => {
           (SELECT ST_ClusterID() OVER (CLUSTER BY "COORDINATES" USING DBSCAN EPS 0.481 MINPTS 6) AS "cluster_id" , COORDINATES FROM "AAJULIAN"."ACLED"
             WHERE COORDINATES.ST_Within((SELECT ST_ConvexHullAggr(SHAPE) FROM 
                 (SELECT SHAPE, "capital", SCORE, CONFIDENCE, "country", RANK() OVER (PARTITION BY "country" ORDER BY CONFIDENCE desc) FROM "AAJULIAN"."FSI_FINAL"   
-                  WHERE "region" LIKE ${region} AND "year" = ${year}))) = 1	AND
+                  WHERE "region" LIKE '${region}' AND "year" = ${year}))) = 1	AND
                 COORDINATES.ST_CoveredBy((SELECT ST_ConvexHullAggr(SHAPE) FROM 
                 (SELECT SHAPE, "capital", SCORE, CONFIDENCE, "country", RANK() OVER (PARTITION BY "country" ORDER BY CONFIDENCE desc) FROM "AAJULIAN"."FSI_FINAL"   
-                  WHERE "region" LIKE ${region} AND "year" = ${year}))) = 1
+                  WHERE "region" LIKE '${region}' AND "year" = ${year}))) = 1
             AND "year" = ${year})		
             )
             where "cluster_id" <> 0
@@ -102,6 +99,4 @@ router.get('/', (req, res) => {
             })
         });
     });
-});
-
-module.exports = router;
+};
