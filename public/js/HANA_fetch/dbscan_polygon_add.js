@@ -93,12 +93,7 @@ function zoomToFeature(e) {
                 dbscanData.push({
                     'type': 'Feature',
                     'properties': {
-                        // 'CONFIDENCE' : data.CONFIDENCE,
-                        // 'SCORE': data.SCORE,
-                        // // 'SHAPE': JSON.parse(data.SHAPE),
-                        // 'CAPITAL': data.capital,
-                        // 'COUNTRY': data.country,
-                        // 'popupContent': 'Country: '+data.country+'\nCapital: '+data.capital+'\nSCORE: '+data.score
+
                     },
                     'geometry':JSON.parse(data.cluster), 
                 })

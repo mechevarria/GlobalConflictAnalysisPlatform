@@ -37,15 +37,6 @@ module.exports = (req, res) => {
         }
 
         //SQL Query
-        // sql += 'SELECT COORDINATES.ST_AsGeoJSON() as COORDINATES, "event_date", "actor1", "location", "source", "event_type" FROM "AAJULIAN"."ACLED" ' +
-        //     ' WHERE COORDINATES.ST_Within((SELECT ST_ConvexHullAggr(SHAPE) FROM   ' +
-        //     '    (SELECT SHAPE, "capital", SCORE, CONFIDENCE, "country", RANK() OVER (PARTITION BY "country" ORDER BY CONFIDENCE desc) FROM "AAJULIAN"."FSI_FINAL"  ' +
-        //     '      WHERE "region" LIKE \'' + region + '\' AND "year" = ' + year + '))) = 1	  ' +
-        //     ' AND COORDINATES.ST_CoveredBy((SELECT ST_ConvexHullAggr(SHAPE) FROM   ' +
-        //     '    (SELECT SHAPE, "capital", SCORE, CONFIDENCE, "country", RANK() OVER (PARTITION BY "country" ORDER BY CONFIDENCE desc) FROM "AAJULIAN"."FSI_FINAL"  ' +
-        //     '      WHERE "region" LIKE \'' + region + '\' AND "year" = ' + year + '))) = 1	  ' +
-        //     ' AND ("event_type" LIKE \'' + addedSQL + ')' +
-        //     ' AND "year" = ' + year + ' LIMIT 2000 ;  '
 
         sql += `
         SELECT COORDINATES.ST_AsGeoJSON() as COORDINATES, "event_date", "actor1", "location", "source", "event_type" FROM "AAJULIAN"."ACLED"
@@ -73,12 +64,7 @@ module.exports = (req, res) => {
         AND "year" = ${year}
         LIMIT 5000;
         `
-        //SQL Query
-        // sql += 'SELECT COORDINATES.ST_AsGeoJSON() as COORDINATES, "event_date", "actor1", "location", "source", "event_type" FROM "AAJULIAN"."ACLED" ' +
-        //     ' WHERE COORDINATES.ST_Within((SELECT ST_ConvexHullAggr(SHAPE) FROM   ' +
-        //     '    (SELECT SHAPE, "capital", SCORE, CONFIDENCE, "country", RANK() OVER (PARTITION BY "country" ORDER BY CONFIDENCE desc) FROM "AAJULIAN"."FSI_FINAL"  ' +
-        //     '      WHERE "region" LIKE \'' + region + '\' AND "year" = ' + year + '))) = 1	  ' +
-        //     ' AND "year" = ' + year + ' LIMIT 2000 ; ';
+
     }
 
     //HANA DB Connection and call

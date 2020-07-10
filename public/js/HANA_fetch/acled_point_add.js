@@ -73,12 +73,7 @@ const acled_point_get = (capital) => { // eslint-disable-line no-unused-vars
             //Styles the polygons and colors based on population
             function style(feature) {
                 return {
-                    // weight: 2,
-                    // opacity: 1,
-                    // color: 'white',
-                    // dashArray: '3',
-                    // fillOpacity: 0.5,
-                    // fillColor: perc2color(parseFloat(feature.properties.CPP), 1)
+
                     radius: 6,
                     fillColor: acledColor(feature.properties.EVENT_TYPE),
                     color: 'white',

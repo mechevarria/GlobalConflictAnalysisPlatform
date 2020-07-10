@@ -95,12 +95,8 @@ function zoomToFeature(e) {
     console.log(year);
     console.log(region);
 
-    // acled_point_get();
 
-    fetch('/fsiMapStart?year='+encodeURIComponent(year)+'&region='+encodeURIComponent(region)+'').then((response) => {
-
-        // console.log(response)
-        
+    fetch('/fsiMapStart?year='+encodeURIComponent(year)+'&region='+encodeURIComponent(region)+'').then((response) => {        
 
         response.json().then((data) => {
             if(data.error){
