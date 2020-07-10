@@ -115,7 +115,7 @@ const acled_point_get = (capital) => { // eslint-disable-line no-unused-vars
             }
 
            
-
+            
             var acledData = [];
             var geos = [];
             
@@ -175,7 +175,7 @@ const acled_point_get = (capital) => { // eslint-disable-line no-unused-vars
 
             acledHeatLayer.addLayer(heat);
 
-            dbscan_polygon_get(events_obj);
+            dbscan_polygon_get(events_obj, capital);
         
         
         

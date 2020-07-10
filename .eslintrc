@@ -24,6 +24,7 @@
     "acledHeatLayer": true,
     "acled_point_get": true,
     "dbscan_polygon_get": true,
-    "dbscanLayerGroup": true
+    "dbscanLayerGroup": true,
+    "apriori_info_get" : true
   }
 }

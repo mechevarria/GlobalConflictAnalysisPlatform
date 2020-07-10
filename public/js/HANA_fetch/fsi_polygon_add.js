@@ -45,7 +45,6 @@ function resetHighlight(e) {
 function zoomToFeature(e) {
     
     var capital = e.target.feature.properties.CAPITAL;
-    var shape = e.target.feature.properties.SHAPE; 
 
     map.fitBounds(e.target.getBounds());
 

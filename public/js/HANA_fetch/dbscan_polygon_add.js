@@ -1,4 +1,4 @@
-const dbscan_polygon_get = (events_obj) => { // eslint-disable-line no-unused-vars
+const dbscan_polygon_get = (events_obj, capital) => { // eslint-disable-line no-unused-vars
 
     //MAPPING FUNCTIONS
 
@@ -123,10 +123,12 @@ function zoomToFeature(e) {
                     return L.circleMarker(latlng, geojsonMarkerOptions);
                 },
             })
+
+            apriori_info_get(capital);
+           
             
             dbscanLayerGroup.addLayer(dbscanLayer);
           
         })
     })   
-
 }
