@@ -29,6 +29,7 @@ const acledCtrl = require('./controllers/acled');
 const fsiCtrl = require('./controllers/fsi');
 const dbscanCtrl = require('./controllers/dbscan');
 const aprioriCtrl = require('./controllers/apriori');
+const ldaCtrl = require('./controllers/lda');
 
 const router = express.Router();
 router.route('').get(indexCtrl);
@@ -36,6 +37,7 @@ router.route('/fsiMapStart').get(fsiCtrl);
 router.route('/acledEvents').get(acledCtrl);
 router.route('/acledDBSCAN').get(dbscanCtrl);
 router.route('/acledApriori').get(aprioriCtrl);
+router.route('/acledLDA').get(ldaCtrl);
 
 app.use('/', router);
 

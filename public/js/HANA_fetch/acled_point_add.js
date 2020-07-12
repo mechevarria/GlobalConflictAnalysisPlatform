@@ -160,6 +160,8 @@ const acled_point_get = (capital) => { // eslint-disable-line no-unused-vars
             acledLayerGroup.addLayer(acledLayer);
 
             
+
+            
             let options = {
                 'minOpacity': 0.24,
                 'maxZoom' : 9,
