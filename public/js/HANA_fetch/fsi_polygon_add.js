@@ -71,7 +71,7 @@ function zoomToFeature(e) {
         }
 
         mapInfo.update(layer.feature.properties);
-        layer.bringToBack();
+        
     }
 
     function style(feature) {
