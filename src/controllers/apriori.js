@@ -30,7 +30,7 @@ module.exports = (req, res) => {
     
         var sql = ''
     
-        const bindParams = [year, capital];
+        const bindParams = [parseInt(year), capital];
         if (eventsList.length >= 1) {
     
             let addedSQL = '';
@@ -38,12 +38,16 @@ module.exports = (req, res) => {
             for (let i = 0; i < eventsList.length; i++) {
     
                 if (i == 0) {
-                    addedSQL += '%?%';
+                    addedSQL += ` 
+                    ?`;
                 } else {
     
-                    addedSQL += ' OR CONSEQUENT LIKE %?% ';
+                    addedSQL += 
+                    ` 
+                     OR CONSEQUENT LIKE ? 
+                    ` ;
                 }
-                bindParams.push(eventsList[i].name);
+                bindParams.push('%'+ eventsList[i].name + '%');
             }
     
             //SQL Query
