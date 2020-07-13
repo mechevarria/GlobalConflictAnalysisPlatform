@@ -15,12 +15,12 @@ module.exports = (req, res) => {
         var year = req.query.year
         var capital = req.query.capital
     
-            //SQL Query
-            var sql = 
-                `SELECT * FROM ACLED_LDA_VIEW (PLACEHOLDER."$$yr$$"=>${year}, PLACEHOLDER."$$capital$$" =>  '${capital}' );`
+        //SQL Query
+        var sql = 'SELECT * FROM ACLED_LDA_VIEW (PLACEHOLDER."$$yr$$"=>?, PLACEHOLDER."$$capital$$" =>  ? );'
+        const bindParams = [year, capital];
 
-        console.log(sql)
-        connection.exec(sql, (err, rows) => {
+        console.log(sql, bindParams)
+        connection.exec(sql, bindParams, (err, rows) => {
             // console.log('Here')
             connection.disconnect();
 

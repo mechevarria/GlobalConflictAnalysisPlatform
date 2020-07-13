@@ -30,24 +30,25 @@ module.exports = (req, res) => {
     
         var sql = ''
     
+        const bindParams = [year, capital];
         if (eventsList.length >= 1) {
     
-            let addedSQL = ''
+            let addedSQL = '';
     
             for (let i = 0; i < eventsList.length; i++) {
     
                 if (i == 0) {
-                    addedSQL += ` '%${eventsList[i].name}%'  `;
+                    addedSQL += '%?%';
                 } else {
     
-                    addedSQL += ` OR CONSEQUENT LIKE '%${eventsList[i].name}%' `;
+                    addedSQL += ' OR CONSEQUENT LIKE %?% ';
                 }
-    
+                bindParams.push(eventsList[i].name);
             }
     
             //SQL Query
             sql += 
-                `SELECT TOP 30 ANTECEDENT, CONSEQUENT, CONFIDENCE FROM ACLED_APRIORI_VIEW (PLACEHOLDER."$$yr$$"=>${year}, PLACEHOLDER."$$capital$$" =>  '${capital}' )
+                `SELECT TOP 30 ANTECEDENT, CONSEQUENT, CONFIDENCE FROM ACLED_APRIORI_VIEW (PLACEHOLDER."$$yr$$"=>?, PLACEHOLDER."$$capital$$" =>  ? )
                 WHERE CONSEQUENT LIKE ${addedSQL}
                 ORDER BY LIFT, CONFIDENCE DESC;
                 `
@@ -56,12 +57,12 @@ module.exports = (req, res) => {
     
             //SQL Query
             sql += 
-            `SELECT TOP 30 * FROM ACLED_APRIORI_VIEW (PLACEHOLDER."$$yr$$"=>${year}, PLACEHOLDER."$$capital$$" => '${capital}')
+            `SELECT TOP 30 * FROM ACLED_APRIORI_VIEW (PLACEHOLDER."$$yr$$"=>?, PLACEHOLDER."$$capital$$" => ?)
             ORDER BY LIFT, CONFIDENCE DESC;
             `
         }
-        console.log(sql)
-        connection.exec(sql, (err, rows) => {
+        console.log(sql, bindParams)
+        connection.exec(sql, bindParams, (err, rows) => {
             // console.log('Here')
             connection.disconnect();
 

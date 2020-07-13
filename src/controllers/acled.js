@@ -19,21 +19,23 @@ module.exports = (req, res) => {
         return input.type === 'true'
     });
 
-    var sql = ''
+    var sql = '';
+
+    const bindParams = [capital];
 
     if (eventsList.length >= 1) {
 
-        let addedSQL = ''
+        let addedSQL = '';
 
         for (let i = 0; i < eventsList.length; i++) {
 
             if (i == 0) {
-                addedSQL += ` '${eventsList[i].name}' `;
+                addedSQL += '?';
             } else {
 
-                addedSQL += ` OR "event_type" LIKE '${eventsList[i].name}' `
+                addedSQL += ' OR "event_type" LIKE ?';
             }
-
+            bindParams.push(eventsList[i].name);
         }
 
         //SQL Query
@@ -43,14 +45,13 @@ module.exports = (req, res) => {
         WHERE COORDINATES.ST_Within(
             (SELECT ST_ConvexHullAggr(SHAPE) FROM 
                 (SELECT SHAPE, "capital", "country" FROM "AAJULIAN"."FSI_FINAL"   
-                    WHERE "capital" = '${capital}'
+                    WHERE "capital" = ?
                 )
             )) = 1	
         AND ("event_type" LIKE ${addedSQL} )
-        AND "year" = ${year}
+        AND "year" = ?
         ORDER BY RAND();
         `
-
     } else {
 
         sql += `
@@ -58,14 +59,14 @@ module.exports = (req, res) => {
         WHERE COORDINATES.ST_Within(
             (SELECT ST_ConvexHullAggr(SHAPE) FROM 
                 (SELECT SHAPE, "capital", "country" FROM "AAJULIAN"."FSI_FINAL"   
-                    WHERE "capital" = '${capital}'
+                    WHERE "capital" = ?
                 )
             )) = 1	
-        AND "year" = ${year}
+        AND "year" = ?
         ORDER BY RAND();
         `
-
     }
+    bindParams.push(year);
 
     //HANA DB Connection and call
     connection.connect(config, (err) => {
@@ -74,8 +75,8 @@ module.exports = (req, res) => {
             return console.error('Connection error', err);
         }
 
-        console.log(sql)
-        connection.exec(sql, (err, rows) => {
+        console.log(sql, bindParams)
+        connection.exec(sql, bindParams, (err, rows) => {
             // console.log('Here')
             connection.disconnect();
 
