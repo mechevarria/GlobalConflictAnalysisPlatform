@@ -7,6 +7,10 @@ module.exports = (req, res) => {
 
     console.log(year, region)
 
+    if(year == 2020){
+        year = 2019;
+    }
+
     //HANA DB Connection and call
     connection.connect(config, (err) => {
         //catches errors

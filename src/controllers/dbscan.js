@@ -7,6 +7,14 @@ module.exports = (req, res) => {
     var year = req.query.year;
     var region = req.query.region;
 
+    var fsi_year = year;
+
+    console.log(year);
+
+    if(fsi_year == 2020){
+      fsi_year = 2019;
+    }
+
     var eventsList = [
         { name: 'Battles', type: req.query.battles },
         { name: 'Explosions%', type: req.query.explosions },
@@ -41,10 +49,10 @@ module.exports = (req, res) => {
           (SELECT ST_ClusterID() OVER (CLUSTER BY "COORDINATES" USING DBSCAN EPS 0.301 MINPTS 4) AS "cluster_id" , COORDINATES FROM "AAJULIAN"."ACLED"
             WHERE COORDINATES.ST_Within((SELECT ST_ConvexHullAggr(SHAPE) FROM 
                 (SELECT SHAPE, "capital", SCORE, CONFIDENCE, "country", RANK() OVER (PARTITION BY "country" ORDER BY CONFIDENCE desc) FROM "AAJULIAN"."FSI_FINAL"   
-                  WHERE "region" LIKE '${region}' AND "year" = ${year}))) = 1	AND
+                  WHERE "region" LIKE '${region}' AND "year" = ${fsi_year}))) = 1	AND
                 COORDINATES.ST_CoveredBy((SELECT ST_ConvexHullAggr(SHAPE) FROM 
                 (SELECT SHAPE, "capital", SCORE, CONFIDENCE, "country", RANK() OVER (PARTITION BY "country" ORDER BY CONFIDENCE desc) FROM "AAJULIAN"."FSI_FINAL"   
-                  WHERE "region" LIKE '${region}' AND "year" = ${year}))) = 1
+                  WHERE "region" LIKE '${region}' AND "year" = ${fsi_year}))) = 1
             AND ("event_type" LIKE '${addedSQL})
             AND "year" = ${year})		
             )

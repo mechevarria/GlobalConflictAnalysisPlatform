@@ -56,6 +56,8 @@ function zoomToFeature(e) {
             layer.bringToFront();
         }
 
+        layer.bringToBack();
+
         mapInfo.updateDBSCAN(layer.feature.properties);
     }
 
