@@ -47,6 +47,7 @@ function ldaJSONToTable(data) {
 }
 
 
+// eslint-disable-next-line no-unused-vars
 const lda_info_get = (country_capital) => {   
 
  

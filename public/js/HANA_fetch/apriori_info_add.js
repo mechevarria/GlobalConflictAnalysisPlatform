@@ -47,6 +47,7 @@ function jsonToTable(data) {
 }
 
 
+// eslint-disable-next-line no-unused-vars
 const apriori_info_get = (country_capital) => {   
 
     console.log(country_capital);
