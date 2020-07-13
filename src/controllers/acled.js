@@ -39,22 +39,22 @@ module.exports = (req, res) => {
         //SQL Query
 
         sql += `
-        SELECT COORDINATES.ST_AsGeoJSON() as COORDINATES, "event_date", "actor1", "location", "source", "event_type" FROM "AAJULIAN"."ACLED"
+        SELECT TOP 2000 COORDINATES.ST_AsGeoJSON() as COORDINATES, "event_date", "actor1", "location", "source", "event_type", "fatalities", "country" FROM "AAJULIAN"."ACLED"
         WHERE COORDINATES.ST_Within(
             (SELECT ST_ConvexHullAggr(SHAPE) FROM 
                 (SELECT SHAPE, "capital", "country" FROM "AAJULIAN"."FSI_FINAL"   
                     WHERE "capital" = '${capital}'
                 )
             )) = 1	
-        AND "event_type" LIKE ${addedSQL} 
+        AND ("event_type" LIKE ${addedSQL} )
         AND "year" = ${year}
-        LIMIT 5000;
+        ORDER BY RAND();
         `
 
     } else {
 
         sql += `
-        SELECT COORDINATES.ST_AsGeoJSON() as COORDINATES, "event_date", "actor1", "location", "source", "event_type" FROM "AAJULIAN"."ACLED"
+        SELECT TOP 2000 COORDINATES.ST_AsGeoJSON() as COORDINATES, "event_date", "actor1", "location", "source", "event_type", "fatalities", "country" FROM "AAJULIAN"."ACLED"
         WHERE COORDINATES.ST_Within(
             (SELECT ST_ConvexHullAggr(SHAPE) FROM 
                 (SELECT SHAPE, "capital", "country" FROM "AAJULIAN"."FSI_FINAL"   
@@ -62,7 +62,7 @@ module.exports = (req, res) => {
                 )
             )) = 1	
         AND "year" = ${year}
-        LIMIT 5000;
+        ORDER BY RAND();
         `
 
     }

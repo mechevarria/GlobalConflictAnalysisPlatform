@@ -17,13 +17,15 @@
 }
 
 
-.tbl-flex{
+.tbl-flex {
     
-    width: 49.85%;
+    width: 49%;
     display: inline-block;
     max-height: 400px;
-    overflow-x: hidden;
-    
-    
+    overflow-x: hidden;  
+}
+
+#tbl-right {
+    margin-left: 1.4%;
 }
 

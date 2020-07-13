@@ -1,7 +1,7 @@
 'use strict';
 
 const acled_point_get = (capital) => { // eslint-disable-line no-unused-vars
-
+    console.log(capital);
 
     //The color scheme for all points with this specific crime category
     const acledColor = (d) => { 
@@ -125,7 +125,7 @@ const acled_point_get = (capital) => { // eslint-disable-line no-unused-vars
                         'EVENT_TYPE': data.event_type,
                         'LOCATION': data.location,
                         'SOURCE': data.source,
-                        'popupContent': 'LOCATION: ' + data.location + '\nEVENT: ' + data.event_type + '\nSOURCE: ' + data.source + '\nDATE: ' + data.event_date + ''
+                        'popupContent': 'LOCATION: ' + data.location + '\nEVENT: ' + data.event_type + '\nSOURCE: ' + data.source + '\nDATE: ' + data.event_date + ' ' + data.country
                     },
                     'geometry':JSON.parse(data.COORDINATES), 
                 })
@@ -137,7 +137,7 @@ const acled_point_get = (capital) => { // eslint-disable-line no-unused-vars
             var coords = geos.map(a => a.coordinates.reverse());
 
             
-
+            console.log(acledData);
             acledLayer = L.geoJSON(acledData, {
                 style: style,
                 pointToLayer: function (feature, latlng) {

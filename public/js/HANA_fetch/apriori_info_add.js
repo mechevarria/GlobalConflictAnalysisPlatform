@@ -78,11 +78,13 @@ const apriori_info_get = (country_capital) => {
             }
             console.log(data.data);
 
+            lda_info_get(country_capital);
+
             jsonToTable(data.data);
 
         });
 
-        lda_info_get(country_capital);
+        
 
     });
     
