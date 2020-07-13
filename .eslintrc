@@ -26,6 +26,7 @@
     "dbscan_polygon_get": true,
     "dbscanLayerGroup": true,
     "apriori_info_get" : true,
-    "lda_info_get" : true
+    "lda_info_get" : true,
+    "ButtonHandlers": true
   }
 }

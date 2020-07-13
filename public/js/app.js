@@ -36,17 +36,5 @@ mapInfo.addTo(map);
 
 controlLayer.addTo(map);
 
-const searchModal = new coreui.Modal(document.getElementById('searchModal'));
-
-document.getElementById('search').onclick = () => {
-    searchModal.show();
-};
-
-document.getElementById('cancel').onclick = () => {
-    searchModal.hide();
-};
-
-document.getElementById('update').onclick = () => {
-    fsi_polygon_get();
-    searchModal.hide();
-};
+const handlers = new ButtonHandlers();
+handlers.init();
