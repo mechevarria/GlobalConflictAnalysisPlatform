@@ -18,6 +18,8 @@ function ldaJSONToTable(data) {
 
     // CREATE DYNAMIC TABLE.
     var table = document.getElementById('lda-info');
+    // clear old data first
+    table.innerHTML = '';
 
     // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
 
