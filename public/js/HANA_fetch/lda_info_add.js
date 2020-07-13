@@ -58,8 +58,9 @@ const lda_info_get = (country_capital) => {
     encodeURIComponent(country_capital)+' ';
 
 
-
+    btnHandlers.toggleBusy();
     fetch(url).then((response) => {
+        btnHandlers.toggleBusy();
 
         response.json().then((data) => {
             if(data.error){

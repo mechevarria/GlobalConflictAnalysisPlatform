@@ -96,10 +96,11 @@ function zoomToFeature(e) {
     console.log(year);
     console.log(region);
 
-
+    btnHandlers.toggleBusy();
     fetch('/fsiMapStart?year='+encodeURIComponent(year)+'&region='+encodeURIComponent(region)+'').then((response) => {        
 
         response.json().then((data) => {
+            btnHandlers.toggleBusy();
             if(data.error){
                 return console.log(data.error)
             }

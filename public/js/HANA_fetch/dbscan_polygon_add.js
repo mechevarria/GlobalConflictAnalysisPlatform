@@ -80,8 +80,9 @@ function zoomToFeature(e) {
             '&protests='+encodeURIComponent(events_obj.protests)+'&riots='+encodeURIComponent(events_obj.riots)+'&strategic='+encodeURIComponent(events_obj.strategic)+
             '&violence='+encodeURIComponent(events_obj.violence)+'&region='+encodeURIComponent(events_obj.region)+'&year='+encodeURIComponent(events_obj.year)+' '
 
+    btnHandlers.toggleBusy();
     fetch(url).then((response) => {
-
+        btnHandlers.toggleBusy();
         response.json().then((data) => {
             if(data.error){
                 return console.log(data.error)

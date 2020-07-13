@@ -1,33 +1,49 @@
-// eslint-disable-next-line no-unused-vars
 class ButtonHandlers {
     constructor() {
         this.searchModal = new coreui.Modal(document.getElementById('searchModal'));
         this.mapCollapse = new coreui.Collapse(document.getElementById('map-info'));
         this.eventCollapse = new coreui.Collapse(document.getElementById('event-info'));
         this.noteCollapse = new coreui.Collapse(document.getElementById('note-info'));
+        this.busyIcon = document.getElementById('busy-icon');
+        this.searchBtn = document.getElementById('search');
+        this.cancelBtn = document.getElementById('cancel');
+        this.updateBtn = document.getElementById('update');
+        this.mapHeader = document.getElementById('map-header');
+        this.eventHeader = document.getElementById('event-header');
+        this.noteHeader = document.getElementById('note-header');
+    }
+    toggleBusy() {
+        this.busyIcon.classList.toggle('invisible');
+        this.searchBtn.disabled = !this.searchBtn.disabled;
     }
     init() {
+        // turn off busy indicator by default
+        this.busyIcon.classList.toggle('invisible');
+
         // modal actions
-        document.getElementById('search').onclick = () => {
+        this.searchBtn.onclick = () => {
             this.searchModal.show();
         };
-        document.getElementById('cancel').onclick = () => {
+        this.cancelBtn.onclick = () => {
             this.searchModal.hide();
         };
-        document.getElementById('update').onclick = () => {
+        this.updateBtn.onclick = () => {
             fsi_polygon_get();
             this.searchModal.hide();
         };
 
         // accordian actions
-        document.getElementById('map-header').onclick = () => {
+        this.mapHeader.onclick = () => {
             this.mapCollapse.toggle();
         };
-        document.getElementById('event-header').onclick = () => {
+        this.eventHeader.onclick = () => {
             this.eventCollapse.toggle();
         };
-        document.getElementById('note-header').onclick = () => {
+        this.noteHeader.onclick = () => {
             this.noteCollapse.toggle();
         };
     }
 }
+
+const btnHandlers = new ButtonHandlers();
+btnHandlers.init();

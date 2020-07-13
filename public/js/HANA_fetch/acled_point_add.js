@@ -101,8 +101,9 @@ const acled_point_get = (capital) => { // eslint-disable-line no-unused-vars
             
 
             
-    
+    btnHandlers.toggleBusy();
     fetch(url).then((response) => {
+        btnHandlers.toggleBusy();
 
         response.json().then((data) => {
             if(data.error){

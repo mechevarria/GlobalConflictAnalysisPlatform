@@ -35,6 +35,3 @@ const controlLayer = new L.control.layers(baseMaps, overlayMaps);
 mapInfo.addTo(map);
 
 controlLayer.addTo(map);
-
-const handlers = new ButtonHandlers();
-handlers.init();
