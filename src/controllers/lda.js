@@ -3,14 +3,12 @@ module.exports = (req, res) => {
     const connection = req.db.connection;
     const config = req.db.config;
 
-
     //HANA DB Connection and call
     connection.connect(config, (err) => {
         //catches errors
         if (err) {
-            return console.error('Connection error', err);
+            res.status(500).json({ error: `[Connection error]: ${err.message}` });
         }
-
 
         var year = req.query.year
         var capital = req.query.capital
@@ -25,7 +23,7 @@ module.exports = (req, res) => {
             connection.disconnect();
 
             if (err) {
-                return console.error('SQL execute error:', err);
+                res.status(500).json({ error: `[SQL execute error]: ${err.message}` });
             }
 
             //Sends the data to the client
@@ -35,7 +33,7 @@ module.exports = (req, res) => {
 
             res.send({
                 data: rows
-            })
+            });
         });
     });
 };

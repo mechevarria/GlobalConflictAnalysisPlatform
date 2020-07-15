@@ -8,9 +8,8 @@ module.exports = (req, res) => {
     connection.connect(config, (err) => {
         //catches errors
         if (err) {
-            return console.error('Connection error', err);
+            res.status(500).json({ error: `[Connection error]: ${err.message}` });
         }
-
 
         var year = req.query.year
         var capital = req.query.capital
@@ -71,7 +70,7 @@ module.exports = (req, res) => {
             connection.disconnect();
 
             if (err) {
-                return console.error('SQL execute error:', err);
+                res.status(500).json({ error: `[SQL execute error]: ${err.message}` });
             }
 
             //Sends the data to the client
