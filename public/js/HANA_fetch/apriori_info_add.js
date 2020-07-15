@@ -18,21 +18,21 @@ function jsonToTable(data) {
 
     // CREATE DYNAMIC TABLE.
     var table = document.getElementById('apriori-info');
-     // clear old data first
-     table.innerHTML = '';
+    // clear old data first
+    table.innerHTML = '';
 
     // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
 
     var tr = table.insertRow(-1);                   // TABLE ROW.
 
-    for ( i = 0; i < col.length; i++) {
+    for (i = 0; i < col.length; i++) {
         var th = document.createElement('th');      // TABLE HEADER.
         th.innerHTML = col[i];
         tr.appendChild(th);
     }
 
     // ADD JSON DATA TO THE TABLE AS ROWS.
-    for ( i = 0; i < data.length; i++) {
+    for (i = 0; i < data.length; i++) {
 
         tr = table.insertRow(-1);
 
@@ -50,48 +50,34 @@ function jsonToTable(data) {
 
 
 // eslint-disable-next-line no-unused-vars
-const apriori_info_get = (country_capital) => {   
+const apriori_info_get = (country_capital) => {
 
-    console.log(country_capital);
+    console.info(country_capital);
 
     var events_obj = {
-        'battles' : document.getElementById('battles-check').value,
-        'explosions' : document.getElementById('explosions-check').value,
-        'protests' : document.getElementById('protests-check').value,
-        'riots' : document.getElementById('riots-check').value,
+        'battles': document.getElementById('battles-check').value,
+        'explosions': document.getElementById('explosions-check').value,
+        'protests': document.getElementById('protests-check').value,
+        'riots': document.getElementById('riots-check').value,
         'strategic': document.getElementById('strategic-check').value,
-        'violence' : document.getElementById('violence-check').value,
-        'year' : document.getElementById('select-year').value
+        'violence': document.getElementById('violence-check').value,
+        'year': document.getElementById('select-year').value
     }
 
-    console.log(events_obj);
+    console.info(events_obj);
 
-    var url = '/acledApriori?battles='+encodeURIComponent(events_obj.battles)+'&explosions='+encodeURIComponent(events_obj.explosions)+
-    '&protests='+encodeURIComponent(events_obj.protests)+'&riots='+encodeURIComponent(events_obj.riots)+'&strategic='+encodeURIComponent(events_obj.strategic)+
-    '&violence='+encodeURIComponent(events_obj.violence)+'&year='+encodeURIComponent(events_obj.year)+'&capital=' +
-    encodeURIComponent(country_capital)+' ';
-
+    const url = `/acledApriori?battles=${events_obj.battles}&explosions=${events_obj.explosions}&protests=${events_obj.protests}&riots=${events_obj.riots}&strategic=${events_obj.strategic}&violence=${events_obj.violence}&year=${events_obj.year}&capital=${country_capital}`;
 
     btnHandlers.toggleBusy();
-    fetch(url).then((response) => {
-        btnHandlers.toggleBusy();
-
-        response.json().then((data) => {
-            if(data.error){
-                return console.log(data.error)
-            }
-            console.log(data.data);
-
+    fetch(encodeURI(url))
+        .then(res => res.json())
+        .then(res => {
+            btnHandlers.toggleBusy();
+            jsonToTable(res.data);
+            btnHandlers.eventBtn.disabled = false;
             lda_info_get(country_capital);
 
-            jsonToTable(data.data);
-
+        }).catch(error => {
+            console.error('Error fetching data from /acledApriori', error);
         });
-
-        
-
-    });
-    
-        
-
 }
