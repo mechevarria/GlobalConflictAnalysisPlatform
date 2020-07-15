@@ -1,24 +1,24 @@
 class ButtonHandlers {
     constructor() {
-        this.searchModal = new coreui.Modal(document.getElementById('searchModal'));
-        this.mapCollapse = new coreui.Collapse(document.getElementById('map-info'));
-        this.eventCollapse = new coreui.Collapse(document.getElementById('event-info'));
-        this.noteCollapse = new coreui.Collapse(document.getElementById('note-info'));
+        this.searchModal = new coreui.Modal(document.getElementById('search-modal'));
+        this.eventModal = new coreui.Modal(document.getElementById('event-modal'));
+        this.notesModal = new coreui.Modal(document.getElementById('notes-modal'));
         this.busyIcon = document.getElementById('busy-icon');
         this.searchBtn = document.getElementById('search');
+        this.eventBtn = document.getElementById('event');
+        this.notesBtn = document.getElementById('notes');
         this.cancelBtn = document.getElementById('cancel');
         this.updateBtn = document.getElementById('update');
-        this.mapHeader = document.getElementById('map-header');
-        this.eventHeader = document.getElementById('event-header');
-        this.noteHeader = document.getElementById('note-header');
     }
     toggleBusy() {
         this.busyIcon.classList.toggle('invisible');
         this.searchBtn.disabled = !this.searchBtn.disabled;
     }
     init() {
-        // turn off busy indicator by default
+        // turn off busy indicator and detail by default
         this.busyIcon.classList.toggle('invisible');
+        this.eventBtn.disabled = true;
+        this.notesBtn.disabled = true;
 
         // modal actions
         this.searchBtn.onclick = () => {
@@ -32,16 +32,13 @@ class ButtonHandlers {
             this.searchModal.hide();
         };
 
-        // accordian actions
-        this.mapHeader.onclick = () => {
-            this.mapCollapse.toggle();
-        };
-        this.eventHeader.onclick = () => {
-            this.eventCollapse.toggle();
-        };
-        this.noteHeader.onclick = () => {
-            this.noteCollapse.toggle();
-        };
+        this.eventBtn.onclick = () => {
+            this.eventModal.show();
+        }
+
+        this.notesBtn.onclick = () => {
+            this.notesModal.show();
+        }
     }
 }
 
