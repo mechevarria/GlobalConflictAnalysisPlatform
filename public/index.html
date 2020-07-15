@@ -24,42 +24,30 @@
         <div class="c-body">
             <main class="c-main">
                 <div class="container-fluid">
-                    <div class="card-deck">
+                    <div class="card-deck mb-4">
                         <div class="card">
                             <div class="card-header">
-                                <button class="btn btn-link" type="button" id="map-header">Map</button>
-                                <button type="button" class="btn btn-primary float-right" id="search">
+                                <span class="align-middle">Map</span>
+                                <button type="button" class="btn btn-outline-primary float-right" id="notes"
+                                    data-toggle="tooltip" data-placement="top" title="Select a country to activate">
+                                    <span class="btn-icon cil-notes mr-2"></span>
+                                    Notes Analysis
+                                </button>
+                                <button type="button" class="btn btn-outline-primary float-right mr-2" id="event"
+                                    data-toggle="tooltip" data-placement="top" title="Select a country to activate">
+                                    <span class="btn-icon cil-newspaper mr-2"></span>
+                                    Event Analysis
+                                </button>
+                                <button type="button" class="btn btn-primary float-right mr-2" id="search"
+                                    data-toggle="tooltip" data-placement="top" title="Add data to the map">
                                     <span class="btn-icon cil-search mr-2"></span>
                                     Search
                                 </button>
-                                <span class="mt-2 mr-2 spinner-border spinner-border-sm float-right" id="busy-icon"></span>
+                                <span class="mt-2 mr-2 spinner-border spinner-border-sm float-right"
+                                    id="busy-icon"></span>
                             </div>
-                            <div class="card-body" class="collapse" id="map-info">
+                            <div class="card-body">
                                 <div id="mapid" class="app-map"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-deck mt-4 mb-4">
-                        <div class="card">
-                            <div class="card-header">
-                                <button class="btn btn-link" type="button" id="event-header">Event Information</button>
-                            </div>
-                            <div class="card-body" class="collapse" id="event-info">
-                                <table class="table table-hover table-striped table-responsive-sm" id="apriori-info">
-                                    <thead></thead>
-                                    <tbody></tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">
-                                <button class="btn btn-link" type="button" id="note-header">Notes Information</button>
-                            </div>
-                            <div class="card-body" class="collapse" id="note-info">
-                                <table class="table table-hover table-striped table-responsive-sm" id="lda-info">
-                                    <thead></thead>
-                                    <tbody></tbody>
-                                </table>
                             </div>
                         </div>
                     </div>
@@ -73,99 +61,132 @@
             </div>
         </footer>
 
-        <!-- modal template -->
-        <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
+        <!-- event modal template -->
+        <div class="modal fade" id="event-modal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="searchModalLabel">Search</h5>
+                        <h5 class="modal-title">Event Analysis for Region</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label>Region</label>
-                                <select class="form-control" id="select-region">
-                                    <option value="East Asia%">East Asia &amp; Pacific</option>
-                                    <option value="Europe%">Europe &amp; Central Asia</option>
-                                    <option value="Latin%">Latin America &amp; Caribbean</option>
-                                    <option value="Middle East%">Middle East &amp; North Africa</option>
-                                    <option value="North America">North America</option>
-                                    <option value="South Asia">South Asia</option>
-                                    <option value="Sub-Saharan%" selected>Sub-Saharan Africa</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Year</label>
-                                <select class="form-control" id="select-year">
-                                    <option value="2010">2010</option>
-                                    <option value="2011">2011</option>
-                                    <option value="2012">2012</option>
-                                    <option value="2013">2013</option>
-                                    <option value="2014">2014</option>
-                                    <option value="2015">2015</option>
-                                    <option value="2016">2016</option>
-                                    <option value="2017">2017</option>
-                                    <option value="2018">2018</option>
-                                    <option value="2019">2019</option>
-                                    <option value="2020" selected>2020</option>
-                                </select>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="false" id="battles-check"
-                                    onclick="radioValueFinder('battles-check')">
-                                <label class="form-check-label">
-                                    Battles
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="false" id="explosions-check"
-                                    onclick="radioValueFinder('explosions-check')">
-                                <label class="form-check-label">
-                                    Explosions
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="false" id="protests-check"
-                                    onclick="radioValueFinder('protests-check')">
-                                <label class="form-check-label">
-                                    Protests
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="false" id="riots-check"
-                                    onclick="radioValueFinder('riots-check')">
-                                <label class="form-check-label">
-                                    Riots
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="false" id="strategic-check"
-                                    onclick="radioValueFinder('strategic-check')">
-                                <label class="form-check-label">
-                                    Strategic Developments
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="violence-check"
-                                    onclick="radioValueFinder('violence-check')">
-                                <label class="form-check-label">
-                                    Violence against Civilians
-                                </label>
-                            </div>
+                    <div class="modal-body">
+                        <table class="table table-hover table-striped table-responsive-sm" id="apriori-info">
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- notes modal template -->
+        <div class="modal fade" id="notes-modal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Notes Analysis for Region</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-hover table-striped table-responsive-sm" id="lda-info">
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- search modal template -->
+        <div class="modal fade" id="search-modal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Search</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Region</label>
+                            <select class="form-control" id="select-region">
+                                <option value="East Asia%">East Asia &amp; Pacific</option>
+                                <option value="Europe%">Europe &amp; Central Asia</option>
+                                <option value="Latin%">Latin America &amp; Caribbean</option>
+                                <option value="Middle East%">Middle East &amp; North Africa</option>
+                                <option value="North America">North America</option>
+                                <option value="South Asia">South Asia</option>
+                                <option value="Sub-Saharan%" selected>Sub-Saharan Africa</option>
+                            </select>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" id="cancel">
-                                <span class="btn-icon cil-x-circle mr-2"></span> Close
-                            </button>
-                            <button type="button" class="btn btn-primary" id="update">
-                                <span class="btn-icon cil-reload mr-2"></span> Update
-                            </button>
+                        <div class="form-group">
+                            <label>Year</label>
+                            <select class="form-control" id="select-year">
+                                <option value="2010">2010</option>
+                                <option value="2011">2011</option>
+                                <option value="2012">2012</option>
+                                <option value="2013">2013</option>
+                                <option value="2014">2014</option>
+                                <option value="2015">2015</option>
+                                <option value="2016">2016</option>
+                                <option value="2017">2017</option>
+                                <option value="2018">2018</option>
+                                <option value="2019">2019</option>
+                                <option value="2020" selected>2020</option>
+                            </select>
                         </div>
-                    </form>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="false" id="battles-check"
+                                onclick="radioValueFinder('battles-check')">
+                            <label class="form-check-label">
+                                Battles
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="false" id="explosions-check"
+                                onclick="radioValueFinder('explosions-check')">
+                            <label class="form-check-label">
+                                Explosions
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="false" id="protests-check"
+                                onclick="radioValueFinder('protests-check')">
+                            <label class="form-check-label">
+                                Protests
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="false" id="riots-check"
+                                onclick="radioValueFinder('riots-check')">
+                            <label class="form-check-label">
+                                Riots
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="false" id="strategic-check"
+                                onclick="radioValueFinder('strategic-check')">
+                            <label class="form-check-label">
+                                Strategic Developments
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="violence-check"
+                                onclick="radioValueFinder('violence-check')">
+                            <label class="form-check-label">
+                                Violence against Civilians
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" id="cancel">
+                            <span class="btn-icon cil-x-circle mr-2"></span> Close
+                        </button>
+                        <button type="button" class="btn btn-primary" id="update">
+                            <span class="btn-icon cil-reload mr-2"></span> Update
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
