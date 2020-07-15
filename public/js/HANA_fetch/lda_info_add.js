@@ -25,14 +25,14 @@ function ldaJSONToTable(data) {
 
     var tr = table.insertRow(-1);                   // TABLE ROW.
 
-    for ( i = 0; i < col.length; i++) {
+    for (i = 0; i < col.length; i++) {
         var th = document.createElement('th');      // TABLE HEADER.
         th.innerHTML = col[i];
         tr.appendChild(th);
     }
 
     // ADD JSON DATA TO THE TABLE AS ROWS.
-    for ( i = 0; i < data.length; i++) {
+    for (i = 0; i < data.length; i++) {
 
         tr = table.insertRow(-1);
 
@@ -50,34 +50,21 @@ function ldaJSONToTable(data) {
 
 
 // eslint-disable-next-line no-unused-vars
-const lda_info_get = (country_capital) => {   
+const lda_info_get = (country_capital) => {
 
- 
-
-    var year = document.getElementById('select-year').value;
-
-    var url = '/acledLDA?'+'&year='+encodeURIComponent(year)+'&capital=' +
-    encodeURIComponent(country_capital)+' ';
-
+    const year = document.getElementById('select-year').value;
+    const url = `/acledLDA?&year=${year}&capital=${country_capital}`;
 
     btnHandlers.toggleBusy();
-    fetch(url).then((response) => {
-        btnHandlers.toggleBusy();
+    fetch(encodeURI(url))
+        .then(res => res.json())
+        .then((res) => {
+            //console.debug(res);
+            btnHandlers.toggleBusy();
+            btnHandlers.notesBtn.disabled = false;
 
-        response.json().then((data) => {
-            if(data.error){
-                return console.log(data.error)
-            }
-
-            console.log(data.data)
-           
-
-            ldaJSONToTable(data.data);
-
+            ldaJSONToTable(res.data);
+        }).catch(error => {
+            console.error('Error fetching data from /acledLDA', error);
         });
-
-    });
-    
-        
-
 }
