@@ -41,7 +41,7 @@ module.exports = (req, res) => {
         //SQL Query
 
         sql += `
-        SELECT TOP 2000 COORDINATES.ST_AsGeoJSON() as COORDINATES, "event_date", "actor1", "location", "source", "event_type", "fatalities", "country" FROM "AAJULIAN"."ACLED"
+        SELECT TOP 2000 COORDINATES.ST_AsGeoJSON() as COORDINATES, "event_date", "actor1", "location", "source", "event_type", "fatalities", "country" FROM "AAJULIAN"."ACLED_FULL"
         WHERE COORDINATES.ST_Within(
             (SELECT ST_ConvexHullAggr(SHAPE) FROM 
                 (SELECT SHAPE, "capital", "country" FROM "AAJULIAN"."FSI_FINAL"   
@@ -55,7 +55,7 @@ module.exports = (req, res) => {
     } else {
 
         sql += `
-        SELECT TOP 2000 COORDINATES.ST_AsGeoJSON() as COORDINATES, "event_date", "actor1", "location", "source", "event_type", "fatalities", "country" FROM "AAJULIAN"."ACLED"
+        SELECT TOP 2000 COORDINATES.ST_AsGeoJSON() as COORDINATES, "event_date", "actor1", "location", "source", "event_type", "fatalities", "country" FROM "AAJULIAN"."ACLED_FULL"
         WHERE COORDINATES.ST_Within(
             (SELECT ST_ConvexHullAggr(SHAPE) FROM 
                 (SELECT SHAPE, "capital", "country" FROM "AAJULIAN"."FSI_FINAL"   
