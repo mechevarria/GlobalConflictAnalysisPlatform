@@ -10,11 +10,11 @@ module.exports = (req, res) => {
             res.status(500).json({ error: `[Connection error]: ${err.message}` });
         }
 
-        var year = req.query.year
-        var capital = req.query.capital
+        const year = req.query.year
+        const capital = req.query.capital
     
         //SQL Query
-        var sql = 'SELECT * FROM ACLED_LDA_VIEW (PLACEHOLDER."$$yr$$"=>?, PLACEHOLDER."$$capital$$" =>  ? );'
+        let sql = 'SELECT * FROM ACLED_LDA_VIEW (PLACEHOLDER."$$yr$$"=>?, PLACEHOLDER."$$capital$$" =>  ? );'
         const bindParams = [year, capital];
 
         console.log(sql, bindParams)
