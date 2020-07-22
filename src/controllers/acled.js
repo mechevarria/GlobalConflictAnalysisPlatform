@@ -8,6 +8,10 @@ module.exports = (req, res) => {
     // var region = req.query.region;
     var capital = req.query.capital;
 
+    var slider = req.query.slider;
+
+    var covid_data = slider == 'true' ? 8000000 : 0;
+
     var eventsList = [
         { name: 'Battles', type: req.query.battles },
         { name: 'Explosions%', type: req.query.explosions },
@@ -38,6 +42,8 @@ module.exports = (req, res) => {
             bindParams.push(eventsList[i].name);
         }
 
+        
+
         //SQL Query
 
         sql += `
@@ -50,6 +56,7 @@ module.exports = (req, res) => {
             )) = 1	
         AND ("event_type" LIKE ${addedSQL} )
         AND "year" = ?
+        AND "data_id" >= ?
         ORDER BY RAND();
         `
     } else {
@@ -63,10 +70,12 @@ module.exports = (req, res) => {
                 )
             )) = 1	
         AND "year" = ?
+        AND "data_id" >= ?
         ORDER BY RAND();
         `
     }
     bindParams.push(year);
+    bindParams.push(parseInt(covid_data));
 
     //HANA DB Connection and call
     connection.connect(config, (err) => {

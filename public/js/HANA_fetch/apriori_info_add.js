@@ -64,9 +64,14 @@ const apriori_info_get = (country_capital) => {
         'year': document.getElementById('select-year').value
     }
 
-    console.info(events_obj);
+    var slider_on = document.getElementsByClassName('c-switch-input')[0].checked;
 
-    const url = `/acledApriori?battles=${events_obj.battles}&explosions=${events_obj.explosions}&protests=${events_obj.protests}&riots=${events_obj.riots}&strategic=${events_obj.strategic}&violence=${events_obj.violence}&year=${events_obj.year}&capital=${country_capital}`;
+    console.log(country_capital);
+
+    const url = `/acledApriori?battles=${events_obj.battles}&explosions=${events_obj.explosions}&protests=${events_obj.protests}&riots=${events_obj.riots}&strategic=${events_obj.strategic}&violence=${events_obj.violence}&year=${events_obj.year}&capital=${encodeURIComponent(country_capital)}&slider=${slider_on}
+    `;
+
+    console.log(url);
 
     btnHandlers.toggleBusy();
     fetch(encodeURI(url))

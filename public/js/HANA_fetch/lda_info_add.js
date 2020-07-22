@@ -53,7 +53,8 @@ function ldaJSONToTable(data) {
 const lda_info_get = (country_capital) => {
 
     const year = document.getElementById('select-year').value;
-    const url = `/acledLDA?&year=${year}&capital=${country_capital}`;
+    var slider_on = document.getElementsByClassName('c-switch-input')[0].checked;
+    const url = `/acledLDA?&year=${year}&capital=${country_capital}&slider=${slider_on}`;
 
     btnHandlers.toggleBusy();
     fetch(encodeURI(url))

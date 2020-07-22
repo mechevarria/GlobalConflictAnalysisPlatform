@@ -73,12 +73,15 @@ function zoomToFeature(e) {
     }
 
     var dbscanLayer;
-
+    var slider_on = document.getElementsByClassName('c-switch-input')[0].checked;
 
 
     var url = '/acledDBSCAN?battles='+encodeURIComponent(events_obj.battles)+'&explosions='+encodeURIComponent(events_obj.explosions)+
             '&protests='+encodeURIComponent(events_obj.protests)+'&riots='+encodeURIComponent(events_obj.riots)+'&strategic='+encodeURIComponent(events_obj.strategic)+
-            '&violence='+encodeURIComponent(events_obj.violence)+'&region='+encodeURIComponent(events_obj.region)+'&year='+encodeURIComponent(events_obj.year)+' '
+            '&violence='+encodeURIComponent(events_obj.violence)+'&region='+encodeURIComponent(events_obj.region)+'&year='+encodeURIComponent(events_obj.year)+'&slider='+
+            encodeURIComponent(slider_on)+' ';
+
+    console.log(url)        
 
     btnHandlers.toggleBusy();
     fetch(url).then((response) => {

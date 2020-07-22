@@ -11,8 +11,13 @@ module.exports = (req, res) => {
             res.status(500).json({ error: `[Connection error]: ${err.message}` });
         }
 
-        const year = req.query.year
-        const capital = req.query.capital
+        const year = req.query.year;
+        const capital = decodeURIComponent(req.query.capital);
+        const slider = req.query.slider;
+
+        const covid_data = slider == 'true' ? 8000000 : 0;
+
+        console.log(capital);
 
         const eventsList = [
             { name: 'Battles', type: req.query.battles },
@@ -29,7 +34,7 @@ module.exports = (req, res) => {
 
         let sql = '';
 
-        const bindParams = [parseInt(year), capital];
+        const bindParams = [parseInt(year), capital, parseInt(covid_data)];
         if (eventsList.length >= 1) {
 
             let addedSQL = '';
@@ -45,7 +50,7 @@ module.exports = (req, res) => {
 
             //SQL Query
             sql +=
-                `SELECT TOP 30 ANTECEDENT, CONSEQUENT, CONFIDENCE FROM ACLED_APRIORI_VIEW (PLACEHOLDER."$$yr$$"=>?, PLACEHOLDER."$$capital$$" =>  ? )
+                `SELECT TOP 30 ANTECEDENT, CONSEQUENT, CONFIDENCE FROM ACLED_APRIORI_VIEW (PLACEHOLDER."$$yr$$"=>?, PLACEHOLDER."$$capital$$" =>  ?, PLACEHOLDER."$$covid$$"=>?)
                 WHERE CONSEQUENT LIKE ${addedSQL}
                 ORDER BY LIFT, CONFIDENCE DESC;
                 `

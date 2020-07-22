@@ -9,9 +9,13 @@ module.exports = (req, res) => {
 
   let fsi_year = year;
 
-  if (fsi_year == 2020) {
-    fsi_year = 2019;
-  }
+  // if (fsi_year == 2020) {
+  //   fsi_year = 2019;
+  // }
+
+  var slider = req.query.slider;
+
+  var covid_data = slider == 'true' ? 8000000 : 0;
 
   const eventsList = [
     { name: 'Battles', type: req.query.battles },
@@ -24,7 +28,7 @@ module.exports = (req, res) => {
     return input.type === 'true'
   });
 
-  const bindParams = [region, parseInt(fsi_year), region, parseInt(fsi_year)];
+  const bindParams = [region, parseInt(fsi_year)-1, region, parseInt(fsi_year)-1];
   let sql = '';
 
   if (eventsList.length >= 1) {
@@ -42,8 +46,8 @@ module.exports = (req, res) => {
 
     sql = `
   
-        SELECT "cluster_id", st_unionAggr("COORDINATES").ST_AlphaShape(0.405).ST_AsGeoJSON() as "cluster" FROM (
-          (SELECT ST_ClusterID() OVER (CLUSTER BY "COORDINATES" USING DBSCAN EPS 0.301 MINPTS 4) AS "cluster_id" , COORDINATES FROM "AAJULIAN"."ACLED_FULL"
+        SELECT "cluster_id", st_unionAggr("COORDINATES").ST_AlphaShape(0.655).ST_AsGeoJSON() as "cluster" FROM (
+          (SELECT ST_ClusterID() OVER (CLUSTER BY "COORDINATES" USING DBSCAN EPS 0.481 MINPTS 6) AS "cluster_id" , COORDINATES FROM "AAJULIAN"."ACLED_FULL"
             WHERE COORDINATES.ST_Within((SELECT ST_ConvexHullAggr(SHAPE) FROM 
                 (SELECT SHAPE, "capital", SCORE, CONFIDENCE, "country", RANK() OVER (PARTITION BY "country" ORDER BY CONFIDENCE desc) FROM "AAJULIAN"."FSI_FINAL"   
                   WHERE "region" LIKE ? AND "year" = ?))) = 1	AND
@@ -51,7 +55,9 @@ module.exports = (req, res) => {
                 (SELECT SHAPE, "capital", SCORE, CONFIDENCE, "country", RANK() OVER (PARTITION BY "country" ORDER BY CONFIDENCE desc) FROM "AAJULIAN"."FSI_FINAL"   
                   WHERE "region" LIKE ? AND "year" = ?))) = 1
             AND ("event_type" LIKE ${addedSQL})
-            AND "year" =?)
+            AND "year" =?
+            AND "data_id" >= ?
+            )
             )
             where "cluster_id" <> 0
             group by "cluster_id"
@@ -69,14 +75,19 @@ module.exports = (req, res) => {
                 COORDINATES.ST_CoveredBy((SELECT ST_ConvexHullAggr(SHAPE) FROM 
                 (SELECT SHAPE, "capital", SCORE, CONFIDENCE, "country", RANK() OVER (PARTITION BY "country" ORDER BY CONFIDENCE desc) FROM "AAJULIAN"."FSI_FINAL"   
                   WHERE "region" LIKE ? AND "year" = ?))) = 1
-            AND "year" = ?)		
+            AND "year" = ?
+            AND "data_id" >= ?
+            )		
             )
             where "cluster_id" <> 0
             group by "cluster_id"
         
         `
   }
+
+  console.log(sql);
   bindParams.push(parseInt(year));
+  bindParams.push(parseInt(covid_data))
   //HANA DB Connection and call
   connection.connect(config, (err) => {
     //catches errors
