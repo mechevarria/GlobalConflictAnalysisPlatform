@@ -11,7 +11,7 @@ module.exports = (req, res) => {
         }
 
         const year = req.query.year;
-        const capital = req.query.capital;
+        const capital = decodeURIComponent(req.query.capital);
         const slider = req.query.slider;
 
         var covid_data = slider == 'true' ? 8000000 : 0;
