@@ -34,7 +34,7 @@ module.exports = (req, res) => {
 
         let sql = '';
 
-        const bindParams = [parseInt(year), capital, parseInt(covid_data)];
+        const bindParams = [parseInt(year), capital];
         if (eventsList.length >= 1) {
 
             let addedSQL = '';
@@ -54,7 +54,7 @@ module.exports = (req, res) => {
                 WHERE CONSEQUENT LIKE ${addedSQL}
                 ORDER BY LIFT, CONFIDENCE DESC;
                 `
-
+            bindParams.push(parseInt(covid_data));
         } else {
 
             //SQL Query
@@ -70,16 +70,11 @@ module.exports = (req, res) => {
 
             if (err) {
                 res.status(500).json({ error: `[SQL execute error]: ${err.message}` });
+            } else {
+                res.status(200).json({
+                    data: rows
+                });
             }
-
-            //Sends the data to the client
-
-            //  console.log("Results:", rows);
-            //  console.log(`Query '${sql}' returned ${rows.length} items`);
-
-            res.send({
-                data: rows
-            })
         });
     });
 };

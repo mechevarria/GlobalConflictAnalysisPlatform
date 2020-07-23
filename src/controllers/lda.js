@@ -15,8 +15,6 @@ module.exports = (req, res) => {
         const slider = req.query.slider;
 
         var covid_data = slider == 'true' ? 8000000 : 0;
-
-        console.log(capital);
     
         //SQL Query
         let sql = 'SELECT * FROM ACLED_LDA_VIEW (PLACEHOLDER."$$yr$$"=>?, PLACEHOLDER."$$capital$$" =>  ?, PLACEHOLDER."$$covid$$"=> ?);'
@@ -29,16 +27,11 @@ module.exports = (req, res) => {
 
             if (err) {
                 res.status(500).json({ error: `[SQL execute error]: ${err.message}` });
+            } else {
+                res.status(200).json({
+                    data: rows
+                });
             }
-
-            //Sends the data to the client
-
-            //  console.log("Results:", rows);
-            //  console.log(`Query '${sql}' returned ${rows.length} items`);
-
-            res.send({
-                data: rows
-            });
         });
     });
 };

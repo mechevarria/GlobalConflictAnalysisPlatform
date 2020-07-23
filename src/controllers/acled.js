@@ -90,17 +90,12 @@ module.exports = (req, res) => {
             connection.disconnect();
 
             if (err) {
-                return console.error('SQL execute error:', err);
+                res.status(500).json({ error: `[SQL Execute error]: ${err.message}` });
+            } else {
+                res.status(200).json({
+                    data: rows
+                });
             }
-
-            //Sends the data to the client
-
-            //  console.log("Results:", rows);
-            //  console.log(`Query '${sql}' returned ${rows.length} items`);
-
-            res.send({
-                data: rows
-            })
         });
     });
 };

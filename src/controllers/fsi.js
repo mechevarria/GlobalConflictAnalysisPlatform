@@ -7,7 +7,7 @@ module.exports = (req, res) => {
 
     console.log(year, region)
 
-    if(year == 2020){
+    if (year == 2020) {
         year = 2019;
     }
 
@@ -40,23 +40,19 @@ module.exports = (req, res) => {
         WHERE RANKS = 1
         `;
 
-        console.log(sql)
-        connection.exec(sql, [region, year], (err, rows) => {
+        const bindParams = [region, parseInt(year)];
+        console.log(sql, bindParams)
+        connection.exec(sql, bindParams, (err, rows) => {
             // console.log('Here')
             connection.disconnect();
 
             if (err) {
-                return console.error('SQL execute error:', err);
+                res.status(500).json({ error: `[SQL execute error]: ${err.message}` });
+            } else {
+                res.status(200).json({
+                    data: rows
+                });
             }
-
-            //Sends the data to the client
-
-            //  console.log("Results:", rows);
-            //  console.log(`Query '${sql}' returned ${rows.length} items`);
-
-            res.send({
-                data: rows
-            })
         });
     });
 };
