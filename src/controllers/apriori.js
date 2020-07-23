@@ -59,7 +59,7 @@ module.exports = (req, res) => {
 
             //SQL Query
             sql +=
-                `SELECT TOP 30 * FROM ACLED_APRIORI_VIEW (PLACEHOLDER."$$yr$$"=>?, PLACEHOLDER."$$capital$$" => ?)
+                `SELECT TOP 30 * FROM ACLED_APRIORI_VIEW (PLACEHOLDER."$$yr$$"=>?, PLACEHOLDER."$$capital$$" => ?, PLACEHOLDER."$$covid$$"=>?)
             ORDER BY LIFT, CONFIDENCE DESC;
             `
         }
