@@ -8,7 +8,7 @@ module.exports = (req, res) => {
     connection.connect(config, (err) => {
         //catches errors
         if (err) {
-            res.status(500).json({ error: `[Connection error]: ${err.message}` });
+            return res.status(500).json({ error: `[Connection error]: ${err.message}` });
         }
 
         const year = req.query.year;
@@ -59,7 +59,7 @@ module.exports = (req, res) => {
 
             //SQL Query
             sql +=
-                `SELECT TOP 30 * FROM ACLED_APRIORI_VIEW (PLACEHOLDER."$$yr$$"=>?, PLACEHOLDER."$$capital$$" => ?)
+                `SELECT TOP 30 * FROM ACLED_APRIORI_VIEW (PLACEHOLDER."$$yr$$"=>?, PLACEHOLDER."$$capital$$" => ?, PLACEHOLDER."$$covid$$"=>?)
             ORDER BY LIFT, CONFIDENCE DESC;
             `
         }
@@ -70,16 +70,9 @@ module.exports = (req, res) => {
 
             if (err) {
                 res.status(500).json({ error: `[SQL execute error]: ${err.message}` });
+            } else {
+                res.status(200).send({ data: rows });
             }
-
-            //Sends the data to the client
-
-            //  console.log("Results:", rows);
-            //  console.log(`Query '${sql}' returned ${rows.length} items`);
-
-            res.send({
-                data: rows
-            })
         });
     });
 };

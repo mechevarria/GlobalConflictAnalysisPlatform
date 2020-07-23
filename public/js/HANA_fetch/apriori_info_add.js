@@ -80,6 +80,9 @@ const apriori_info_get = (country_capital) => {
         .then(res => res.json())
         .then(res => {
             btnHandlers.toggleBusy();
+            if(res.error) {
+                throw new Error(res.error);
+            }
             jsonToTable(res.data);
             btnHandlers.eventBtn.disabled = false;
             lda_info_get(country_capital);

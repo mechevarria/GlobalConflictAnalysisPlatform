@@ -60,8 +60,10 @@ const lda_info_get = (country_capital) => {
     fetch(url)
         .then(res => res.json())
         .then((res) => {
-            //console.debug(res);
             btnHandlers.toggleBusy();
+            if (res.error) {
+                throw new Error(res.error);
+            }
             btnHandlers.notesBtn.disabled = false;
 
             ldaJSONToTable(res.data);

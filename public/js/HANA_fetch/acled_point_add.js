@@ -126,7 +126,7 @@ const acled_point_get = (capital) => { // eslint-disable-line no-unused-vars
 
         response.json().then((data) => {
             if (data.error) {
-                return console.log(data.error)
+                return console.error(data.error)
             }
 
 
