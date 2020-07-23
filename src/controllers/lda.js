@@ -7,7 +7,7 @@ module.exports = (req, res) => {
     connection.connect(config, (err) => {
         //catches errors
         if (err) {
-            res.status(500).json({ error: `[Connection error]: ${err.message}` });
+            return res.status(500).json({ error: `[Connection error]: ${err.message}` });
         }
 
         const year = req.query.year;

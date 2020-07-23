@@ -81,7 +81,7 @@ module.exports = (req, res) => {
     connection.connect(config, (err) => {
         //catches errors
         if (err) {
-            return console.error('Connection error', err);
+            return res.status(500).json({ error: `[Connection error]: ${err.message}` });
         }
 
         console.log(sql, bindParams)
