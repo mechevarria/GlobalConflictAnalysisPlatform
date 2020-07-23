@@ -4,11 +4,11 @@ WORKDIR /usr/src/app
 
 COPY .npmrc ./
 
-COPY .eslintrc ./
-
 COPY package*.json ./
 
 RUN npm install
+
+COPY .eslintrc ./
 
 COPY . .
 
