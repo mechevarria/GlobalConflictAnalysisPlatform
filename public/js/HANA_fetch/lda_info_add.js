@@ -54,10 +54,10 @@ const lda_info_get = (country_capital) => {
 
     const year = document.getElementById('select-year').value;
     var slider_on = document.getElementsByClassName('c-switch-input')[0].checked;
-    const url = `/acledLDA?&year=${year}&capital=${country_capital}&slider=${slider_on}`;
+    const url = `/acledLDA?&year=${year}&capital=${encodeURIComponent(country_capital)}&slider=${slider_on}`;
 
     btnHandlers.toggleBusy();
-    fetch(encodeURI(url))
+    fetch(url)
         .then(res => res.json())
         .then((res) => {
             //console.debug(res);
