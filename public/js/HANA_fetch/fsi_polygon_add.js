@@ -101,7 +101,7 @@ function zoomToFeature(e) {
         response.json().then((data) => {
             btnHandlers.toggleBusy();
             if(data.error){
-                return console.log(data.error)
+                return console.error(data.error)
             }
 
            
