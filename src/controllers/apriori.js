@@ -8,16 +8,16 @@ module.exports = (req, res) => {
     connection.connect(config, (err) => {
         //catches errors
         if (err) {
-            return res.status(500).json({ error: `[Connection error]: ${err.message}` });
+            res.status(500).json({ error: `[Connection error]: ${err.message}` });
         }
 
         const year = req.query.year;
         const capital = decodeURIComponent(req.query.capital);
-        const slider = req.query.slider;
+        const slider = decodeURIComponent(req.query.slider);
 
         const covid_data = slider == 'true' ? 8000000 : 0;
 
-        console.log(capital);
+        console.log(capital, slider);
 
         const eventsList = [
             { name: 'Battles', type: req.query.battles },
@@ -34,7 +34,7 @@ module.exports = (req, res) => {
 
         let sql = '';
 
-        const bindParams = [parseInt(year), capital];
+        const bindParams = [parseInt(year), capital, parseInt(covid_data)];
         if (eventsList.length >= 1) {
 
             let addedSQL = '';
@@ -54,7 +54,7 @@ module.exports = (req, res) => {
                 WHERE CONSEQUENT LIKE ${addedSQL}
                 ORDER BY LIFT, CONFIDENCE DESC;
                 `
-            bindParams.push(parseInt(covid_data));
+
         } else {
 
             //SQL Query
@@ -70,11 +70,16 @@ module.exports = (req, res) => {
 
             if (err) {
                 res.status(500).json({ error: `[SQL execute error]: ${err.message}` });
-            } else {
-                res.status(200).json({
-                    data: rows
-                });
             }
+
+            //Sends the data to the client
+
+            //  console.log("Results:", rows);
+            //  console.log(`Query '${sql}' returned ${rows.length} items`);
+
+            res.send({
+                data: rows
+            })
         });
     });
 };

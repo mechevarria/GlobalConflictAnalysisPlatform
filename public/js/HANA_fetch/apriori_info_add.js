@@ -66,15 +66,17 @@ const apriori_info_get = (country_capital) => {
 
     var slider_on = document.getElementsByClassName('c-switch-input')[0].checked;
 
-    console.log(country_capital);
 
-    const url = `/acledApriori?battles=${events_obj.battles}&explosions=${events_obj.explosions}&protests=${events_obj.protests}&riots=${events_obj.riots}&strategic=${events_obj.strategic}&violence=${events_obj.violence}&year=${events_obj.year}&capital=${encodeURIComponent(country_capital)}&slider=${slider_on}
+
+    console.log(country_capital, slider_on);
+
+    const url = `/acledApriori?battles=${events_obj.battles}&explosions=${events_obj.explosions}&protests=${events_obj.protests}&riots=${events_obj.riots}&strategic=${events_obj.strategic}&violence=${events_obj.violence}&year=${events_obj.year}&capital=${encodeURIComponent(country_capital)}&slider=${encodeURIComponent(slider_on)}
     `;
 
     console.log(url);
 
     btnHandlers.toggleBusy();
-    fetch(encodeURI(url))
+    fetch(url)
         .then(res => res.json())
         .then(res => {
             btnHandlers.toggleBusy();
