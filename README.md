@@ -1,11 +1,10 @@
 # Global Conflict Analysis Platform
 
-Data Visualization frontend that is deployable on both [Heroku](https://www.heroku.com/) and [SAP Cloud Platform](https://cloudplatform.sap.com/index.html)
+Data Visualization frontend that is deployable locally, with docker or on [SAP Cloud Platform](https://cloudplatform.sap.com/index.html)
 
 ![screenshot](screenshots/screenshot1.png)
 
 ## Requirements
-* [Mapbox](https://www.mapbox.com/) API key
 * [SAP HANA](https://www.sap.com/products/hana.html) Instance Information
     * Host
     * Port
@@ -30,16 +29,50 @@ export CP_USER=i999888
 export CP_PASSWORD=MyPlatformPass
 ```
 
-### Local
+### Local Development
 * Install dependencies and then run
 
 ```bash
 npm install
-npm run start
+npm run dev
 ```
 * Application with be available at [http://localhost:3000](http://localhost:3000)
 
-### SAP Cloud Platform
-* Login with the `cf-login.sh` script
-* Push the application using the node.js [buildpack](https://docs.cloudfoundry.org/buildpacks/node/index.html) with `cf-push-buildpack.sh`
-* You will be able to view the application route in the SAP Platform Cockpit or you can check the status with `cf app conflict-analysis`
+* Any changes will be hot deployed
+
+### Docker Container
+
+> Requires a remote registry to deploy to an external PaaS such as [SAP Cloud Platform](https://cloudplatform.sap.com/index.html.). You can create a free repository and acount at [quay.io](https://quay.io) 
+
+* Build the container and push to a remote repository with
+```bash
+./docker-build.sh
+```
+
+* Run the container with 
+```bash
+./docker-run.sh
+```
+
+## SAP Cloud Platform
+
+* Login with the `cf-login.sh` script to connect your local command line client with the platform.
+
+### Deploy from source code
+
+* SAP Cloud Platform can assemble your container on the platform. Push the application using the [node.js buildpack](https://docs.cloudfoundry.org/buildpacks/node/index.html) with 
+```bash
+./cf-push-buildpack.sh
+```
+
+### Deploy docker container
+
+* SAP Cloud Platform can pull an image from a remote registry and run as a container with
+```
+./cf-push-docker.sh
+```
+
+* You will be able to view the application route in the SAP Platform Cockpit or you can check the status with 
+```bash
+cf app gca-express
+```
