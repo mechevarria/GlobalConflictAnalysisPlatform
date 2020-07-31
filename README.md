@@ -60,6 +60,16 @@ npm run dev
 
 * Login with the `cf-login.sh` script to connect your local command line client with the platform.
 
+### SAP HANA Enterprise on Cloud Platform
+
+* Getting the connection information for the application by querying the deployed service with the following command
+
+```bash
+cf service-key gca-db gca-db-key
+```
+
+* The properties to use are **host, port, user, password**
+
 ### Deploy from source code
 
 * SAP Cloud Platform can assemble your container on the platform. Push the application using the [node.js buildpack](https://docs.cloudfoundry.org/buildpacks/node/index.html) with 
