@@ -7,7 +7,10 @@ const db = {
         host: process.env.HDB_HOST,
         port: process.env.HDB_PORT,
         user: process.env.HDB_USER,
-        password: process.env.HDB_PASSWORD
+        password: process.env.HDB_PASSWORD,
+        encrypt: true,
+        sslValidateCertificate: false,
+        currentSchema: process.env.HDB_SCHEMA || 'HANA'
     }
 }
 const middleware = (req, res, next) => {
