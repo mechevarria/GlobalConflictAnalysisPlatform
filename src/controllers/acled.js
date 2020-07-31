@@ -65,7 +65,7 @@ module.exports = (req, res) => {
         SELECT TOP 2000 COORDINATES.ST_AsGeoJSON() as COORDINATES, "event_date", "actor1", "location", "source", "event_type", "fatalities", "country" FROM "ACLED_FULL"
         WHERE COORDINATES.ST_Within(
             (SELECT ST_ConvexHullAggr(SHAPE) FROM 
-                (SELECT SHAPE, "capital", "country" FROM ."FSI_FINAL"   
+                (SELECT SHAPE, "capital", "country" FROM "FSI_FINAL"   
                     WHERE "capital" = ?
                 )
             )) = 1	
