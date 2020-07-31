@@ -17,12 +17,14 @@ Data Visualization frontend that is deployable locally, with docker or on [SAP C
 * Add the following environment variables to `$HOME/.bashrc` or `$HOME/.profile`. These are **example** values only.
 
 ``` bash
-# Required for application
+# Required for application. Connection uses SSL by default
 export HDB_HOST=99.11.000.555
 export HDB_PORT=10099
 export HDB_USER=hanaUser
 export HDB_PASSWORD=1hanaPassword
-export MAPBOX_TOKEN=pk.veryLongValue
+
+# Optional, defaults to 'HANA' if not set
+export HDB_SCHEMA=mySchema
 
 # For deployment on SAP Cloud Platform
 export CP_USER=i999888
