@@ -1,10 +1,12 @@
 # Global Conflict Analysis Platform
 
-Data Visualization frontend that is deployable locally, with docker or on [SAP Cloud Platform](https://cloudplatform.sap.com/index.html)
+Data Visualization frontend that is deployable locally, with docker or on [SAP Cloud Platform](https://cloudplatform.sap.com/index.html). The supporting data is availabe at the [gca-db](https://github.com/openNS2/gca-db) repository
 
 ![screenshot](screenshots/screenshot1.png)
 
 ## Requirements
+
+* [GCA-DB](https://github.com/openNS2/gca-db) project deployed on SAP Cloud Platform or the data from the repository deployed on a separate on-prem/cloud SAP HANA instance.
 * [SAP HANA](https://www.sap.com/products/hana.html) Instance Information
     * Host
     * Port
