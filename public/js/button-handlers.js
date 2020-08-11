@@ -34,11 +34,11 @@ class ButtonHandlers {
 
         this.eventBtn.onclick = () => {
             this.eventModal.show();
-        }
+        };
 
         this.notesBtn.onclick = () => {
             this.notesModal.show();
-        }
+        };
     }
 }
 

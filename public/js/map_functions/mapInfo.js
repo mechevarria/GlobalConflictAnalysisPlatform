@@ -30,7 +30,7 @@ mapInfo.updatePoint = function (props) {
 
 mapInfo.updateDBSCAN = function () {
 
-    this._div.innerHTML = '<h4>DBSCAN map</h4>' //+  (props ?
+    this._div.innerHTML = '<h4>DBSCAN map</h4>'; //+  (props ?
     // '<b> Country : ' + props.COUNTRY + '</b><br />' + '<b>GBRF RESULT : '+ props.SCORE +'</b><br />'+ '<b>CONFIDENCE : '+ props.CONFIDENCE.toFixed(3).toString() +'</b><br />'
     // : 'Hover over a country');
 };

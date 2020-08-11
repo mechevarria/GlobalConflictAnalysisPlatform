@@ -30,7 +30,7 @@ const acled_point_get = (capital) => { // eslint-disable-line no-unused-vars
                 color = '#636f83'; // brand dark
         }
         return color;
-    }
+    };
 
     //Filter criteria
     var acledLayer;
@@ -59,7 +59,7 @@ const acled_point_get = (capital) => { // eslint-disable-line no-unused-vars
         layer.on({
             mouseover: highlightFeature,
             mouseout: resetHighlight
-        })
+        });
 
         // coords.push(feature.geometry.coordinates);
     }
@@ -109,7 +109,7 @@ const acled_point_get = (capital) => { // eslint-disable-line no-unused-vars
         'violence': document.getElementById('violence-check').value,
         'region': document.getElementById('select-region').value,
         'year': document.getElementById('select-year').value
-    }
+    };
 
     var slider_on = document.getElementsByClassName('c-switch-input')[0].checked;
 
@@ -126,7 +126,7 @@ const acled_point_get = (capital) => { // eslint-disable-line no-unused-vars
 
         response.json().then((data) => {
             if (data.error) {
-                return console.error(data.error)
+                return console.error(data.error);
             }
 
 
@@ -148,9 +148,9 @@ const acled_point_get = (capital) => { // eslint-disable-line no-unused-vars
                         'popupContent': 'LOCATION: ' + data.location + '\nEVENT: ' + data.event_type + '\nSOURCE: ' + data.source + '\nDATE: ' + data.event_date + ' ' + data.country
                     },
                     'geometry': JSON.parse(data.COORDINATES),
-                })
+                });
 
-                geos.push(JSON.parse(data.COORDINATES))
+                geos.push(JSON.parse(data.COORDINATES));
             });
 
 
@@ -175,7 +175,7 @@ const acled_point_get = (capital) => { // eslint-disable-line no-unused-vars
                 },
                 onEachFeature: onEachFeature
 
-            })
+            });
 
             acledLayerGroup.addLayer(acledLayer);
 
@@ -187,7 +187,7 @@ const acled_point_get = (capital) => { // eslint-disable-line no-unused-vars
                 'maxZoom': 9,
                 'radius': 12,
                 'gradient': { 0.35: 'blue', 0.45: 'lime', 1: 'red' }
-            }
+            };
             var heat = L.heatLayer(coords, options);
 
             acledHeatLayer.addLayer(heat);
@@ -200,4 +200,4 @@ const acled_point_get = (capital) => { // eslint-disable-line no-unused-vars
 
     });
 
-}
+};

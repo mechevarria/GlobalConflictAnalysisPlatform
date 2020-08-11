@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 function ldaJSONToTable(data) {
 
@@ -70,4 +70,4 @@ const lda_info_get = (country_capital) => {
         }).catch(error => {
             console.error('Error fetching data from /acledLDA', error);
         });
-}
+};

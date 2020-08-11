@@ -327,4 +327,4 @@ const apriori_info_get = (country_capital) => {
         }).catch(error => {
             console.error('Error fetching data from /acledApriori', error);
         });
-}
+};
