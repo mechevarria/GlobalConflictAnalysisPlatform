@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+service=gca-db
+status=$(cf service $service | sed -n 3p)
+if [[ $status = "FAILED" ]]; then
+  exit 1
+fi
+
 app=gca-express
 
 cf push $app \
@@ -8,9 +14,7 @@ cf push $app \
     --docker-image quay.io/mechevarria/$app \
     --no-start
 
-cf se $app HDB_HOST $HDB_HOST
-cf se $app HDB_PORT $HDB_PORT
-cf se $app HDB_USER $HDB_USER
-cf se $app HDB_PASSWORD $HDB_PASSWORD
+# bind hana service
+cf bind-service $app $service
 
 cf start $app
