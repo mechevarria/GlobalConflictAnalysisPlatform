@@ -6,12 +6,7 @@ Data Visualization frontend that is deployable locally, with docker or on [SAP C
 
 ## Requirements
 
-* [GCA-DB](https://github.com/openNS2/gca-db) project deployed on SAP Cloud Platform or the data from the repository deployed on a separate on-prem/cloud SAP HANA instance.
-* [SAP HANA](https://www.sap.com/products/hana.html) Instance Information
-    * Host
-    * Port
-    * Username
-    * Password
+* [GCA-DB](https://github.com/openNS2/gca-db) project deployed on SAP Cloud Platform as an available service.
 * [node.js](https://nodejs.org/en/) for local development
 * [Cloud Foundry CLI](https://docs.cloudfoundry.org/cf-cli/) for deployment on SAP Cloud Platform
 
@@ -19,26 +14,17 @@ Data Visualization frontend that is deployable locally, with docker or on [SAP C
 * Add the following environment variables to `$HOME/.bashrc` or `$HOME/.profile`. These are **example** values only.
 
 ``` bash
-# Required for application. Connection uses SSL by default
-export HDB_HOST=99.11.000.555
-export HDB_PORT=10099
-export HDB_USER=hanaUser
-export HDB_PASSWORD=1hanaPassword
-
-# Optional, defaults to 'HANA' if not set
-export HDB_SCHEMA=mySchema
-
 # For deployment on SAP Cloud Platform
 export CP_USER=i999888
 export CP_PASSWORD=MyPlatformPass
 ```
 
 ### Local Development
-* Install dependencies and then run
+* Install dependencies and then run the script that will query the database service connection values and put in a temporary file
 
 ```bash
 npm install
-npm run dev
+./local-run.sh
 ```
 * Application with be available at [http://localhost:3000](http://localhost:3000)
 
