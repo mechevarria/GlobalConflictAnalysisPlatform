@@ -1,18 +1,27 @@
-'use strict'
+'use strict';
 
 //FOR GRABBING PARENT ID FOR SECOND LAYER
 const secondParentSort = (dataElement) => {
 
-    console.log(dataElement);
-
-    return /protest/.test(dataElement) ? 1.1 :
-    /battle/.test(dataElement) ? 1.3 :
-    /explosion/.test(dataElement) ? 1.4 :
-    /riots/.test(dataElement) ? 1.5 :
-    /strategic/.test(dataElement) ? 1.6 :
-    /violence/.test(dataElement) ? 1.2 :
-        console.log('SECONDARY SORT ERROR') 
-}
+    if (dataElement.includes('Protest')) {
+        return 1.1;
+    } else if (dataElement.includes('Battle')) {
+        return 1.3;
+    } else if (dataElement.includes('Explosion')) {
+        return 1.4;
+    } else if (dataElement.includes('Riots')) {
+        return 1.5;
+    } else if (dataElement.includes('Strategic')) {
+        return 1.6;
+    } else if (dataElement.includes('Violence')) {
+        return 1.2;
+    } else if (dataElement.includes('Attack')) {
+        return 1.7;
+    } else {
+        console.error('Secondary Sort Error', `dataElement=${dataElement}`);
+        return null;
+    }
+};
 
 //FOR CLEANING TEXT OF SECOND AND THIRD LAYERS
 const antecedentClean = (dataElement, parentID, secondaryID, tertiaryID) => {
@@ -22,115 +31,115 @@ const antecedentClean = (dataElement, parentID, secondaryID, tertiaryID) => {
 
     var dollarTextPattern = /\$([a-z]|[0-9]| \( | \) | \s| -) {0,40}\$/;
     var ampPattern = /\$[^*]{0,35}&/;
- 
-    if(/&/.test(dataElement.ANTECEDENT)){
 
-        console.log('IF')
-        
-        var extractedDirty = /\$(.*?) &/.exec(dataElement.ANTECEDENT)
+    if (/&/.test(dataElement.ANTECEDENT)) {
+
+        console.log('IF');
+
+        var extractedDirty = /\$(.*?) &/.exec(dataElement.ANTECEDENT);
         console.log(extractedDirty[0]);
 
-        var secondLevelDirty = /\$(.*?)\$/.exec(extractedDirty[0])
+        var secondLevelDirty = /\$(.*?)\$/.exec(extractedDirty[0]);
         console.log(secondLevelDirty);
         var secondLevelClean = secondLevelDirty[0].replace(/\$/ig, '');
 
-        var thirdLevelDirty = /&\$(.*?)\$/.exec(dataElement.ANTECEDENT)
+        var thirdLevelDirty = /&\$(.*?)\$/.exec(dataElement.ANTECEDENT);
         console.log(thirdLevelDirty);
-        var thirdLevelClean = thirdLevelDirty[0].replace(/(\$|&)/ig,'');
+        var thirdLevelClean = thirdLevelDirty[0].replace(/(\$|&)/ig, '');
 
 
 
 
 
-        return [{id: ((secondaryID+0.001).toFixed(3)).toString(), parent: parentID.toString(), name: secondLevelClean}, 
-            {id: ((tertiaryID+0.001).toFixed(3)).toString(), parent: ((secondaryID+0.001).toFixed(3)).toString(), name: thirdLevelClean, value: dataElement.SCORE}]
-    
+        return [{ id: ((secondaryID + 0.001).toFixed(3)).toString(), parent: parentID.toString(), name: secondLevelClean },
+        { id: ((tertiaryID + 0.001).toFixed(3)).toString(), parent: ((secondaryID + 0.001).toFixed(3)).toString(), name: thirdLevelClean, value: dataElement.SCORE }];
 
-    }else{
 
-        console.log('ELSE')
+    } else {
+
+        console.log('ELSE');
 
         secondLevelDirty = dataElement.ANTECEDENT;//dollarTextPattern.exec(dataElement.ANTECEDENT);
 
         //console.log(secondLevelDirty);
         secondLevelClean = secondLevelDirty.replace(/\$/ig, '');
-        return [{id: ((secondaryID+0.001).toFixed(3)).toString(), parent: parentID.toString(), name: secondLevelClean},
-        {id: ((tertiaryID+0.001).toFixed(3)).toString(), parent: ((secondaryID+0.001).toFixed(3)).toString(), name: secondLevelClean, value: dataElement.SCORE}];
+        return [{ id: ((secondaryID + 0.001).toFixed(3)).toString(), parent: parentID.toString(), name: secondLevelClean },
+        { id: ((tertiaryID + 0.001).toFixed(3)).toString(), parent: ((secondaryID + 0.001).toFixed(3)).toString(), name: secondLevelClean, value: dataElement.SCORE }];
 
     }
 
-}
+};
 
 
 const addViz = (dataList) => {
 
     // Splice in transparent for the center circle
-Highcharts.getOptions().colors.splice(0, 0, 'transparent');
+    Highcharts.getOptions().colors.splice(0, 0, 'transparent');
 
 
-Highcharts.chart('container', {
+    Highcharts.chart('container', {
 
-    chart: {
-        height: '100%'
-    },
-
-    title: {
-        text: 'Event Group Analysis'
-    },
-    subtitle: {
-        text: 'Apriori Association Algorithm on ACLED events data has produced this visualization'
-    },
-    series: [{
-        type: 'sunburst',
-        data: dataList,
-        allowDrillToNode: true,
-        cursor: 'pointer',
-        dataLabels: {
-            format: '{point.name}',
-            filter: {
-                property: 'innerArcLength',
-                operator: '>',
-                value: 16
-            },
-            rotationMode: 'circular'
+        chart: {
+            height: '100%'
         },
-        levels: [{
-            level: 1,
-            levelIsConstant: false,
+
+        title: {
+            text: 'Event Group Analysis'
+        },
+        subtitle: {
+            text: 'Apriori Association Algorithm on ACLED events data has produced this visualization'
+        },
+        series: [{
+            type: 'sunburst',
+            data: dataList,
+            allowDrillToNode: true,
+            cursor: 'pointer',
             dataLabels: {
+                format: '{point.name}',
                 filter: {
-                    property: 'outerArcLength',
+                    property: 'innerArcLength',
                     operator: '>',
-                    value: 64
+                    value: 16
+                },
+                rotationMode: 'circular'
+            },
+            levels: [{
+                level: 1,
+                levelIsConstant: false,
+                dataLabels: {
+                    filter: {
+                        property: 'outerArcLength',
+                        operator: '>',
+                        value: 64
+                    }
                 }
-            }
-        }, {
-            level: 2,
-            colorByPoint: true
-        },
-        {
-            level: 3,
-            colorVariation: {
-                key: 'brightness',
-                to: -0.5
-            }
-        }, {
-            level: 4,
-            colorVariation: {
-                key: 'brightness',
-                to: 0.5
-            }
-        }]
+            }, {
+                level: 2,
+                colorByPoint: true
+            },
+            {
+                level: 3,
+                colorVariation: {
+                    key: 'brightness',
+                    to: -0.5
+                }
+            }, {
+                level: 4,
+                colorVariation: {
+                    key: 'brightness',
+                    to: 0.5
+                }
+            }]
 
-    }],
-    tooltip: {
-        headerFormat: '',
-        pointFormat: 'The total Relevance Score of <b>{point.name}</b> is <b>{point.value}</b>'
-    }
-});
+        }],
+        tooltip: {
+            headerFormat: '',
+            pointFormat: 'The total Relevance Score of <b>{point.name}</b> is <b>{point.value}</b>'
+        }
+    });
 
 
-}
+};
 
 
 
@@ -144,11 +153,11 @@ const jsonRegextoViz = (data) => {
         parent: '',
         name: 'Event\nAssociations'
     }, {
-        id : '1.1',
+        id: '1.1',
         parent: '0.0',
         name: 'Protests'
     }, {
-        id : '1.2',
+        id: '1.2',
         parent: '0.0',
         name: 'Violence Against Civilians'
     }, {
@@ -163,10 +172,14 @@ const jsonRegextoViz = (data) => {
         id: '1.5',
         parent: '0.0',
         name: 'Riots'
-    },{
+    }, {
         id: '1.6',
-        parent:'0.0',
+        parent: '0.0',
         name: 'Strategic Developments'
+    }, {
+        id: '1.7',
+        parent: '0.0',
+        name: 'Attack'
     }]; //array to add final data for SunBurst Viz init with center piece and secondary piece
 
     const uniqueEvents = [...new Set(data.map(item => item.CONSEQUENT))]; //getting unique event types
@@ -175,7 +188,7 @@ const jsonRegextoViz = (data) => {
     var secondaryID = 2.000;
     var tertiaryID = 3.000;
 
-    for(var i= 0; i < uniqueEvents.length; i++){
+    for (var i = 0; i < uniqueEvents.length; i++) {
 
 
 
@@ -185,21 +198,21 @@ const jsonRegextoViz = (data) => {
         //console.log(data.CONSEQUENT);
 
         var filteredEvent = data.filter((data) => {
-            
+
             let lft = data.CONSEQUENT.trim();
             let rgt = uniqueEvents[i].trim();
             return lft == rgt;
-        })
+        });
 
         console.log(filteredEvent);
 
         filteredEvent.forEach(element => {
-            
+
             var cleanResults = antecedentClean(element, parentID, secondaryID, tertiaryID);
             console.log(cleanResults);
-            
+
             secondaryID = Number(parseFloat(cleanResults[0].id).toFixed(3));
-            tertiaryID =  Number(parseFloat(cleanResults[1].id).toFixed(3));
+            tertiaryID = Number(parseFloat(cleanResults[1].id).toFixed(3));
 
             console.log(secondaryID);
             console.log(tertiaryID);
@@ -208,7 +221,7 @@ const jsonRegextoViz = (data) => {
 
             cleanResults.forEach((obj) => {
                 vizArray.push(obj);
-            })
+            });
 
             console.log(vizArray);
 
@@ -218,7 +231,7 @@ const jsonRegextoViz = (data) => {
 
     addViz(vizArray);
 
-}
+};
 
 // function jsonToTable(data) {
 
@@ -283,7 +296,7 @@ const apriori_info_get = (country_capital) => {
         'strategic': document.getElementById('strategic-check').value,
         'violence': document.getElementById('violence-check').value,
         'year': document.getElementById('select-year').value
-    }
+    };
 
     var slider_on = document.getElementsByClassName('c-switch-input')[0].checked;
 
@@ -301,7 +314,7 @@ const apriori_info_get = (country_capital) => {
         .then(res => res.json())
         .then(res => {
             btnHandlers.toggleBusy();
-            if(res.error) {
+            if (res.error) {
                 throw new Error(res.error);
             }
             console.log(res);
