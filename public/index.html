@@ -72,8 +72,11 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <table class="table table-hover table-striped table-responsive-sm" id="apriori-info">
-                        </table>
+                        <figure class="sunburst_container">
+                            <div id="container"></div>
+                        </figure>
+                        <!-- <table class="table table-hover table-striped table-responsive-sm" id="apriori-info">
+                        </table> -->
                     </div>
                 </div>
             </div>
@@ -203,11 +206,17 @@
             </div>
         </div>
     </div>
+
     <script src="https://unpkg.com/@coreui/coreui@3.2.2/dist/js/coreui.bundle.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
         integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
         crossorigin="">
         </script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/sunburst.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.17.0/TimelineLite.min.js"></script>
     <script src="js/HANA_fetch/fsi_polygon_add.js"></script>
     <script src="js/HANA_fetch/apriori_info_add.js"></script>

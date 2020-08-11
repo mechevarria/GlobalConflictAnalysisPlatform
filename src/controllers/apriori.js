@@ -20,12 +20,12 @@ module.exports = (req, res) => {
         console.log(capital, slider);
 
         const eventsList = [
-            { name: 'Battles', type: req.query.battles },
-            { name: 'Explosions%', type: req.query.explosions },
-            { name: 'Protests', type: req.query.protests },
-            { name: 'Riots', type: req.query.riots },
-            { name: 'Strategic%', type: req.query.strategic },
-            { name: 'Violence%', type: req.query.violence }
+            { name: 'battles', type: req.query.battles },
+            { name: 'explosions%', type: req.query.explosions },
+            { name: 'protests', type: req.query.protests },
+            { name: 'riots', type: req.query.riots },
+            { name: 'strategic%', type: req.query.strategic },
+            { name: 'violence%', type: req.query.violence }
         ].filter((input) => {
             return input.type === 'true'
         });
@@ -50,9 +50,9 @@ module.exports = (req, res) => {
 
             //SQL Query
             sql +=
-                `SELECT TOP 30 ANTECEDENT, CONSEQUENT, CONFIDENCE FROM ACLED_APRIORI_VIEW (PLACEHOLDER."$$yr$$"=>?, PLACEHOLDER."$$capital$$" =>  ?, PLACEHOLDER."$$covid$$"=>?)
+                `SELECT TOP 100 ANTECEDENT, CONSEQUENT, (SUPPORT + LIFT)*0.25+CONFIDENCE*0.5 as SCORE FROM ACLED_APRIORI_VIEW (PLACEHOLDER."$$yr$$"=>?, PLACEHOLDER."$$capital$$" =>  ?, PLACEHOLDER."$$covid$$"=>?)
                 WHERE CONSEQUENT LIKE ${addedSQL}
-                ORDER BY LIFT, CONFIDENCE DESC;
+                ORDER BY SCORE DESC;
                 `
 
         } else {
