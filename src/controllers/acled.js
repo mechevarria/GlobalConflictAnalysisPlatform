@@ -1,8 +1,7 @@
 'use strict';
 
 module.exports = (req, res) => {
-    let connection = req.db.connection;
-    let config = req.db.config;
+    const hdb = req.db;
 
     var year = req.query.year;
     // var region = req.query.region;
@@ -20,7 +19,7 @@ module.exports = (req, res) => {
         { name: 'Strategic%', type: req.query.strategic },
         { name: 'Violence%', type: req.query.violence }
     ].filter((input) => {
-        return input.type === 'true'
+        return input.type === 'true';
     });
 
     var sql = '';
@@ -42,7 +41,7 @@ module.exports = (req, res) => {
             bindParams.push(eventsList[i].name);
         }
 
-        
+
 
         //SQL Query
 
@@ -58,7 +57,7 @@ module.exports = (req, res) => {
         AND "year" = ?
         AND "data_id" >= ?
         ORDER BY RAND();
-        `
+        `;
     } else {
 
         sql += `
@@ -72,30 +71,22 @@ module.exports = (req, res) => {
         AND "year" = ?
         AND "data_id" >= ?
         ORDER BY RAND();
-        `
+        `;
     }
     bindParams.push(year);
     bindParams.push(parseInt(covid_data));
 
     //HANA DB Connection and call
-    connection.connect(config, (err) => {
-        //catches errors
-        if (err) {
-            return res.status(500).json({ error: `[Connection error]: ${err.message}` });
-        }
-
-        console.log(sql, bindParams)
-        connection.exec(sql, bindParams, (err, rows) => {
-            // console.log('Here')
-            connection.disconnect();
-
-            if (err) {
-                res.status(500).json({ error: `[SQL Execute error]: ${err.message}` });
-            } else {
-                res.status(200).json({
-                    data: rows
-                });
-            }
+    try {
+        const rows = hdb.exec(sql, bindParams);
+        res.status(200).json({
+            data: rows
         });
-    });
+    } catch (err) {
+        console.error(err);
+        console.error(sql, bindParams);
+        res.status(500).json({
+            error: `[SQL Execute error]: ${err.message}`
+        });
+    }
 };

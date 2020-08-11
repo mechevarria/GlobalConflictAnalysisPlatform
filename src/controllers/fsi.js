@@ -1,25 +1,17 @@
 'use strict';
 module.exports = (req, res) => {
-    const connection = req.db.connection;
-    const config = req.db.config;
+    const hdb = req.db;
     var year = req.query.year;
     var region = req.query.region;
 
-    console.log(year, region)
+    console.log(year, region);
 
     if (year == 2020) {
         year = 2019;
     }
 
-    //HANA DB Connection and call
-    connection.connect(config, (err) => {
-        //catches errors
-        if (err) {
-            return res.status(500).json({ error: `[Connection error]: ${err.message}` });
-        }
-
-        //SQL Query
-        const sql = `
+    //SQL Query
+    const sql = `
         SELECT shape.St_asgeojson() AS SHAPE,
                "capital",
                score,
@@ -40,19 +32,18 @@ module.exports = (req, res) => {
         WHERE RANKS = 1
         `;
 
-        const bindParams = [region, parseInt(year)];
-        console.log(sql, bindParams)
-        connection.exec(sql, bindParams, (err, rows) => {
-            // console.log('Here')
-            connection.disconnect();
+    const bindParams = [region, parseInt(year)];
 
-            if (err) {
-                res.status(500).json({ error: `[SQL execute error]: ${err.message}` });
-            } else {
-                res.status(200).json({
-                    data: rows
-                });
-            }
+    try {
+        const rows = hdb.exec(sql, bindParams);
+        res.status(200).json({
+            data: rows
         });
-    });
+    } catch (err) {
+        console.error(err);
+        console.error(sql, bindParams);
+        res.status(500).json({
+            error: `[SQL Execute error]: ${err.message}`
+        });
+    }
 };
