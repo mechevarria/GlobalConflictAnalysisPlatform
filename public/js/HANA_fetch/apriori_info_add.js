@@ -3,20 +3,18 @@
 //FOR GRABBING PARENT ID FOR SECOND LAYER
 const secondParentSort = (dataElement) => {
 
-    if (dataElement.includes('Protest')) {
+    if (dataElement.includes('protest')) {
         return 1.1;
-    } else if (dataElement.includes('Battle')) {
+    } else if (dataElement.includes('battle')) {
         return 1.3;
-    } else if (dataElement.includes('Explosion')) {
+    } else if (dataElement.includes('explosion')) {
         return 1.4;
-    } else if (dataElement.includes('Riots')) {
+    } else if (dataElement.includes('riots')) {
         return 1.5;
-    } else if (dataElement.includes('Strategic')) {
+    } else if (dataElement.includes('strategic')) {
         return 1.6;
-    } else if (dataElement.includes('Violence')) {
+    } else if (dataElement.includes('violence')) {
         return 1.2;
-    } else if (dataElement.includes('Attack')) {
-        return 1.7;
     } else {
         console.error('Secondary Sort Error', `dataElement=${dataElement}`);
         return null;
@@ -176,10 +174,6 @@ const jsonRegextoViz = (data) => {
         id: '1.6',
         parent: '0.0',
         name: 'Strategic Developments'
-    }, {
-        id: '1.7',
-        parent: '0.0',
-        name: 'Attack'
     }]; //array to add final data for SunBurst Viz init with center piece and secondary piece
 
     const uniqueEvents = [...new Set(data.map(item => item.CONSEQUENT))]; //getting unique event types
