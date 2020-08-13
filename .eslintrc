@@ -29,6 +29,7 @@
     "apriori_info_get" : true,
     "lda_info_get" : true,
     "btnHandlers": true,
-    "Highcharts": true
+    "Highcharts": true,
+    "sunChart": true
   }
 }

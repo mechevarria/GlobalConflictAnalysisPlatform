@@ -69,77 +69,6 @@ const antecedentClean = (dataElement, parentID, secondaryID, tertiaryID) => {
 };
 
 
-const addViz = (dataList) => {
-
-    // Splice in transparent for the center circle
-    Highcharts.getOptions().colors.splice(0, 0, 'transparent');
-
-
-    Highcharts.chart('container', {
-
-        chart: {
-            height: '100%'
-        },
-
-        title: {
-            text: 'Event Group Analysis'
-        },
-        subtitle: {
-            text: 'Apriori Association Algorithm on ACLED events data has produced this visualization'
-        },
-        series: [{
-            type: 'sunburst',
-            data: dataList,
-            allowDrillToNode: true,
-            cursor: 'pointer',
-            dataLabels: {
-                format: '{point.name}',
-                filter: {
-                    property: 'innerArcLength',
-                    operator: '>',
-                    value: 16
-                },
-                rotationMode: 'circular'
-            },
-            levels: [{
-                level: 1,
-                levelIsConstant: false,
-                dataLabels: {
-                    filter: {
-                        property: 'outerArcLength',
-                        operator: '>',
-                        value: 64
-                    }
-                }
-            }, {
-                level: 2,
-                colorByPoint: true
-            },
-            {
-                level: 3,
-                colorVariation: {
-                    key: 'brightness',
-                    to: -0.5
-                }
-            }, {
-                level: 4,
-                colorVariation: {
-                    key: 'brightness',
-                    to: 0.5
-                }
-            }]
-
-        }],
-        tooltip: {
-            headerFormat: '',
-            pointFormat: 'The total Relevance Score of <b>{point.name}</b> is <b>{point.value}</b>'
-        }
-    });
-
-
-};
-
-
 
 const jsonRegextoViz = (data) => {
 
@@ -149,7 +78,7 @@ const jsonRegextoViz = (data) => {
     const vizArray = [{
         id: '0.0',
         parent: '',
-        name: 'Event\nAssociations'
+        name: 'Event Associations'
     }, {
         id: '1.1',
         parent: '0.0',
@@ -217,64 +146,93 @@ const jsonRegextoViz = (data) => {
                 vizArray.push(obj);
             });
 
-            console.log(vizArray);
+            // console.log(vizArray);
 
         });
 
     }
 
-    addViz(vizArray);
+    sunChart.series[0].setData(vizArray);
 
 };
 
-// function jsonToTable(data) {
+// UNUSED...trying out different ways to sort the sunburst data
+// eslint-disable-next-line no-unused-vars
+function dataToViz(data) {
+    const firstLevel = [{
+        id: '0.0',
+        parent: '',
+        name: 'Event Associations'
+    }, {
+        id: '1.1',
+        parent: '0.0',
+        name: 'Protests'
+    }, {
+        id: '1.2',
+        parent: '0.0',
+        name: 'Violence Against Civilians'
+    }, {
+        id: '1.3',
+        parent: '0.0',
+        name: 'Battles'
+    }, {
+        id: '1.4',
+        parent: '0.0',
+        name: 'Explosions'
+    }, {
+        id: '1.5',
+        parent: '0.0',
+        name: 'Riots'
+    }, {
+        id: '1.6',
+        parent: '0.0',
+        name: 'Strategic Developments'
+    }];
+    const secondLevel = data;
+    const thirdLevel = [];
+    secondLevel.forEach((obj, index) => {
+        obj.parent = secondParentSort(obj.CONSEQUENT);
+        obj.id = `2.${index}`;
 
-//     console.log('HERE');
-//     console.log(data)
-//     // EXTRACT VALUE FOR HTML HEADER. 
-//     // ('Book ID', 'Book Name', 'Category' and 'Price')
-//     var col = [];
-//     for (var i = 0; i < data.length; i++) {
-//         for (var key in data[i]) {
-//             if (col.indexOf(key) === -1) {
-//                 col.push(key);
-//             }
-//         }
-//     }
+        if (obj.ANTECEDENT.includes('&')) {
+            console.log('adding third level object');
+            obj.name = obj.ANTECEDENT.substr(0, obj.ANTECEDENT.indexOf('&')).replaceAll('$', '');
+            const thirdObj = {
+                parent: obj.id,
+                id: `3.${index}`,
+                name: obj.ANTECEDENT.substr(obj.ANTECEDENT.indexOf('&') + 1, obj.ANTECEDENT.length).replaceAll('$', ''),
+                value: obj.SCORE
+            };
+            thirdLevel.push(thirdObj);
+        } else {
+            obj.name = obj.ANTECEDENT.replaceAll('$', '');
+            obj.value = obj.SCORE;
+        }
+    });
 
-//     console.log(col);
+    const chartData = firstLevel.concat(secondLevel).concat(thirdLevel);
 
-//     // CREATE DYNAMIC TABLE.
-//     var table = document.getElementById('apriori-info');
-//     // clear old data first
-//     table.innerHTML = '';
-
-//     // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
-
-//     var tr = table.insertRow(-1);                   // TABLE ROW.
-
-//     for (i = 0; i < col.length; i++) {
-//         var th = document.createElement('th');      // TABLE HEADER.
-//         th.innerHTML = col[i];
-//         tr.appendChild(th);
-//     }
-
-//     // ADD JSON DATA TO THE TABLE AS ROWS.
-//     for (i = 0; i < data.length; i++) {
-
-//         tr = table.insertRow(-1);
-
-//         for (var j = 0; j < col.length; j++) {
-//             var tabCell = tr.insertCell(-1);
-//             tabCell.innerHTML = data[i][col[j]];
-//         }
-//     }
-
-//     // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
-//     // var divContainer = document.getElementById("showData");
-//     // divContainer.innerHTML = "";
-//     // divContainer.appendChild(table);
-// }
+    const seen = new Map();
+    const parentReplace = new Map();
+    chartData.filter((obj) => {
+        if (seen.has(obj.name)) {
+            // console.log(`Found duplicate with value ${obj.name}`);
+            parentReplace.set(obj.id, seen.get(obj.name).id);
+            return false;
+        } else {
+            seen.set(obj.name, obj);
+            return true;
+        }
+    });
+    chartData.forEach((obj) => {
+        if (parentReplace.has(obj.parent)) {
+            // console.log(`Replacing ${obj.parent}`);
+            obj.parent = parentReplace.get(obj.parent);
+        }
+    });
+    console.log(`chartData.length=${chartData.length}`);
+    sunChart.series[0].setData(chartData);
+}
 
 
 // eslint-disable-next-line no-unused-vars
@@ -301,8 +259,6 @@ const apriori_info_get = (country_capital) => {
     const url = `/acledApriori?battles=${events_obj.battles}&explosions=${events_obj.explosions}&protests=${events_obj.protests}&riots=${events_obj.riots}&strategic=${events_obj.strategic}&violence=${events_obj.violence}&year=${events_obj.year}&capital=${encodeURIComponent(country_capital)}&slider=${encodeURIComponent(slider_on)}
     `;
 
-    console.log(url);
-
     btnHandlers.toggleBusy();
     fetch(url)
         .then(res => res.json())
@@ -311,9 +267,8 @@ const apriori_info_get = (country_capital) => {
             if (res.error) {
                 throw new Error(res.error);
             }
-            console.log(res);
-            //jsonToTable(res.data);
 
+            //dataToViz(res.data);
             jsonRegextoViz(res.data);
             btnHandlers.eventBtn.disabled = false;
             lda_info_get(country_capital);
