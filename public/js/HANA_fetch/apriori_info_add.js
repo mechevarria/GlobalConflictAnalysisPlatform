@@ -1,6 +1,7 @@
 'use strict';
 
-function getFirstLevelParent(dataElement) {
+//FOR GRABBING PARENT ID FOR SECOND LAYER
+function getParentId(dataElement) {
 
     if (dataElement.includes('protest')) {
         return 1.1;
@@ -20,106 +21,202 @@ function getFirstLevelParent(dataElement) {
     }
 }
 
-function dataToViz(data) {
-    const firstLevel = [{
-        id: '0.0',
-        parent: '',
-        name: 'Event Associations'
-    }, {
-        id: '1.1',
-        parent: '0.0',
-        name: 'Protests'
-    }, {
-        id: '1.2',
-        parent: '0.0',
-        name: 'Violence Against Civilians'
-    }, {
-        id: '1.3',
-        parent: '0.0',
-        name: 'Battles'
-    }, {
-        id: '1.4',
-        parent: '0.0',
-        name: 'Explosions'
-    }, {
-        id: '1.5',
-        parent: '0.0',
-        name: 'Riots'
-    }, {
-        id: '1.6',
-        parent: '0.0',
-        name: 'Strategic Developments'
-    }];
-    const secondLevel = data;
+//FOR CLEANING TEXT OF SECOND AND THIRD LAYERS
+function antecedentClean(dataElement, parentID, secondaryID, tertiaryID) {
+
+    console.log('INSIDE ANTECEDENTCLEAN');
+    console.log(dataElement);
+
+    var dollarTextPattern = /\$([a-z]|[0-9]| \( | \) | \s| -) {0,40}\$/;
+    var ampPattern = /\$[^*]{0,35}&/;
+
+    if (/&/.test(dataElement.ANTECEDENT)) {
+
+        console.log('IF');
+
+        var extractedDirty = /\$(.*?) &/.exec(dataElement.ANTECEDENT);
+        console.log(extractedDirty[0]);
+
+        var secondLevelDirty = /\$(.*?)\$/.exec(extractedDirty[0]);
+        console.log(secondLevelDirty);
+        var secondLevelClean = secondLevelDirty[0].replace(/\$/ig, '');
+
+        var thirdLevelDirty = /&\$(.*?)\$/.exec(dataElement.ANTECEDENT);
+        console.log(thirdLevelDirty);
+        var thirdLevelClean = thirdLevelDirty[0].replace(/(\$|&)/ig, '');
+
+
+
+
+
+        return [{ id: ((secondaryID + 0.001).toFixed(3)).toString(), parent: parentID.toString(), name: secondLevelClean },
+        { id: ((tertiaryID + 0.001).toFixed(3)).toString(), parent: ((secondaryID + 0.001).toFixed(3)).toString(), name: thirdLevelClean, value: dataElement.SCORE }];
+
+
+    } else {
+
+        console.log('ELSE');
+
+        secondLevelDirty = dataElement.ANTECEDENT;//dollarTextPattern.exec(dataElement.ANTECEDENT);
+
+        //console.log(secondLevelDirty);
+        secondLevelClean = secondLevelDirty.replace(/\$/ig, '');
+        return [{ id: ((secondaryID + 0.001).toFixed(3)).toString(), parent: parentID.toString(), name: secondLevelClean },
+        { id: ((tertiaryID + 0.001).toFixed(3)).toString(), parent: ((secondaryID + 0.001).toFixed(3)).toString(), name: secondLevelClean, value: dataElement.SCORE }];
+
+    }
+}
+
+const vizArray = [{
+    id: '0.0',
+    parent: '',
+    name: 'Event Associations'
+}, {
+    id: '1.1',
+    parent: '0.0',
+    name: 'Protests'
+}, {
+    id: '1.2',
+    parent: '0.0',
+    name: 'Violence Against Civilians'
+}, {
+    id: '1.3',
+    parent: '0.0',
+    name: 'Battles'
+}, {
+    id: '1.4',
+    parent: '0.0',
+    name: 'Explosions'
+}, {
+    id: '1.5',
+    parent: '0.0',
+    name: 'Riots'
+}, {
+    id: '1.6',
+    parent: '0.0',
+    name: 'Strategic Developments'
+}];
+
+function jsonRegextoViz(data) {
+
+    // console.log('JSONTOREGEX');
+    // console.log(data);
+
+    const uniqueEvents = [...new Set(data.map(item => item.CONSEQUENT))]; //getting unique event types
+    console.log(uniqueEvents);
+
+    var secondaryID = 2.000;
+    var tertiaryID = 3.000;
+
+    for (var i = 0; i < uniqueEvents.length; i++) {
+
+        var parentID = getParentId(uniqueEvents[i]);
+
+        // console.log(parentID);
+        //console.log(data.CONSEQUENT);
+
+        var filteredEvent = data.filter((data) => {
+
+            let lft = data.CONSEQUENT.trim();
+            let rgt = uniqueEvents[i].trim();
+            return lft == rgt;
+        });
+
+        console.log(filteredEvent);
+
+        filteredEvent.forEach(element => {
+
+            var cleanResults = antecedentClean(element, parentID, secondaryID, tertiaryID);
+            console.log(cleanResults);
+
+            secondaryID = Number(parseFloat(cleanResults[0].id).toFixed(3));
+            tertiaryID = Number(parseFloat(cleanResults[1].id).toFixed(3));
+
+            console.log(secondaryID);
+            console.log(tertiaryID);
+
+            //(cleanResults.length > 1) ? tertiaryID = parseInt(cleanResults[1].id) : console.log('No tertiary level detected');
+
+            cleanResults.forEach((obj) => {
+                vizArray.push(obj);
+            });
+
+            // console.log(vizArray);
+
+        });
+
+    }
+
+    sunChart.series[0].setData(vizArray);
+}
+
+function dataToViz(secondLevel) {
+    let chartData = vizArray;
+
     const thirdLevel = [];
-    secondLevel.forEach((obj, index) => {
-        obj.parent = getFirstLevelParent(obj.CONSEQUENT);
+
+    secondLevel.forEach((obj,index) => {
+        const parentId = getParentId(obj.CONSEQUENT);
+        obj.parent = parentId;
         obj.id = `2.${index}`;
 
         if (obj.ANTECEDENT.includes('&')) {
-            console.log('adding third level object');
-            const split = obj.ANTECEDENT.split('&');
-            obj.name = split[0].replaceAll('$', '');
-            const thirdObj = {
+            const splitArray = obj.ANTECEDENT.split('&');
+            obj.name = splitArray[0];
+            const newObj = {
                 parent: obj.id,
                 id: `3.${index}`,
-                name: split[1].replaceAll('$', ''),
+                name: splitArray[1],
                 value: obj.SCORE
             };
-            thirdLevel.push(thirdObj);
+            thirdLevel.push(newObj);
+            
         } else {
-            obj.name = obj.ANTECEDENT.replaceAll('$', '');
-            obj.value = obj.SCORE;
+            obj.name = obj.ANTECEDENT;
+            const newObj = {
+                parent: obj.id,
+                id: `3.${index}`,
+                name: obj.name,
+                value: obj.SCORE
+            };
+            thirdLevel.push(newObj);
         }
     });
-    let seen = new Map();
-    let valueReplace = new Map();
-    // merge third level duplicates
-    thirdLevel.filter((obj) => {
+
+    // second pass to merge duplicates
+    const seen = new Map();
+    const mergedIds = new Map();
+    secondLevel.filter(obj => {
         if (seen.has(obj.name)) {
-            console.log(`Found duplicate with value ${obj.name}`);
-            valueReplace.set(seen.get(obj.name).id, obj.value);
+            //console.log(`found duplicate ${obj.name}`);
+            mergedIds.set(obj.id, seen.get(obj.name));
             return false;
         } else {
-            seen.set(obj.name, obj);
+            seen.set(obj.name, obj.id);
             return true;
         }
     });
 
-    thirdLevel.forEach((obj) => {
-        if (valueReplace.has(obj.id)) {
-            console.log(`Merging in value to id=${obj.id}`);
-            obj.value += valueReplace.get(obj.id).value;
+    // fix parent ids of third level were merged
+    thirdLevel.forEach(obj => {
+        if(mergedIds.has(obj.parent)) {
+            obj.parent = mergedIds.get(obj.parent);
         }
     });
 
-    const chartData = firstLevel.concat(secondLevel).concat(thirdLevel);
+    chartData = chartData.concat(secondLevel).concat(thirdLevel);
 
-    seen = new Map();
-    valueReplace = new Map();
-    chartData.filter((obj) => {
-        if (seen.has(obj.name)) {
-            // console.log(`Found duplicate with value ${obj.name}`);
-            valueReplace.set(obj.id, seen.get(obj.name).id);
-            return false;
-        } else {
-            seen.set(obj.name, obj);
-            return true;
-        }
+    // remove dollar signs from name
+    chartData = chartData.map(obj => {
+        obj.name = obj.name.replaceAll('$','');
+        return obj;
     });
-    chartData.forEach((obj) => {
-        if (valueReplace.has(obj.parent)) {
-            // console.log(`Replacing ${obj.parent}`);
-            obj.parent = valueReplace.get(obj.parent);
-        }
-    });
-    console.log(`chartData.length=${chartData.length}`);
+
     sunChart.series[0].setData(chartData);
 }
 
-
 // eslint-disable-next-line no-unused-vars
-const apriori_info_get = (country_capital) => {
+function apriori_info_get(country_capital) {
 
     console.info(country_capital);
 
@@ -149,6 +246,7 @@ const apriori_info_get = (country_capital) => {
                 throw new Error(res.error);
             }
 
+            //jsonRegextoViz(res.data);
             dataToViz(res.data);
             btnHandlers.eventBtn.disabled = false;
             lda_info_get(country_capital);
@@ -156,4 +254,4 @@ const apriori_info_get = (country_capital) => {
         }).catch(error => {
             console.error('Error fetching data from /acledApriori', error);
         });
-};
+}
