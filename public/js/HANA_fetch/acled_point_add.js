@@ -111,12 +111,12 @@ const acled_point_get = (capital) => { // eslint-disable-line no-unused-vars
         'year': document.getElementById('select-year').value
     };
 
-    var slider_on = document.getElementsByClassName('c-switch-input')[0].checked;
+    const covidSwitch = document.getElementById('covid-switch').value;
 
     var url = '/acledEvents?battles=' + encodeURIComponent(events_obj.battles) + '&explosions=' + encodeURIComponent(events_obj.explosions) +
         '&protests=' + encodeURIComponent(events_obj.protests) + '&riots=' + encodeURIComponent(events_obj.riots) + '&strategic=' + encodeURIComponent(events_obj.strategic) +
         '&violence=' + encodeURIComponent(events_obj.violence) + '&region=' + encodeURIComponent(events_obj.region) + '&year=' + encodeURIComponent(events_obj.year) + '&capital=' +
-        encodeURIComponent(capital) + '&slider=' + encodeURIComponent(slider_on) + ' ';
+        encodeURIComponent(capital) + '&slider=' + encodeURIComponent(covidSwitch) + ' ';
 
 
 

@@ -3,18 +3,8 @@ function resetHighlight(e) { // eslint-disable-line no-unused-vars
     fsiLayer.resetStyle(e.target);
     mapInfo.update();
 } 
-    
-const radioValueFinder = (element_id) => { // eslint-disable-line no-unused-vars
-    document.getElementById(element_id).value === 'true' ?
-        document.getElementById(element_id).value = 'false' :
-        document.getElementById(element_id).value = 'true';
-    
-};
-
 
 const fsi_polygon_get = () => { // eslint-disable-line no-unused-vars
-
-    
 
     //MAPPING FUNCTIONS
 
