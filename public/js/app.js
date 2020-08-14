@@ -43,6 +43,8 @@ let sunChart = new Highcharts.chart('sun-chart', {
         height: '100%'
     },
 
+    colors: ['#FFFFFF', '#321fdb', '#f9b115', '#e55353', '#3399ff', '#2eb85c', '#636f83'],
+
     title: {
         text: 'Event Group Analysis'
     },
