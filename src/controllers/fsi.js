@@ -19,7 +19,17 @@ module.exports = (req, res) => {
         }
 
         //SQL Query
-        const sql = `
+        const sql = 
+        // `
+        // SELECT "capital", SCORE, "CONFIDENCE", "countries", SHAPE.ST_ASGEOJSON()
+        // FROM FSI_PRED_FULL
+        // WHERE "region" LIKE ?
+        //       AND "year" = ?
+        // `
+
+
+
+         `
         SELECT shape.St_asgeojson() AS SHAPE,
                "capital",
                score,
@@ -38,7 +48,7 @@ module.exports = (req, res) => {
              WHERE
                 "region" LIKE ? AND "year" = ?)
         WHERE RANKS = 1
-        `;
+        `
 
         const bindParams = [region, parseInt(year)];
         console.log(sql, bindParams)
