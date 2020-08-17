@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
     // Use IntelliSense to learn about possible attributes.
     // Hover to view descriptions of existing attributes.
@@ -14,4 +15,22 @@
             "program": "${workspaceFolder}/src/server.js"
         }
     ]
+=======
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Express",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}/src/server.js"
+    }
+  ]
+>>>>>>> e3bc7f9c531557d215ebf77219248ced22a9102e
 }

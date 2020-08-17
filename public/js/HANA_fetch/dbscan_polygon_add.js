@@ -9,7 +9,7 @@ const dbscanColor = (d) => { // eslint-disable-line no-unused-vars
     d === 'medium'  ? '#DED406' :
     d === 'low'   ?   '#60CA07':
         '#DAEAF3';
-}
+};
 
 
 function onEachFeature(feature, layer) {
@@ -73,25 +73,25 @@ function zoomToFeature(e) {
     }
 
     var dbscanLayer;
-    var slider_on = document.getElementsByClassName('c-switch-input')[0].checked;
+    const covidSwitch = document.getElementById('covid-switch').value;
 
 
     var url = '/acledDBSCAN?battles='+encodeURIComponent(events_obj.battles)+'&explosions='+encodeURIComponent(events_obj.explosions)+
             '&protests='+encodeURIComponent(events_obj.protests)+'&riots='+encodeURIComponent(events_obj.riots)+'&strategic='+encodeURIComponent(events_obj.strategic)+
             '&violence='+encodeURIComponent(events_obj.violence)+'&region='+encodeURIComponent(events_obj.region)+'&year='+encodeURIComponent(events_obj.year)+'&slider='+
-            encodeURIComponent(slider_on)+' ';
+            encodeURIComponent(covidSwitch)+' ';
 
-    console.log(url)        
+    console.log(url);    
 
     btnHandlers.toggleBusy();
     fetch(url).then((response) => {
         btnHandlers.toggleBusy();
         response.json().then((data) => {
             if(data.error){
-                return console.error(data.error)
+                return console.error(data.error);
             }
 
-            console.log(data.data)
+            console.log(data.data);
             
             var dbscanData = [];
 
@@ -102,7 +102,7 @@ function zoomToFeature(e) {
 
                     },
                     'geometry':JSON.parse(data.cluster), 
-                })
+                });
             });
 
    
@@ -123,13 +123,13 @@ function zoomToFeature(e) {
 
                     return L.circleMarker(latlng, geojsonMarkerOptions);
                 },
-            })
+            });
 
             apriori_info_get(capital);
            
             
             dbscanLayerGroup.addLayer(dbscanLayer);
           
-        })
-    })   
-}
+        });
+    });   
+};

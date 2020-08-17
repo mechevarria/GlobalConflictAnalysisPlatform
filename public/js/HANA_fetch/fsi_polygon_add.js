@@ -3,18 +3,8 @@ function resetHighlight(e) { // eslint-disable-line no-unused-vars
     fsiLayer.resetStyle(e.target);
     mapInfo.update();
 } 
-    
-const radioValueFinder = (element_id) => { // eslint-disable-line no-unused-vars
-    document.getElementById(element_id).value === 'true' ?
-        document.getElementById(element_id).value = 'false' :
-        document.getElementById(element_id).value = 'true'
-    
-}
-
 
 const fsi_polygon_get = () => { // eslint-disable-line no-unused-vars
-
-    
 
     //MAPPING FUNCTIONS
 
@@ -25,7 +15,7 @@ const fsiColor = (d) => {
     d === 'medium'  ? '#DED406' :
     d === 'low'   ?   '#60CA07':
         '#DAEAF3';
-}
+};
 
 
 function onEachFeature(feature, layer) {
@@ -89,7 +79,7 @@ function zoomToFeature(e) {
     let year = document.getElementById('select-year').value; 
 
     if(region == '' || year == '' ){
-        return console.log('Empty Set BLocked')
+        return console.log('Empty Set BLocked');
     }
 
     console.log(year);
@@ -101,7 +91,7 @@ function zoomToFeature(e) {
         response.json().then((data) => {
             btnHandlers.toggleBusy();
             if(data.error){
-                return console.error(data.error)
+                return console.error(data.error);
             }
 
            
@@ -120,7 +110,7 @@ function zoomToFeature(e) {
                         'popupContent': 'Country: '+data.country+'\nCapital: '+data.capital+'\nSCORE: '+data.score
                     },
                     'geometry':JSON.parse(data.SHAPE), 
-                })
+                });
             });
 
             
@@ -129,15 +119,15 @@ function zoomToFeature(e) {
                 style: style,
                 onEachFeature: onEachFeature
           
-            })
+            });
             
             fsiLayerGroup.addLayer(fsiLayer);
           
 
 
-        })
-    })   
+        });
+    });
 
-}
+};
 
  

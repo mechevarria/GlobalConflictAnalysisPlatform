@@ -9,10 +9,20 @@ class ButtonHandlers {
         this.notesBtn = document.getElementById('notes');
         this.cancelBtn = document.getElementById('cancel');
         this.updateBtn = document.getElementById('update');
+        this.covidSwitch = document.getElementById('covid-switch');
+        this.battlesCheck = document.getElementById('battles-check');
+        this.explosionsCheck = document.getElementById('explosions-check');
+        this.protestsCheck = document.getElementById('protests-check');
+        this.riotsCheck = document.getElementById('riots-check');
+        this.strategicCheck = document.getElementById('strategic-check');
+        this.violenceCheck = document.getElementById('violence-check');
     }
     toggleBusy() {
         this.busyIcon.classList.toggle('invisible');
         this.searchBtn.disabled = !this.searchBtn.disabled;
+    }
+    setCheckValue(element) {
+        element.checked ? element.value = true : element.value = false;
     }
     init() {
         // turn off busy indicator and detail by default
@@ -34,11 +44,43 @@ class ButtonHandlers {
 
         this.eventBtn.onclick = () => {
             this.eventModal.show();
-        }
+        };
 
         this.notesBtn.onclick = () => {
             this.notesModal.show();
-        }
+        };
+
+        // set switch values to prevent value lost on page reload
+        this.setCheckValue(this.covidSwitch);
+        this.setCheckValue(this.battlesCheck);
+        this.setCheckValue(this.explosionsCheck);
+        this.setCheckValue(this.protestsCheck);
+        this.setCheckValue(this.riotsCheck);
+        this.setCheckValue(this.strategicCheck);
+        this.setCheckValue(this.violenceCheck);
+
+        // set switch handlers
+        this.covidSwitch.onclick = () => {
+            this.setCheckValue(this.covidSwitch);
+        };
+        this.battlesCheck.onclick = () => {
+            this.setCheckValue(this.battlesCheck);
+        };
+        this.explosionsCheck.onclick = () => {
+            this.setCheckValue(this.explosionsCheck);
+        };
+        this.protestsCheck.onclick = () => {
+            this.setCheckValue(this.protestsCheck);
+        };
+        this.riotsCheck.onclick = () => {
+            this.setCheckValue(this.riotsCheck);
+        };
+        this.strategicCheck.onclick = () => {
+            this.setCheckValue(this.strategicCheck);
+        };
+        this.violenceCheck.onclick = () => {
+            this.setCheckValue(this.violenceCheck);
+        };
     }
 }
 

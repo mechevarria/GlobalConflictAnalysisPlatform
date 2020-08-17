@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 function ldaJSONToTable(data) {
 
@@ -53,8 +53,8 @@ function ldaJSONToTable(data) {
 const lda_info_get = (country_capital) => {
 
     const year = document.getElementById('select-year').value;
-    var slider_on = document.getElementsByClassName('c-switch-input')[0].checked;
-    const url = `/acledLDA?&year=${year}&capital=${encodeURIComponent(country_capital)}&slider=${slider_on}`;
+    const covidSwitch = document.getElementById('covid-switch').value;
+    const url = `/acledLDA?&year=${year}&capital=${encodeURIComponent(country_capital)}&slider=${covidSwitch}`;
 
     btnHandlers.toggleBusy();
     fetch(url)
@@ -70,4 +70,4 @@ const lda_info_get = (country_capital) => {
         }).catch(error => {
             console.error('Error fetching data from /acledLDA', error);
         });
-}
+};

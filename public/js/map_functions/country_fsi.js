@@ -4,7 +4,7 @@ const fsiColor = (d) => {
     return d === 'high' ? '#00b8e6' :
     d === 'medium'  ? '#2eb82e' :
                '#b32400';
-}
+};
 
 
 function onEachFeature(feature, layer) { // eslint-disable-line no-unused-vars
