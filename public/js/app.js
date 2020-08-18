@@ -99,3 +99,23 @@ let sunChart = new Highcharts.chart('sun-chart', {
         pointFormat: 'The total Relevance Score of <b>{point.name}</b> is <b>{point.value}</b>'
     }
 });
+
+// eslint-disable-next-line no-unused-vars
+let wordCloudChart = new Highcharts.chart('word-cloud-chart', {
+    accessibility: {
+        screenReaderSection: {
+            beforeChartFormat: '<h5>{chartTitle}</h5>' +
+                '<div>{chartSubtitle}</div>' +
+                '<div>{chartLongdesc}</div>' +
+                '<div>{viewTableButton}</div>'
+        }
+    },
+    series: [{
+        type: 'wordcloud',
+        data: null,
+        name: 'Occurrences'
+    }],
+    title: {
+        text: 'Notes Word Cloud'
+    }
+});
