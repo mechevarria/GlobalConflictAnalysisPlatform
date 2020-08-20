@@ -4,7 +4,7 @@
 var mapInfo = L.control();
 
 mapInfo.onAdd = function () {
-    this._div = L.DomUtil.create('div', 'mapInfo');
+    this._div = L.DomUtil.create('div', 'map-info');
     this.update();
     return this._div;
 };

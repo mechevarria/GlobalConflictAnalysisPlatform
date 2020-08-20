@@ -1,6 +1,32 @@
 'use strict';
 
-function ldaJSONToTable(data) {
+function ldaJsonToChart(data) {
+    let topWordArray = data.map((obj) => {
+        return obj.TOP_WORDS;
+    });
+    topWordArray = topWordArray.join(' ').split(' ');
+
+    // using example function from https://www.highcharts.com/demo/wordcloud
+    const wordCloudData = Highcharts.reduce(topWordArray, (arr, word) => {
+        let obj = Highcharts.find(arr, (obj) => {
+            return obj.name === word;
+        });
+        if (obj) {
+            obj.weight += 1;
+        } else {
+            obj = {
+                name: word,
+                weight: 1
+            };
+            arr.push(obj);
+        }
+        return arr;
+    }, []);
+
+    wordCloudChart.series[0].setData(wordCloudData);
+}
+
+function ldaJsonToTable(data) {
 
 
     // EXTRACT VALUE FOR HTML HEADER. 
@@ -13,8 +39,6 @@ function ldaJSONToTable(data) {
             }
         }
     }
-
-    console.log(col);
 
     // CREATE DYNAMIC TABLE.
     var table = document.getElementById('lda-info');
@@ -41,11 +65,6 @@ function ldaJSONToTable(data) {
             tabCell.innerHTML = data[i][col[j]];
         }
     }
-
-    // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
-    // var divContainer = document.getElementById("showData");
-    // divContainer.innerHTML = "";
-    // divContainer.appendChild(table);
 }
 
 
@@ -66,7 +85,9 @@ const lda_info_get = (country_capital) => {
             }
             btnHandlers.notesBtn.disabled = false;
 
-            ldaJSONToTable(res.data);
+            ldaJsonToTable(res.data);
+            ldaJsonToChart(res.data);
+
         }).catch(error => {
             console.error('Error fetching data from /acledLDA', error);
         });

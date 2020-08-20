@@ -30,6 +30,7 @@
     "lda_info_get" : true,
     "btnHandlers": true,
     "Highcharts": true,
-    "sunChart": true
+    "sunChart": true,
+    "wordCloudChart": true
   }
 }

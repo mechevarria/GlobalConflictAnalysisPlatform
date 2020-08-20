@@ -33,23 +33,38 @@
                         <div class="card">
                             <div class="card-header">
                                 <span class="align-middle">Map</span>
-                                <button type="button" class="btn btn-outline-primary float-right" id="notes"
-                                    data-toggle="tooltip" data-placement="top" title="Select a country to activate">
-                                    <span class="btn-icon cil-notes mr-2"></span>
-                                    Notes Analysis
-                                </button>
-                                <button type="button" class="btn btn-outline-primary float-right mr-2" id="event"
-                                    data-toggle="tooltip" data-placement="top" title="Select a country to activate">
-                                    <span class="btn-icon cil-newspaper mr-2"></span>
-                                    Event Analysis
-                                </button>
+                                <div class="btn-group float-right mr-2">
+                                    <button type="button" class="btn btn-outline-primary dropdown-toggle mb-2"
+                                        data-toggle="dropdown" aria-expanded="false" id="notes"
+                                        title="Select a country to activate">
+                                        <span class="btn-icon cil-notes mr-2"></span>
+                                        Notes Analysis
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <button class="dropdown-item" type="button" id="notes-chart">Chart</button>
+                                        <button class="dropdown-item" type="button" id="notes-detail">Details</button>
+                                    </div>
+                                </div>
+                                <div class="btn-group float-right mr-2">
+                                    <button type="button" class="btn btn-outline-primary dropdown-toggle"
+                                        data-toggle="dropdown" aria-expanded="false" id="event"
+                                        title="Select a country to activate">
+                                        <span class="btn-icon cil-newspaper mr-2"></span>
+                                        Event Analysis
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <button class="dropdown-item" type="button" id="event-chart">Chart</button>
+                                        <button class="dropdown-item" type="button" id="event-detail">Details</button>
+                                    </div>
+                                </div>
                                 <button type="button" class="btn btn-primary float-right mr-2" id="search"
                                     data-toggle="tooltip" data-placement="top" title="Add data to the map">
                                     <span class="btn-icon cil-search mr-2"></span>
                                     Search
                                 </button>
                                 <span class="mt-2 mr-2 spinner-border spinner-border-sm float-right"
-                                    id="busy-icon"></span>
+                                    id="busy-icon">
+                                </span>
                             </div>
                             <div class="card-body">
                                 <div id="mapid" class="app-map"></div>
@@ -66,12 +81,12 @@
             </div>
         </footer>
 
-        <!-- event modal template -->
-        <div class="modal fade" id="event-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <!-- event chart modal template -->
+        <div class="modal fade" id="event-chart-modal" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Event Analysis for Region</h5>
+                        <h5 class="modal-title">Event Chart Analysis for Region</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -80,19 +95,35 @@
                         <figure>
                             <div id="sun-chart"></div>
                         </figure>
-                        <!-- <table class="table table-hover table-striped table-responsive-sm" id="apriori-info">
-                        </table> -->
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- notes modal template -->
-        <div class="modal fade" id="notes-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <!-- event detail modal template -->
+        <div class="modal fade" id="event-detail-modal" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Notes Analysis for Region</h5>
+                        <h5 class="modal-title">Event Detail Analysis for Region</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-hover table-striped table-responsive-sm" id="apriori-info">
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- notes detail modal template -->
+        <div class="modal fade" id="notes-detail-modal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Notes Detail Analysis for Region</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -100,6 +131,25 @@
                     <div class="modal-body">
                         <table class="table table-hover table-striped table-responsive-sm" id="lda-info">
                         </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- notes chart modal template -->
+        <div class="modal fade" id="notes-chart-modal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Notes Chart Analysis for Region</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <figure>
+                            <div id="word-cloud-chart"></div>
+                        </figure>
                     </div>
                 </div>
             </div>
@@ -176,8 +226,8 @@
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="violence-check"">
-                            <label class="form-check-label">
-                                Violence against Civilians
+                            <label class=" form-check-label">
+                            Violence against Civilians
                             </label>
                         </div>
                         <hr />
@@ -206,6 +256,7 @@
         </script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/sunburst.js"></script>
+    <script src="https://code.highcharts.com/modules/wordcloud.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
