@@ -67,6 +67,10 @@ function ldaJsonToTable(data) {
     }
 }
 
+function ldaJSONToGraph(data){
+
+}
+
 
 // eslint-disable-next-line no-unused-vars
 const lda_info_get = (country_capital) => {
@@ -87,6 +91,7 @@ const lda_info_get = (country_capital) => {
 
             ldaJsonToTable(res.data);
             ldaJsonToChart(res.data);
+            ldaJSONToGraph(res.data);
 
         }).catch(error => {
             console.error('Error fetching data from /acledLDA', error);
