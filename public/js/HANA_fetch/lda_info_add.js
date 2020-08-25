@@ -144,29 +144,53 @@ function ldaJSONToGraph(data){
 		link.append('title')
 			.text(function (d) {return d.type;});
 
-		edgepaths = svg.selectAll('.edgepath')
-			.data(links)
-			.enter()
-			.append('path')
-			.attrs({
-				'class': 'edgepath',
-				'fill-opacity': 9, 
-                'stroke-opacity': 9,
-                'id': function(d,i){return '#edgepath' + i;} 
-			})
-			.style('pointer-events', 'none');
+		// edgepaths = svg.selectAll('.edgepath')
+		// 	.data(links)
+		// 	.enter()
+		// 	.append('path')
+		// 	.attrs({
+		// 		'class': 'edgepath',
+		// 		'fill-opacity': 9, 
+        //         'stroke-opacity': 9,
+        //         'id': function(d,i){return 'edgepath' + i;} 
+		// 	})
+		// 	.style('pointer-events', 'none');
 
-		edgelabels = svg.selectAll('.edgelabel')
-			.data(links)
-			.enter()
-			.append('text')
-			.style('pointer-events', 'none')
-			.attrs({
-				'class': 'edgelabel',
-				'font-size': 10,
+		// edgelabels = svg.selectAll('.edgelabel')
+		// 	.data(links)
+		// 	.enter()
+		// 	.append('text')
+		// 	.style('pointer-events', 'none')
+		// 	.attrs({
+		// 		'class': 'edgelabel',
+		// 		'font-size': 10,
+        //         'fill': '#aaa',
+        //         'id': function(d,i){return 'edgelabel' + i;} 
+        // 	});
+        
+        edgepaths = svg.selectAll('.edgepath')
+            .data(links)
+            .enter()
+            .append('path')
+            .attrs({
+                'class': 'edgepath',
+                'fill-opacity': 9,
+                'stroke-opacity': 9,
+                'id': function(d,i){return 'edgepath' + i;}
+        })
+        .style('pointer-events', 'none');
+
+        edgelabels = svg.selectAll('.edgelabel')
+            .data(links)
+            .enter()
+            .append('text')
+            .style('pointer-events', 'none')
+            .attrs({
+                'class': 'edgelabel',
+                'font-size': 10,
                 'fill': '#aaa',
-                'id': function(d,i){return '#edgepath' + i;} 
-			});			
+                'id': function(d,i){return 'edgelabel' + i;}
+});
 
         
 		edgelabels.append('textPath')
