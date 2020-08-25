@@ -9,7 +9,7 @@ module.exports = (req, res) => {
     var covid_data = slider == 'true' ? 8000000 : 0;
 
     //SQL Query
-    let sql = 'SELECT * FROM ACLED_LDA_VIEW (PLACEHOLDER."$$yr$$"=>?, PLACEHOLDER."$$capital$$" =>  ?, PLACEHOLDER."$$covid$$"=> ?)';
+    let sql = 'SELECT TOP 10 * FROM ACLED_LDA_VIEW (PLACEHOLDER."$$yr$$"=>?, PLACEHOLDER."$$capital$$" =>  ?, PLACEHOLDER."$$covid$$"=> ?)';
     const bindParams = [parseInt(year), capital, parseInt(covid_data)];
 
     try {
