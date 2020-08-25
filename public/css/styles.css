@@ -52,11 +52,6 @@
     background: #f1f7ff;
 }
 
-/* .link-chart{
-    width:"960" ;
-    height:"600";
-} */
-
 .node text {
     font: 12px helvetica;
   }
@@ -65,15 +60,11 @@
     stroke-opacity: .6;
   }
   .cursor {
-    fill: none;
+    /* fill: none; */
     stroke: brown;
-    pointer-events: none;
+    /* pointer-events: none; */
   }	
 
-  /* #notes-graph-modal{
-      height: fit-content;
-      width: fit-content;
-  } */
 #link-chart{
     width: 1400px;
     height: 1200px;

@@ -119,18 +119,21 @@ function ldaJSONToGraph(data){
 		
 		svg.on('click', function(d) {
             var coords = d3.mouse(this);			
-		});
+        });  
+        
+        //WHERE MOUSEMOVE GOES
 		
 		simulation = d3.forceSimulation()
-			.force('link', d3.forceLink().id(function (d) {return d.id;}).distance(100).strength(1))
+			.force('link', d3.forceLink().id(function (d) {return d.id;}).distance(200).strength(15))
 			.force('charge', d3.forceManyBody())
-			.force('center', d3.forceCenter(width / 1.85, height / 2));
+			.force('center', d3.forceCenter(width / 1.85, height / 1.55));
 
 	}
 
 
 	function update(links, nodes) {
-		
+        console.log(JSON.stringify(links,null,2));
+        console.log(JSON.stringify(nodes,null,2));
 		link = svg.selectAll('.link')
 			.data(links)
 			.enter()
@@ -148,21 +151,24 @@ function ldaJSONToGraph(data){
 			.attrs({
 				'class': 'edgepath',
 				'fill-opacity': 9, 
-				'stroke-opacity': 9 
+                'stroke-opacity': 9,
+                'id': function(d,i){return '#edgepath' + i;} 
 			})
 			.style('pointer-events', 'none');
 
 		edgelabels = svg.selectAll('.edgelabel')
 			.data(links)
 			.enter()
-			.append('type')
+			.append('text')
 			.style('pointer-events', 'none')
 			.attrs({
 				'class': 'edgelabel',
 				'font-size': 10,
-				'fill': '#aaa'
+                'fill': '#aaa',
+                'id': function(d,i){return '#edgepath' + i;} 
 			});			
 
+        
 		edgelabels.append('textPath')
 			.attr('xlink:href', function (d, i) {return '#edgepath' + i;})
 			.style('text-anchor', 'middle')
@@ -191,7 +197,7 @@ function ldaJSONToGraph(data){
 			.attr('height', '20px')
 			.attr('width', '120px')
 			.html(function (d) {
-                return '<i style=\'font-size: 10px;\' cursor=\'pointer\'>'+d.name+'</i>';
+                return '<i style=\'font-size: 11px;\' cursor=\'pointer\'>'+d.name+'</i>';
             });
 
 		node.append('title')
@@ -282,11 +288,11 @@ function getNetworkNodesLinks(data){
             });
 
             if(previousOccurance.length >= 1){
-                linkData.push({'source': topicNode.id, 'target': previousOccurance[0].id, 'type': input.PROBABILITY.toFixed(3)});
+                linkData.push({'source': topicNode.id, 'target': previousOccurance[0].id, 'type': input.PROBABILITY.toFixed(3).toString()});
             }else{
                 id++;
                 nodeData.push({'name': words, 'label': words, 'id': id});
-                linkData.push({'source': topicNode.id, 'target': id, 'type': input.PROBABILITY.toFixed(3)});
+                linkData.push({'source': topicNode.id, 'target': id, 'type': input.PROBABILITY.toFixed(3).toString()});
             }
         });
     });
