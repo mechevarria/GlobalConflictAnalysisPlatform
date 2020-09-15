@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Global Conflict Analysis Platform
 
 Data Visualization frontend that is deployable on both [Heroku](https://www.heroku.com/) and [SAP Cloud Platform](https://cloudplatform.sap.com/index.html)
@@ -123,4 +122,3 @@ cf service-key gca-db gca-db-key
 ```bash
 cf app gca-express
 ```
->>>>>>> e3bc7f9c531557d215ebf77219248ced22a9102e
