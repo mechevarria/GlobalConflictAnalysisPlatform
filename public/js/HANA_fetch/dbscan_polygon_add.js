@@ -28,14 +28,8 @@ function resetHighlight(e) {
 
 function zoomToFeature(e) {
     
-     
-
     map.fitBounds(e.target.getBounds());
-    
-
-    dbscanLayer.bringToBack();
-
- 
+    dbscanLayer.bringToBack(); 
 }
 
 
@@ -105,8 +99,6 @@ function zoomToFeature(e) {
                 });
             });
 
-   
-
             dbscanLayer = L.geoJSON(dbscanData, {
                 style: style,
                 onEachFeature: onEachFeature,
@@ -127,7 +119,6 @@ function zoomToFeature(e) {
 
             apriori_info_get(capital);
            
-            
             dbscanLayerGroup.addLayer(dbscanLayer);
           
         });

@@ -45,8 +45,8 @@ module.exports = (req, res) => {
 
     sql = `
   
-        SELECT "cluster_id", st_unionAggr("COORDINATES").ST_AlphaShape(0.655).ST_AsGeoJSON() as "cluster" FROM (
-          (SELECT ST_ClusterID() OVER (CLUSTER BY "COORDINATES" USING DBSCAN EPS 0.481 MINPTS 6) AS "cluster_id" , COORDINATES FROM "ACLED_FULL"
+        SELECT "cluster_id", st_unionAggr("COORDINATES").ST_AlphaShape(0.455).ST_AsGeoJSON() as "cluster" FROM (
+          (SELECT ST_ClusterID() OVER (CLUSTER BY "COORDINATES" USING DBSCAN EPS 0.281 MINPTS 6) AS "cluster_id" , COORDINATES FROM "ACLED_FULL"
             WHERE COORDINATES.ST_Within((SELECT ST_ConvexHullAggr(SHAPE) FROM 
                 (SELECT SHAPE, "capital", SCORE, CONFIDENCE, "country", RANK() OVER (PARTITION BY "country" ORDER BY CONFIDENCE desc) FROM "FSI_FINAL"   
                   WHERE "region" LIKE ? AND "year" = ?))) = 1	AND

@@ -1,8 +1,7 @@
 'use strict';
 
 const acled_point_get = (capital) => { // eslint-disable-line no-unused-vars
-    // console.log(capital);
-
+ 
     // colors from theme https://coreui.io/demo/3.1.0/#colors.html
     const acledColor = (d) => {
         let color;
@@ -41,12 +40,11 @@ const acled_point_get = (capital) => { // eslint-disable-line no-unused-vars
         mapInfo.updatePoint();
     }
 
-    function zoomToFeature(e) { // eslint-disable-line no-unused-vars
+    function eventsSearch(e) { // eslint-disable-line no-unused-vars
 
-        map.fitBounds(e.target.getBounds());
+        acledLayerGroup.remove();
 
-        // acledLayer.bringToBack();
-
+        relatedEvents(e);
     }
 
     //What functions are run on each feature for interaction
@@ -58,12 +56,10 @@ const acled_point_get = (capital) => { // eslint-disable-line no-unused-vars
 
         layer.on({
             mouseover: highlightFeature,
-            mouseout: resetHighlight
+            mouseout: resetHighlight,
+            click: eventsSearch
         });
-
-        // coords.push(feature.geometry.coordinates);
     }
-
 
     //highlights the object when hovering over it
     function highlightFeature(e) {
@@ -86,11 +82,9 @@ const acled_point_get = (capital) => { // eslint-disable-line no-unused-vars
         mapInfo.updatePoint(layer.feature.properties);
     }
 
-
     //Styles the polygons and colors based on population
     function style(feature) {
         return {
-
             radius: 6,
             fillColor: acledColor(feature.properties.EVENT_TYPE),
             color: 'white',
@@ -129,14 +123,11 @@ const acled_point_get = (capital) => { // eslint-disable-line no-unused-vars
                 return console.error(data.error);
             }
 
-
-
             var acledData = [];
             var geos = [];
 
-
-
             data.data.forEach((data) => {
+
                 acledData.push({
                     'type': 'Feature',
                     'properties': {
@@ -145,7 +136,7 @@ const acled_point_get = (capital) => { // eslint-disable-line no-unused-vars
                         'EVENT_TYPE': data.event_type,
                         'LOCATION': data.location,
                         'SOURCE': data.source,
-                        'popupContent': 'LOCATION: ' + data.location + '\nEVENT: ' + data.event_type + '\nSOURCE: ' + data.source + '\nDATE: ' + data.event_date + ' ' + data.country
+                        'TIMESTAMP': data.timestamp
                     },
                     'geometry': JSON.parse(data.COORDINATES),
                 });
@@ -153,11 +144,8 @@ const acled_point_get = (capital) => { // eslint-disable-line no-unused-vars
                 geos.push(JSON.parse(data.COORDINATES));
             });
 
-
             var coords = geos.map(a => a.coordinates.reverse());
 
-
-            console.log(acledData);
             acledLayer = L.geoJSON(acledData, {
                 style: style,
                 pointToLayer: function (feature, latlng) {
@@ -174,13 +162,9 @@ const acled_point_get = (capital) => { // eslint-disable-line no-unused-vars
                     return L.circleMarker(latlng, geojsonMarkerOptions);
                 },
                 onEachFeature: onEachFeature
-
             });
 
             acledLayerGroup.addLayer(acledLayer);
-
-
-
 
             let options = {
                 'minOpacity': 0.24,
@@ -193,11 +177,6 @@ const acled_point_get = (capital) => { // eslint-disable-line no-unused-vars
             acledHeatLayer.addLayer(heat);
 
             dbscan_polygon_get(events_obj, capital);
-
-
-
         });
-
     });
-
 };

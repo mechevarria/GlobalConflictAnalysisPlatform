@@ -132,8 +132,6 @@ function ldaJSONToGraph(data){
 
 
 	function update(links, nodes) {
-        console.log(JSON.stringify(links,null,2));
-        console.log(JSON.stringify(nodes,null,2));
 		link = svg.selectAll('.link')
 			.data(links)
 			.enter()

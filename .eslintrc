@@ -22,6 +22,8 @@
     "acledLayerGroup": true,
     "fsiLayerGroup": true,
     "fsiLayer": true,
+    "acledLayer": true,
+    "dbscanLayer": true,
     "acledHeatLayer": true,
     "acled_point_get": true,
     "dbscan_polygon_get": true,
@@ -32,6 +34,8 @@
     "Highcharts": true,
     "sunChart": true,
     "wordCloudChart": true,
-    "d3": true
+    "d3": true,
+    "relatedEvents": true,
+    "similarEventsGroup": true
   }
 }

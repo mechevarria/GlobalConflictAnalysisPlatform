@@ -40,6 +40,7 @@ function zoomToFeature(e) {
 
     fsiLayer.bringToBack();
     acled_point_get(capital);
+
 }
 
 

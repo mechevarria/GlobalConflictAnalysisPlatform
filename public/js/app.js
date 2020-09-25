@@ -21,13 +21,15 @@ fsiLayerGroup.addTo(map);
 const acledLayerGroup = new L.LayerGroup();
 const acledHeatLayer = new L.LayerGroup();
 const dbscanLayerGroup = new L.LayerGroup();
+const similarEventsGroup = new L.LayerGroup();
 
 const overlayMaps = {
 
     '<span style="color: gray">FSI</span>': fsiLayerGroup,
-    '<span style="color: gray">Heat Layer</span>': acledHeatLayer,
-    '<span style="color: gray">CLUSTER</span>': dbscanLayerGroup,
-    '<span style="color: gray">ACLED</span>': acledLayerGroup
+    '<span style="color: gray">Heat Map</span>': acledHeatLayer,
+    '<span style="color: gray">Cluster</span>': dbscanLayerGroup,
+    '<span style="color: gray">ACLED</span>': acledLayerGroup,
+    '<span style="color: gray">Related</span>': acledLayerGroup
 };
 
 const controlLayer = new L.control.layers(baseMaps, overlayMaps);
