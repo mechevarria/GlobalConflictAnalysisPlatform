@@ -43,7 +43,7 @@ npm run start
 * Login with the `cf-login.sh` script
 * Push the application using the node.js [buildpack](https://docs.cloudfoundry.org/buildpacks/node/index.html) with `cf-push-buildpack.sh`
 * You will be able to view the application route in the SAP Platform Cockpit or you can check the status with `cf app conflict-analysis`
-=======
+
 # Global Conflict Analysis Platform
 
 Data Visualization frontend that is deployable locally, with docker or on [SAP Cloud Platform](https://cloudplatform.sap.com/index.html). The supporting data is availabe at the [gca-db](https://github.com/openNS2/gca-db) repository
